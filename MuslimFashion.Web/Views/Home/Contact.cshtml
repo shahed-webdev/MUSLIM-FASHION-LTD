@@ -1,0 +1,82 @@
+﻿
+@{
+    ViewData["Title"] = "Contact";
+}
+
+@section Styles{
+    <style>
+        .map-container-section { overflow: hidden; padding-bottom: 56.25%; position: relative; height: 0; }
+        .map-container-section iframe { left: 0; top: 0; height: 100%; width: 100%; position: absolute; }
+    </style>
+}
+
+
+<div class="container mt-5">
+    <section class="dark-grey-text">
+        <h3 class="font-weight-bold text-center mb-4">Contact Us</h3>
+        <p class="text-center w-responsive mx-auto pb-5">Rahman Chamber, Motijheel C/A 12-13 Motijheel Rd, Dhaka 1000</p>
+
+        <div class="row mb-5">
+            <div class="col-lg-5 mb-lg-0 pb-lg-3 mb-4 mt-5">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="form-header red lighten-1">
+                            <h3 class="mt-2"><i class="fas fa-envelope"></i> Write to us:</h3>
+                        </div>
+                        <div class="md-form">
+                            <i class="fas fa-user prefix grey-text"></i>
+                            <input type="text" id="form-name" class="form-control">
+                            <label for="form-name">Your name</label>
+                        </div>
+                        <div class="md-form my-5">
+                            <i class="fas fa-envelope prefix grey-text"></i>
+                            <input type="text" id="form-email" class="form-control">
+                            <label for="form-email">Your email</label>
+                        </div>
+                        <div class="md-form">
+                            <i class="fas fa-tag prefix grey-text"></i>
+                            <input type="text" id="form-Subject" class="form-control">
+                            <label for="form-Subject">Subject</label>
+                        </div>
+                        <div class="md-form mt-5">
+                            <i class="fas fa-pencil-alt prefix grey-text"></i>
+                            <textarea id="form-text" class="form-control md-textarea" rows="1"></textarea>
+                            <label for="form-text">Send message</label>
+                        </div>
+                        <div class="text-center">
+                            <button class="btn btn-danger">Submit</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-7 mt-5">
+                <div id="map-container-section" class="z-depth-1-half map-container-section mb-4" style="height: 400px">
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d29221.11984750385!2d90.42131831245526!3d23.724547279406607!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3755b85031d81b77%3A0x331dd4b845570f10!2sRahman%20Chamber%2C%20Motijheel%20C%2FA%2C%2012-13%20Motijheel%20Rd%2C%20Dhaka%201000!5e0!3m2!1sen!2sbd!4v1607586710877!5m2!1sen!2sbd" frameborder="0" style="border:0" allowfullscreen></iframe>
+                </div>
+
+                <div class="row text-center">
+                    <div class="col-md-4">
+                        <a class="btn-floating red accent-1">
+                            <i class="fas fa-map-marker-alt"></i>
+                        </a>
+                        <p class="mb-md-0">Rahman Chamber, Motijheel C/A 12-13 Motijheel Rd, Dhaka 1000</p>
+                    </div>
+                    <div class="col-md-4">
+                        <a class="btn-floating red accent-1">
+                            <i class="fas fa-phone"></i>
+                        </a>
+                        <p class="mb-md-0">01819-099940</p>
+                    </div>
+                    <div class="col-md-4">
+                        <a class="btn-floating red accent-1">
+                            <i class="fas fa-envelope"></i>
+                        </a>
+                        <p class="mb-0">muslimfashion560@gmail.com</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+

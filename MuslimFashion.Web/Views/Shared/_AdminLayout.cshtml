@@ -1,0 +1,126 @@
+﻿<!DOCTYPE html>
+@*@{
+    var appName = Environment.GetEnvironmentVariable("APP_NAME");
+}*@
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewData["Title"] - Muslim Fashion Ltd.</title>
+
+    <!-- font awesome -->
+    <link href="https://pro.fontawesome.com/releases/v5.8.2/css/all.css" rel="stylesheet" />
+    <!-- bootstrap core CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet" />
+    <!-- MDB -->
+    <link href="~/mdb/css/mdb-admin.min.css" rel="stylesheet" />
+    <!-- custom style-->
+    <link href="~/css/admin-layout.css" rel="stylesheet" />
+    <!-- side navbar style-->
+    <link href="~/css/side-navbar.css" rel="stylesheet" />
+
+    <!-- others style-->
+    @await RenderSectionAsync("Styles", false)
+</head>
+<body>
+    <header>
+        <nav class="m-0 navbar navbar-expand-lg navbar-dark">
+            <div class="container-fluid">
+                <div>
+                    <a class="sidedrawer-toggle d-md-none js-show-sidedrawer d-print-none"><i class="fas fa-bars"></i></a>
+                    <a class="sidedrawer-toggle d-none d-md-inline-block js-hide-sidedrawer d-print-none"><i class="fas fa-bars"></i></a>
+                    <span class="navbar-brand ml-1">Muslim Fashion Ltd.</span>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <div id="sidedrawer" class="d-print-none z-depth-1">
+        <Partial Name="_AdminLoginPartial" />
+        <Partial Name="_Side_navbar" />
+    </div>
+
+    <main id="content-wrapper">
+        <div class="container-fluid">
+            @RenderBody()
+        </div>
+    </main>
+
+    <footer class="page-footer font-small wow fadeIn mt-4">
+        <div class="footer-copyright text-center py-3">
+            © @DateTime.Now.Year Copyright:
+            <a href="#">Muslim Fashion Ltd.</a>
+        </div>
+    </footer>
+
+    <!-- jQuery -->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <!-- bootstrap tooltips -->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.4/umd/popper.min.js"></script>
+    <!-- bootstrap core JavaScript -->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <!--scroll-->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery.nicescroll/3.7.6/jquery.nicescroll.min.js"></script>
+    <!-- autocomplete -->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-3-typeahead/4.0.2/bootstrap3-typeahead.min.js"></script>
+
+    <!-- MDB core JavaScript -->
+    <script src="~/mdb/js/mdb-admin.min.js"></script>
+    <!--notify js-->
+    <script src="~/js/notify.min.js"></script>
+    <!--moment js-->
+    <script src="~/js/moment.js"></script>
+    <!--sidebar-->
+    <script src="https://cdn.muicss.com/mui-latest/js/mui.min.js"></script>
+    <script src="~/js/sidedrawer-links.js"></script>
+    <script src="~/js/sidedrawer-show-hide.js"></script>
+
+    <!-- others js -->
+    @await RenderSectionAsync("Scripts", false)
+
+    <script type="text/javascript">
+        $(function () {
+            //Back to top
+            $('body').append('<div id="toTop">TOP</div>');
+            $(window).scroll(function () {
+                if ($(this).scrollTop() !== 0)
+                    $('#toTop').fadeIn();
+                else
+                    $('#toTop').fadeOut();
+            });
+
+            $('#toTop').click(function () {
+                $("html, body").animate({ scrollTop: 0 }, 600);
+                return false;
+            });
+
+
+            // Animations initialization
+            new WOW().init();
+
+            //Nice Scroll
+            $("#sidedrawer").niceScroll({
+                cursorcolor: "#a4a4a4", // change cursor color in hex
+                cursorwidth: "7px", // cursor width in pixel (you can also write "5px")
+                cursorborder: "1px solid #a4a4a4", // css definition for cursor border
+                cursorborderradius: "3px", // border radius in pixel for cursor
+                emulatetouch: true // enable cursor-drag scrolling like touch devices in desktop computer
+            });
+
+            $("#sidedrawer").mouseover(function () {
+                $("#sidedrawer").getNiceScroll().resize();
+            });
+        });
+
+        //disable wheel in number type input
+        document.addEventListener("wheel", () => {
+            if (document.activeElement.type === "number")
+                document.activeElement.blur();
+        });
+
+        //select-picker error
+        if ($.fn.selectpicker)
+            $.fn.selectpicker.Constructor.BootstrapVersion = '4';
+    </script>
+</body>
+</html>

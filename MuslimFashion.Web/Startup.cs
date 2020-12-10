@@ -42,7 +42,7 @@ namespace MuslimFashion.Web
             services.ConfigureApplicationCookie(config =>
             {
                 config.Cookie.Name = "Identity.Cookie";
-                config.LoginPath = "/Account/Index";
+                config.LoginPath = "/Home/Index";
             });
 
             services.AddDependencyInjection();
@@ -70,7 +70,7 @@ namespace MuslimFashion.Web
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
-                endpoints.MapControllerRoute("default", "{controller=Account}/{action=Index}/{id?}");
+                endpoints.MapControllerRoute("default", "{controller=Home}/{action=Index}/{id?}");
             });
         }
     }

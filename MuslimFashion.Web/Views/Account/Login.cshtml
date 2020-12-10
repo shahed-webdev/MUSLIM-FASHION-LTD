@@ -1,0 +1,50 @@
+﻿@model LoginViewModel
+@{
+    ViewBag.Title = "Login";
+}
+
+@section Styles {
+    <link href="~/css/Login.css?v=1" rel="stylesheet" />
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col-sm-9 col-md-7 col-lg-5 mx-auto mt-5">
+            <div class="card card-signin my-5 pt-3">
+                <div class="card-body">
+                    <h5 class="card-title text-center">
+                        <strong class="dark-grey-text">Sign In</strong>
+                    </h5>
+
+                    <form class="form-signin" asp-controller="Account" asp-action="Login" method="post">
+                        <div class="md-form mb-5">
+                            <input asp-for="UserName" class="form-control">
+                            <label asp-for="UserName"></label>
+                            <span asp-validation-for="UserName"></span>
+                        </div>
+                        <div class="md-form mb-0 pb-3">
+                            <input asp-for="Password" class="form-control" type="password">
+                            <label asp-for="Password"></label>
+                            <span asp-validation-for="Password"></span>
+
+                            @*<p class="font-small blue-text d-flex justify-content-end">
+                                @Html.ActionLink("Forgot password?", "ForgotPassword")
+                            </p>*@
+                        </div>
+
+                        <button class="btn btn-block btn-rounded z-depth-1a waves-effect waves-light my-3 btn-custom-bg" type="submit">Sign in</button>
+                        <div asp-validation-summary="ModelOnly" class="alert alert-danger alert-dismissible fade show" role="alert">
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+   <partial name="_ValidationScriptsPartial"/>
+}

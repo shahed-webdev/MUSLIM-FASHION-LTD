@@ -1,7 +1,10 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
+	  <AspNetCoreHostingModel>OutOfProcess</AspNetCoreHostingModel>
+	  <AspNetCoreModuleName>AspNetCoreModule</AspNetCoreModuleName>
+    <UserSecretsId>1f4cad93-d5bb-408d-8636-1505cc605744</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
@@ -9,6 +12,7 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.4" />
   </ItemGroup>
 
   <ItemGroup>
@@ -16,7 +20,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Controllers\" />
+    <Folder Include="wwwroot\pages-js\" />
+    <Folder Include="wwwroot\PRODUCTS\suit\" />
+    <Folder Include="wwwroot\PRODUCTS\pants\" />
+    <Folder Include="wwwroot\PRODUCTS\shirts\" />
   </ItemGroup>
 
 </Project>

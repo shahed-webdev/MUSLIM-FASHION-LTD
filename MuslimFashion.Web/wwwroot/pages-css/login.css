@@ -1,0 +1,10 @@
+﻿
+.info-container { padding: 2rem; background-color: #f9f9f9; }
+.info-container h2 { font-weight: bold; color: #4f4f4f; font-size: 1.6rem; }
+.info-container p { color: #4f4f4f; line-height: 1.6rem; }
+
+.login-container { padding: 2rem 2rem 0 0; }
+
+@media (max-width: 767.98px) {
+    .login-container { padding: 2rem; }
+}

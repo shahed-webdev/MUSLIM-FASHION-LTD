@@ -1,0 +1,85 @@
+﻿<!DOCTYPE html>
+@{
+    var appName = Environment.GetEnvironmentVariable("APP_NAME");
+}
+<html lang="en">
+<head>
+
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Muslim Fashion Ltd.</title>
+
+    <!-- Font Awesome -->
+    <link href="https://pro.fontawesome.com/releases/v5.8.2/css/all.css" rel="stylesheet" />
+    <!-- Bootstrap core CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet" />
+    <!-- MDB -->
+    <link href="~/mdb/css/mdb-admin.min.css" rel="stylesheet" />
+    <!-- Custom style -->
+    <link href="~/css/custom-layout.css" rel="stylesheet" />
+
+    <!-- Others page style -->
+    @await RenderSectionAsync("Styles", false)
+</head>
+<body>
+    <header>
+        <nav class="mb-1 navbar navbar-expand-lg navbar-dark">
+            <div class="container">
+                <a class="navbar-brand" href="/Home">Muslim Fashion Ltd.</a>
+
+                <ul class="navbar-nav ml-auto">
+                    <partial name="_LoginPartial" />
+                    <li class="nav-item">
+                        <a class="nav-link" href="/Home/Contact">Contact</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" target="_blank" href="https://www.facebook.com/Muslim-Fashion-100962861747250"><i class="fab fa-facebook"></i></a>
+                    </li>
+                    <li class="nav-item">
+                        <span class="nav-link"><i class="fal fa-shopping-cart"></i></span>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        @RenderBody()
+    </main>
+
+    <footer class="page-footer font-small wow fadeIn mt-4">
+        <div class="footer-copyright text-center py-3">
+            © @DateTime.Now.Year Copyright:
+            <a href="">Muslim Fashion Ltd.</a>
+        </div>
+    </footer>
+
+
+    <!-- JQuery -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <!-- Bootstrap core JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <!-- MDB core JavaScript -->
+    <script src="~/mdb/js/mdb-admin.min.js"></script>
+    <!-- axios -->
+    <script src="~/lib/api.axios.min.js"></script>
+    <!--notify js-->
+    <script src="~/js/notify.min.js"></script>
+
+    <!--others page js-->
+    @await RenderSectionAsync("Scripts", false)
+
+    <script>
+        $(() => {
+            new WOW().init();
+        });
+
+        //disable wheel in number type input
+        document.addEventListener("wheel", () => {
+            if (document.activeElement.type === "number")
+                document.activeElement.blur();
+        });
+    </script>
+</body>
+</html>
+

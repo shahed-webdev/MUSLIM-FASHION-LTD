@@ -1,0 +1,36 @@
+﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+
+@if (SignInManager.IsSignedIn(User))
+{
+    <div class="manu-top-wraper">
+        <img id="loginUserPhoto" class="rounded-circle img-thumbnail z-depth-1" src="~/images/defaultImage.jpg" style="height: 100px; width: 100px" alt="Photo" />
+        <ul class="p-0 mt-1">
+            <li class="nav-item font-weight-bold mb-2" id="loginUserName"></li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle text-decoration-none p-0" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    @UserManager.GetUserName(User)
+                </a>
+                <div class="dropdown-menu dropdown-dark" aria-labelledby="navbarDropdownMenuLink">
+                    <a class="dropdown-item" href="#">
+                        <i class="fal fa-user"></i>
+                        Profile
+                    </a>
+                    <a class="dropdown-item" href="/Account/ChangePassword">
+                        <i class="fal fa-lock"></i>
+                        Change Password
+                    </a>
+                    <div class="dropdown-divider"></div>
+                    <form asp-controller="Account" asp-action="Logout" method="post" id="logoutForm">
+                        <a class="dropdown-item" href="javascript:document.getElementById('logoutForm').submit()">
+                            <i class="fal fa-sign-out-alt"></i>
+                            Logout
+                        </a>
+                    </form>
+                </div>
+            </li>
+        </ul>
+    </div>
+    <hr />
+}

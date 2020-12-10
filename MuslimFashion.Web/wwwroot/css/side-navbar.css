@@ -1,0 +1,55 @@
+﻿
+header { z-index: 5; transition: left 0.2s; }
+#sidedrawer { background-color: #333; position: fixed; top: 0; bottom: 0; width: 250px; left: -250px; overflow: auto; z-index: 2; transition: transform 0.2s; }
+#content-wrapper { overflow-x: auto; padding: 15px 0; margin-left: 0; transition: margin-left 0.2s; }
+
+.manu-top-wraper { text-align: center; padding: 25px 0 15px 0; background-color: var(--bg-primary); }
+.manu-top-wraper ul li{color: #fff }
+
+/*Toggle Sidedrawer*/
+#sidedrawer.active { transform: translate(250px); }
+#sidedrawer hr { margin: 0 }
+
+/**Header CSS*/
+.sidedrawer-toggle { cursor: pointer; font-size: 20px; margin-right: 20px; }
+.sidedrawer-toggle i{ color: #fff}
+.sidedrawer-toggle:hover { color: #fff; text-decoration: none; }
+#mui-overlay { position: fixed; top: 0; right: 0; bottom: 0; left: 0; z-index: 99999999; background-color: rgba(0,0,0,.2); overflow: auto; }
+/*#sidedrawer ul.sub-manu li a.active { color: #263238; font-weight: 400; }*/
+
+/*Sidebar link*/
+.sub-menu { display: none; transition: opacity 1s ease-out; opacity: 0; }
+.sub-menu.active { display: block; opacity: 1; }
+#sidedrawer ul li a.link-active { color: #ff5653 !important; pointer-events: none }
+#sidedrawer .fa-caret-right { float: right; color: #b0b0b0; margin-top: 4px; }
+#sidedrawer strong.open .fas.fa-caret-right::before { content: "\f0d7"; font-family: 'Font Awesome 5 Pro'; }
+
+#sidedrawer ul { list-style: none; }
+#sidedrawer > ul { padding-left: 0; }
+#sidedrawer > ul > li:first-child { padding-top: 15px; }
+#sidedrawer ul li a.links { color: #eee; }
+
+#sidedrawer strong { display: block; padding: 15px 12px; cursor: pointer; color: #fff; letter-spacing: .0125em; font-weight: 500; }
+#sidedrawer strong > span { margin-right: 15px; color:#fff; }
+#sidedrawer strong + ul > li { padding: 9px 0 0 24px; }
+#sidedrawer strong + ul > li:first-child { padding: 0 0 0 24px; }
+
+@media (min-width: 768px) {
+    header { margin-left: 250px; }
+    #sidedrawer { transform: translate(250px); }
+    #content-wrapper { margin-left: 250px; }
+    footer { margin-left: 250px; }
+
+    body.hide-sidedrawer header { margin-left: 0; }
+    body.hide-sidedrawer #sidedrawer { transform: translate(0); }
+    body.hide-sidedrawer #content-wrapper { margin-left: 0; }
+    body.hide-sidedrawer footer { margin-left: 0; }
+}
+
+@media (max-width: 767.98px) {
+    .container, .container-fluid { padding-right: 10px; padding-left: 10px; }
+}
+
+@media (max-width: 575.98px) {
+    .sidedrawer-toggle { margin-right: 0; padding-top: 0; z-index: 9999 }
+}

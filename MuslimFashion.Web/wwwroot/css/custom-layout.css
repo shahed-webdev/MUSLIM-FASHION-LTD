@@ -1,0 +1,23 @@
+﻿body { background-color: #fff; }
+
+:root { --bg-primary: #e53935; --bg-secondary: #ef5350; }
+
+header nav { background-color: var(--bg-primary) }
+.btn-custom-bg { background-color: var(--bg-secondary); color: #fff }
+.btn-custom-bg:hover { background-color: var(--bg-primary); color: #fff }
+
+main { min-height: 81vh;}
+
+footer{ background-color: var(--bg-primary) }
+
+/* validation helpers */
+.field-validation-error { color: #ee2420; font-size: .85rem; }
+.field-validation-valid { display: none; }
+
+input.input-validation-error { border-bottom: 1px solid #b94a48 !important; }
+input[type="checkbox"].input-validation-error { border: 0 none; }
+
+.validation-summary-errors { color: #b94a48; }
+.validation-summary-errors ul { padding: 0; margin: 0; list-style: none; }
+.validation-summary-valid { display: none; }
+
