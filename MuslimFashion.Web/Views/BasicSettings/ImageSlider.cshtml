@@ -1,0 +1,46 @@
+﻿
+@{
+    ViewData["Title"] = "Image Slider";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="container">
+    <h4 class="page-header mb-3">Image Slider</h4>
+
+    <div class="card card-body">
+        <form>
+            <div class="row">
+                <div class="col-lg-10">
+                    <div class="md-form">
+                        <div class="file-field">
+                            <div class="btn btn-outline-danger btn-rounded waves-effect btn-sm">
+                                <span>Choose file</span>
+                                <input type="file">
+                            </div>
+                            <div class="file-path-wrapper">
+                                <input class="file-path validate" type="text" placeholder="Upload your file">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="md-form">
+                        <input type="submit" value="Add" class="btn btn-danger btn-md btn-rounded" />
+                    </div>
+                </div>
+            </div>
+
+        </form>
+    </div>
+</div>
+
+@section Scripts
+{
+    <script>
+        $('input[type="file"]').change(function (e) {
+            if (e.target.files.length) {
+                $('.file-path').val(e.target.files[0].name);
+            }
+        });
+    </script>
+}

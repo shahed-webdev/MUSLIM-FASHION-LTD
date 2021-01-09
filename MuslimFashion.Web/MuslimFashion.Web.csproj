@@ -20,6 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="wwwroot\SHOP-IMAGE\" />
     <Folder Include="wwwroot\pages-js\" />
     <Folder Include="wwwroot\PRODUCTS\suit\" />
     <Folder Include="wwwroot\PRODUCTS\pants\" />
