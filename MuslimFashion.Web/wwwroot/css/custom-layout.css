@@ -6,7 +6,7 @@ header nav { background-color: var(--bg-primary) }
 .btn-custom-bg { background-color: var(--bg-secondary); color: #fff }
 .btn-custom-bg:hover { background-color: var(--bg-primary); color: #fff }
 
-main { min-height: 81vh;}
+main { min-height: 81vh; }
 
 footer{ background-color: var(--bg-primary) }
 
