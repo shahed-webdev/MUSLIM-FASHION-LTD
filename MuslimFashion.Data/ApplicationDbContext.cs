@@ -9,10 +9,14 @@ namespace MuslimFashion.Data
         {
 
         }
+        public virtual DbSet<Menu> Menu { get; set; }
         public virtual DbSet<Registration> Registration { get; set; }
+        public virtual DbSet<SubMenu> SubMenu { get; set; }
         protected override void OnModelCreating(ModelBuilder builder)
         {
+            builder.ApplyConfiguration(new MenuConfiguration());
             builder.ApplyConfiguration(new RegistrationConfiguration());
+            builder.ApplyConfiguration(new SubMenuConfiguration());
 
             base.OnModelCreating(builder);
             builder.SeedAdminData();

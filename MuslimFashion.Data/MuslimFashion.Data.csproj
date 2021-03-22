@@ -5,6 +5,18 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Migrations\20210322022327_AddMenuAndSubMenuTables.cs" />
+    <Compile Remove="Migrations\20210322022327_AddMenuAndSubMenuTables.Designer.cs" />
+    <Compile Remove="Migrations\20210322022613_AddMenuAndSubMenuTables.cs" />
+    <Compile Remove="Migrations\20210322022613_AddMenuAndSubMenuTables.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Enums\" />
+    <Folder Include="Extensions\" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="3.1.10" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.10" />
   </ItemGroup>
