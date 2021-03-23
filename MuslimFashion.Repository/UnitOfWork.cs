@@ -12,7 +12,11 @@ namespace MuslimFashion.Repository
         {
             _db = db;
             _mapper = mapper;
+
+            Menu = new MenuRepository(_db, _mapper);
         }
+
+        public IMenuRepository Menu { get; }
 
         public int SaveChanges()
         {

@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using MuslimFashion.Repository;
 
 namespace MuslimFashion.BusinessLogic
 {
@@ -6,7 +7,7 @@ namespace MuslimFashion.BusinessLogic
     {
         public static IServiceCollection AddDependencyInjection(this IServiceCollection services)
         {
-            // services.AddTransient<IUnitOfWork, UnitOfWork>();
+            services.AddTransient<IUnitOfWork, UnitOfWork>();
             return services;
         }
     }

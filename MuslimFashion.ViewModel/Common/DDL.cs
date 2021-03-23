@@ -1,4 +1,4 @@
-﻿namespace MuslimFashion.ViewModel.Common
+﻿namespace MuslimFashion.ViewModel
 {
     public class DDL
     {
