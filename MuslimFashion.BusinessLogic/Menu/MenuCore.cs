@@ -62,7 +62,7 @@ namespace MuslimFashion.BusinessLogic.Menu
                     return new DbResponse(false, "No data Found");
 
                 if (_db.Menu.IsRelatedDataExist(id))
-                    return new DbResponse(false, "Failed, Area already exist in this Menu");
+                    return new DbResponse(false, "Failed, SubMenu already exist in this Menu");
 
                 return _db.Menu.Delete(id);
 

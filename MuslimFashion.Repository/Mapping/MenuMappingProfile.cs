@@ -2,7 +2,7 @@
 using MuslimFashion.Data;
 using MuslimFashion.ViewModel;
 
-namespace MuslimFashion.Repository.Mapping
+namespace MuslimFashion.Repository
 {
     public class MenuMappingProfile : Profile
     {
