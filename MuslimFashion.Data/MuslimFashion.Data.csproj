@@ -9,6 +9,8 @@
     <Compile Remove="Migrations\20210322022327_AddMenuAndSubMenuTables.Designer.cs" />
     <Compile Remove="Migrations\20210322022613_AddMenuAndSubMenuTables.cs" />
     <Compile Remove="Migrations\20210322022613_AddMenuAndSubMenuTables.Designer.cs" />
+    <Compile Remove="Migrations\20210324140114_AddHomeMenTable.cs" />
+    <Compile Remove="Migrations\20210324140114_AddHomeMenTable.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>
