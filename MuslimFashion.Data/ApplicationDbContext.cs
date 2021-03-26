@@ -12,6 +12,7 @@ namespace MuslimFashion.Data
         public virtual DbSet<Color> Color { get; set; }
         public virtual DbSet<HomeMenu> HomeMenu { get; set; }
         public virtual DbSet<Menu> Menu { get; set; }
+        public virtual DbSet<Product> Product { get; set; }
         public virtual DbSet<Registration> Registration { get; set; }
         public virtual DbSet<Size> Size { get; set; }
         public virtual DbSet<SubMenu> SubMenu { get; set; }
@@ -20,6 +21,7 @@ namespace MuslimFashion.Data
             builder.ApplyConfiguration(new ColorConfiguration());
             builder.ApplyConfiguration(new HomeMenuConfiguration());
             builder.ApplyConfiguration(new MenuConfiguration());
+            builder.ApplyConfiguration(new ProductConfiguration());
             builder.ApplyConfiguration(new RegistrationConfiguration());
             builder.ApplyConfiguration(new SubMenuConfiguration());
             builder.ApplyConfiguration(new SizeConfiguration());

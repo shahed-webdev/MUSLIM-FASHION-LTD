@@ -11,6 +11,8 @@
     <Compile Remove="Migrations\20210322022613_AddMenuAndSubMenuTables.Designer.cs" />
     <Compile Remove="Migrations\20210324140114_AddHomeMenTable.cs" />
     <Compile Remove="Migrations\20210324140114_AddHomeMenTable.Designer.cs" />
+    <Compile Remove="Migrations\20210326133842_AddProductTable.cs" />
+    <Compile Remove="Migrations\20210326133842_AddProductTable.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>
