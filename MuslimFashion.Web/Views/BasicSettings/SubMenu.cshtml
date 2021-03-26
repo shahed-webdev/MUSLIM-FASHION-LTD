@@ -1,0 +1,209 @@
+﻿
+@{
+    ViewData["Title"] = "SubMenu";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+
+<div class="container">
+    <h4 class="page-header mb-3">Sub Menu</h4>
+
+    <div class="card card-body">
+        <form id="formAdd">
+            <div class="row">
+                <div class="col-lg-4">
+                    <div class="form-group">
+                        <label>Menu</label>
+                        <select name="MenuId" class="form-control" asp-items="ViewBag.Menus" required>
+                            <option value="">[ SELECT ]</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="form-group">
+                        <label>Sub Menu Name</label>
+                        <input name="SubMenuName" type="text" class="form-control" required />
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="form-group pt-4">
+                        <input name="btnSubmit" type="submit" value="Submit" class="btn btn-danger btn-md btn-rounded" />
+                    </div>
+                </div>
+            </div>
+        </form>
+
+        <ul id="menu-list" class="list-group list-group-flush">
+
+            @*<li class="list-group-item d-flex justify-content-between align-items-center">
+                    <span>@item.MenuName</span>
+                    <div>
+                        <i id="@item.MenuId" data-value="@item.MenuName" class="update far fa-edit mr-3"></i>
+                        <i id="@item.MenuId" class="delete far fa-trash-alt"></i>
+                    </div>
+                </li>*@
+
+        </ul>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="updateModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog modal-notify modal-danger" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <p class="heading lead">Update</p>
+
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true" class="white-text">&times;</span>
+                </button>
+            </div>
+
+            <!--Body-->
+            <div class="modal-body">
+                <form id="formUpdate">
+                    <input type="hidden" name="SubMenuId" />
+                    <div class="form-group">
+                        <label>Sub Menu Name</label>
+                        <input type="text" name="SubMenuName" class="form-control" required />
+                    </div>
+                    <input name="btnSubmit" type="submit" value="update" class="btn btn-danger" />
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts{
+    <script>
+        (function() {
+            //add
+            const formAdd = document.getElementById("formAdd");
+            const formUpdate = document.getElementById("formUpdate");
+            formAdd.addEventListener("submit",
+                function(evt) {
+                    evt.preventDefault();
+                    this.btnSubmit.disabled = true;
+
+                    $.ajax({
+                        url: "/BasicSettings/PostSubMenu",
+                        type: "POST",
+                        data: methods.getForm(this),
+                        success: response => {
+                            $.notify(response.Message, response.IsSuccess ? "success" : "error");
+
+                            if (response.IsSuccess) {
+                                //location.reload();
+                            }
+
+                            this.btnSubmit.disabled = false;
+                        },
+                        error: error => {
+                            this.btnSubmit.disabled = false;
+                            console.log(error);
+                        }
+                    });
+                });
+
+            //edit/delete
+            const menuList = document.getElementById("menu-list");
+            menuList.addEventListener("click",
+                function(evt) {
+                    const element = evt.target;
+                    const onUpdate = element.classList.contains("update");
+                    const onDelete = element.classList.contains("delete");
+
+                    //update
+                    if (onUpdate) {
+                        formUpdate.SubMenuId.value = element.id;
+                        formUpdate.SubMenuName.value = element.getAttribute("data-value");
+
+                        $("#updateModal").modal("show");
+                    }
+
+                    //delete
+                    if (onDelete) {
+                        $.ajax({
+                            url: "/BasicSettings/DeleteSubMenu",
+                            type: "POST",
+                            data: { id: element.id },
+                            success: response => {
+                                $.notify(response.Message, response.IsSuccess ? "success" : "error");
+
+                                if (response.IsSuccess) {
+                                    location.reload();
+                                }
+                            },
+                            error: error => {
+                                console.log(error);
+                            }
+                        });
+                    }
+                });
+
+            //post update
+            formUpdate.addEventListener("submit",
+                function(evt) {
+                    evt.preventDefault();
+                    this.btnSubmit.disabled = true;
+
+                    const body = methods.getForm(this);
+                    body.MenuId = formAdd.MenuId.value;
+
+                    $.ajax({
+                        url: "/BasicSettings/UpdateSubMenu",
+                        type: "POST",
+                        data: body,
+                        success: response => {
+                            $.notify(response.Message, response.IsSuccess ? "success" : "error");
+
+                            if (response.IsSuccess) {
+                                location.reload();
+                            }
+
+                            this.btnSubmit.disabled = false;
+                        },
+                        error: error => {
+                            this.btnSubmit.disabled = false;
+                            console.log(error);
+                        }
+                    });
+                });
+
+            //get sub menu
+            formAdd.MenuId.addEventListener("change",
+                function() {
+                    if (!this.value) return;
+                    menuList.innerHTML = "";
+
+                    $.ajax({
+                        url: "/BasicSettings/GetSubMenu",
+                        data: { id: this.value },
+                        success: response => {
+                            response.forEach(item => {
+                                menuList.appendChild(createList(item));
+                            })
+
+                        },
+                        error: error => {
+                            console.log(error);
+                        }
+                    });
+                })
+
+            //create list
+            function createList(item) {
+                const li = document.createElement("li");
+                li.className = "list-group-item d-flex justify-content-between align-items-center";
+                li.innerHTML = `<span>${item.SubMenuName}</span>
+                                <div>
+                                    <i id="${item.SubMenuId}" data-value="${item.SubMenuName}" class="update far fa-edit mr-3"></i>
+                                    <i id="${item.SubMenuId}" class="delete far fa-trash-alt"></i>
+                                </div>`;
+                return li;
+            }
+        })();
+    </script>
+}

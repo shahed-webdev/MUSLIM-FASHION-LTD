@@ -1,0 +1,168 @@
+﻿@model IEnumerable<MenuCrudModel>
+@{
+    ViewData["Title"] = "Menu";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+
+<div class="container">
+    <h4 class="page-header mb-3">Menu</h4>
+
+    <div class="card card-body">
+        <form id="formAdd">
+            <div class="row">
+                <div class="col-lg-10">
+                    <div class="md-form">
+                        <label for="inputMenu">Menu Name</label>
+                        <input id="inputMenu" type="text" class="form-control" required />
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="md-form">
+                        <input name="btnSubmit" type="submit" value="Submit" class="btn btn-danger btn-md btn-rounded" />
+                    </div>
+                </div>
+            </div>
+        </form>
+
+        <ul id="menu-list" class="list-group list-group-flush">
+            @foreach (var item in Model)
+            {
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    <span>@item.MenuName</span>
+                    <div>
+                        <i id="@item.MenuId"  data-value="@item.MenuName" class="update far fa-edit mr-3"></i>
+                        <i id="@item.MenuId" class="delete far fa-trash-alt"></i>
+                    </div>
+                </li>
+            }
+        </ul>
+    </div>
+</div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="updateModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog modal-notify modal-danger" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <p class="heading lead">Update</p>
+
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true" class="white-text">&times;</span>
+                </button>
+            </div>
+
+            <!--Body-->
+            <div class="modal-body">
+                <form id="formUpdate">
+                    <input type="hidden" name="MenuId"/>
+                    <div class="form-group">
+                        <label>Menu Name</label>
+                        <input type="text" name="MenuName" class="form-control" required />
+                    </div>
+                    <input name="btnSubmit" type="submit" value="update" class="btn btn-danger"/>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts{
+    <script>
+        (function() {
+            //add
+            const formAdd = document.getElementById("formAdd");
+            const formUpdate = document.getElementById("formUpdate");
+            formAdd.addEventListener("submit",
+                function(evt) {
+                    evt.preventDefault();
+                    this.btnSubmit.disabled = true;
+
+                    $.ajax({
+                        url: "/BasicSettings/PostMenu",
+                        type: "POST",
+                        data: { MenuName: this.inputMenu.value },
+                        success: response => {
+                            $.notify(response.Message, response.IsSuccess ? "success" : "error");
+
+                            if (response.IsSuccess) {
+                                location.reload();
+                            }
+
+                            this.btnSubmit.disabled = false;
+                        },
+                        error: error => {
+                            this.btnSubmit.disabled = false;
+                            console.log(error);
+                        }
+                    });
+                });
+
+            //edit/delete
+            const menuList = document.getElementById("menu-list");
+            menuList.addEventListener("click",
+                function(evt) {
+                    const element = evt.target;
+                    const onUpdate = element.classList.contains("update");
+                    const onDelete = element.classList.contains("delete");
+
+                    //update
+                    if (onUpdate) {
+                        formUpdate.MenuId.value = element.id;
+                        formUpdate.MenuName.value = element.getAttribute("data-value");
+
+                        $("#updateModal").modal("show");
+                    }
+
+                    //delete
+                    if (onDelete) {
+                        $.ajax({
+                            url: "/BasicSettings/DeleteMenu",
+                            type: "POST",
+                            data: { id: element.id },
+                            success: response => {
+                                $.notify(response.Message, response.IsSuccess ? "success" : "error");
+
+                                if (response.IsSuccess) {
+                                    location.reload();
+                                }
+                            },
+                            error: error => {
+                                console.log(error);
+                            }
+                        });
+                    }
+                });
+
+            //post update
+            formUpdate.addEventListener("submit",
+                function(evt) {
+                    evt.preventDefault();
+                    this.btnSubmit.disabled = true;
+
+                    $.ajax({
+                        url: "/BasicSettings/UpdateMenu",
+                        type: "POST",
+                        data: { MenuId: this.MenuId.value, MenuName: this.MenuName.value },
+                        success: response => {
+                            $.notify(response.Message, response.IsSuccess ? "success" : "error");
+
+                            if (response.IsSuccess) {
+                                location.reload();
+                            }
+
+                            this.btnSubmit.disabled = false;
+                        },
+                        error: error => {
+                            this.btnSubmit.disabled = false;
+                            console.log(error);
+                        }
+                    });
+                });
+
+        })();
+    </script>
+}

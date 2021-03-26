@@ -15,6 +15,9 @@ main { min-height: 86vh; }
 footer { background-color: var(--bg-primary) }
 
 
+.delete, .update{cursor: pointer}
+.delete{color: red}
+
 /* validation helpers */
 .field-validation-error { color: #ee2420; font-size: .85rem; }
 .field-validation-valid { display: none; }
