@@ -10,6 +10,7 @@ namespace MuslimFashion.Data
             ProductImages = new HashSet<ProductImage>();
             ProductColors = new HashSet<ProductColor>();
             ProductSizes = new HashSet<ProductSize>();
+            HomeProducts = new HashSet<HomeProduct>();
         }
         public int ProductId { get; set; }
         public int SubMenuId { get; set; }
@@ -25,5 +26,6 @@ namespace MuslimFashion.Data
         public ICollection<ProductImage> ProductImages { get; set; }
         public ICollection<ProductColor> ProductColors { get; set; }
         public ICollection<ProductSize> ProductSizes { get; set; }
+        public ICollection<HomeProduct> HomeProducts { get; set; }
     }
 }
