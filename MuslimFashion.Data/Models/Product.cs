@@ -1,9 +1,16 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace MuslimFashion.Data
 {
     public class Product
     {
+        public Product()
+        {
+            ProductImages = new HashSet<ProductImage>();
+            ProductColors = new HashSet<ProductColor>();
+            ProductSizes = new HashSet<ProductSize>();
+        }
         public int ProductId { get; set; }
         public int SubMenuId { get; set; }
         public SubMenu SubMenu { get; set; }
@@ -15,5 +22,8 @@ namespace MuslimFashion.Data
         public string FabricType { get; set; }
         public string Description { get; set; }
         public DateTime InsertDateUtc { get; set; }
+        public ICollection<ProductImage> ProductImages { get; set; }
+        public ICollection<ProductColor> ProductColors { get; set; }
+        public ICollection<ProductSize> ProductSizes { get; set; }
     }
 }

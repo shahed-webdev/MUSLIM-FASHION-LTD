@@ -5,6 +5,10 @@ namespace MuslimFashion.Data
 {
     public class SubMenu
     {
+        public SubMenu()
+        {
+            Products = new HashSet<Product>();
+        }
         public int SubMenuId { get; set; }
         public int MenuId { get; set; }
         public string SubMenuName { get; set; }
