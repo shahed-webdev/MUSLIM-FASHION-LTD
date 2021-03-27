@@ -35,5 +35,21 @@ namespace MuslimFashion.BusinessLogic
                 return new DbResponse<int>(false, $"{e.Message}. {e.InnerException?.Message ?? ""}");
             }
         }
+
+        public DbResponse<ProductDetailsModel> Get(int id)
+        {
+            try
+            {
+                if (_db.product.IsNull(id))
+                    return new DbResponse<ProductDetailsModel>(false, "No data Found");
+
+                return _db.product.Get(id);
+
+            }
+            catch (Exception e)
+            {
+                return new DbResponse<ProductDetailsModel>(false, $"{e.Message}. {e.InnerException?.Message ?? ""}");
+            }
+        }
     }
 }

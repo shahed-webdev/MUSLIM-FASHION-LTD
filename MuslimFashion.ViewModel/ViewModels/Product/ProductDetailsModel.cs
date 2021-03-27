@@ -13,7 +13,21 @@ namespace MuslimFashion.ViewModel
         public string FabricType { get; set; }
         public string Description { get; set; }
         public string[] ImageFileNames { get; set; }
-        public Dictionary<int, string> ProductColors { get; set; }
-        public Dictionary<int, string> ProductSizes { get; set; }
+        public List<ProductColorDetailsModel> ProductColors { get; set; }
+        public List<ProductSizeDetailsModel> ProductSizes { get; set; }
+    }
+
+    public class ProductColorDetailsModel
+    {
+        public int ColorId { get; set; }
+        public string ColorName { get; set; }
+        public string ColorCode { get; set; }
+    }
+
+    public class ProductSizeDetailsModel
+    {
+        public int SizeId { get; set; }
+        public string SizeName { get; set; }
+        public string Description { get; set; }
     }
 }
