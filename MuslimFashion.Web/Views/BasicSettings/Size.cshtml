@@ -34,7 +34,10 @@
             @foreach (var item in Model)
             {
                 <li class="list-group-item d-flex justify-content-between align-items-center">
-                    <span>@item.SizeName</span>
+                    <div>
+                        <strong class="d-block">@item.SizeName</strong>
+                        <span>@item.Description</span>
+                    </div>
                     <div>
                         <i id="@item.SizeId" data-value="@item.SizeName" data-code="@item.Description" class="update far fa-edit mr-3"></i>
                         <i id="@item.SizeId" class="delete far fa-trash-alt"></i>
