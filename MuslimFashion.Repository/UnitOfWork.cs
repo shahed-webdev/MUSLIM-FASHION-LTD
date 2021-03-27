@@ -21,6 +21,7 @@ namespace MuslimFashion.Repository
 
         public IColorRepository Color { get; }
         public IMenuRepository Menu { get; }
+        public IProductRepository product { get; }
         public ISubMenuRepository SubMenu { get; }
         public ISizeRepository Size { get; }
 

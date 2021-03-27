@@ -8,4 +8,8 @@
     <ProjectReference Include="..\MuslimFashion.Repository\MuslimFashion.Repository.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Product\" />
+  </ItemGroup>
+
 </Project>

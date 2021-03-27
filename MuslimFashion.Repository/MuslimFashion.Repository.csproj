@@ -9,7 +9,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Repositories\Product\" />
     <Folder Include="Repositories\Size\" />
   </ItemGroup>
 
