@@ -38,7 +38,7 @@ namespace MuslimFashion.BusinessLogic.Menu
                 if (string.IsNullOrEmpty(model.MenuName))
                     return new DbResponse(false, "Invalid Data");
 
-                if (_db.Menu.IsNull(model.MenuId))
+                if (!_db.Menu.IsNull(model.MenuId))
                     return new DbResponse(false, "No Data Found");
 
                 if (_db.Menu.IsExistName(model.MenuName, model.MenuId))
@@ -58,11 +58,11 @@ namespace MuslimFashion.BusinessLogic.Menu
         {
             try
             {
-                if (_db.Menu.IsNull(id))
+                if (!_db.Menu.IsNull(id))
                     return new DbResponse(false, "No data Found");
 
                 if (_db.Menu.IsRelatedDataExist(id))
-                    return new DbResponse(false, "Failed, SubMenu already exist in this Menu");
+                    return new DbResponse(false, "Failed, Sub-Menu already exist in this Menu");
 
                 return _db.Menu.Delete(id);
 
