@@ -30,29 +30,7 @@
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="collapse-nav">
-                    <ul class="navbar-nav mr-auto">
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" id="nav-1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Men Fashion</a>
-                            <div class="dropdown-menu dropdown-default" aria-labelledby="nav-1">
-                                <a class="dropdown-item" href="#">Shirt</a>
-                                <a class="dropdown-item" href="#">Pant</a>
-                            </div>
-                        </li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" id="nav-2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Woman Fashion</a>
-                            <div class="dropdown-menu dropdown-default" aria-labelledby="nav-2">
-                                <a class="dropdown-item" href="#">Shirt</a>
-                                <a class="dropdown-item" href="#">Pant</a>
-                            </div>
-                        </li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" id="nav-3" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Kids Fashion</a>
-                            <div class="dropdown-menu dropdown-default" aria-labelledby="nav-3">
-                                <a class="dropdown-item" href="#">Shirt</a>
-                                <a class="dropdown-item" href="#">Pant</a>
-                            </div>
-                        </li>
-                    </ul>
+                    <ul id="menu-items" class="navbar-nav mr-auto"></ul>
                 </div>
                 <ul class="navbar-nav ml-sm-auto flex-row">
                     <partial name="_LoginPartial" />
@@ -88,10 +66,11 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
     <!-- MDB core JavaScript -->
     <script src="~/mdb/js/mdb-admin.min.js"></script>
-    <!-- axios -->
-    <script src="~/lib/api.axios.min.js"></script>
     <!--notify js-->
     <script src="~/js/notify.min.js"></script>
+
+    <!--menus js-->
+    <script src="~/pages-js/show-menus.js"></script>
 
     <!--others page js-->
     @await RenderSectionAsync("Scripts", false)

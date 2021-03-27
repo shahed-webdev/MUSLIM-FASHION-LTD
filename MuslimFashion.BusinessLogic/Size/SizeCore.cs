@@ -38,7 +38,7 @@ namespace MuslimFashion.BusinessLogic
                 if (string.IsNullOrEmpty(model.SizeName))
                     return new DbResponse(false, "Invalid Data");
 
-                if (_db.Size.IsNull(model.SizeId))
+                if (!_db.Size.IsNull(model.SizeId))
                     return new DbResponse(false, "No Data Found");
 
                 if (_db.Size.IsExistName(model.SizeName, model.SizeId))
@@ -57,7 +57,7 @@ namespace MuslimFashion.BusinessLogic
         {
             try
             {
-                if (_db.Size.IsNull(id))
+                if (!_db.Size.IsNull(id))
                     return new DbResponse(false, "No data Found");
 
                 if (_db.Size.IsRelatedDataExist(id))
