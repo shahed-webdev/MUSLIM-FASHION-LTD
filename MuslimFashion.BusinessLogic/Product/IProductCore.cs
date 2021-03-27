@@ -1,4 +1,5 @@
-﻿using MuslimFashion.ViewModel;
+﻿using JqueryDataTables.LoopsIT;
+using MuslimFashion.ViewModel;
 
 namespace MuslimFashion.BusinessLogic
 {
@@ -6,5 +7,6 @@ namespace MuslimFashion.BusinessLogic
     {
         DbResponse<int> Add(ProductAddModel model);
         DbResponse<ProductDetailsModel> Get(int id);
+        DataResult<ProductRecordView> ListByAdmin(DataRequest request);
     }
 }

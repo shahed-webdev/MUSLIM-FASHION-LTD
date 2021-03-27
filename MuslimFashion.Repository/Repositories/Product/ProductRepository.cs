@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using AutoMapper.QueryableExtensions;
+using JqueryDataTables.LoopsIT;
 using MuslimFashion.Data;
 using MuslimFashion.ViewModel;
 using System.Linq;
@@ -58,6 +59,13 @@ namespace MuslimFashion.Repository
         public bool IsRelatedDataExist(int id)
         {
             return false;
+        }
+
+        public DataResult<ProductRecordView> ListByAdmin(DataRequest request)
+        {
+            return Db.Product
+                .ProjectTo<ProductRecordView>(_mapper.ConfigurationProvider)
+                .ToDataResult(request);
         }
     }
 }

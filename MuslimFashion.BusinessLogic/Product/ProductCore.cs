@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using JqueryDataTables.LoopsIT;
 using MuslimFashion.Repository;
 using MuslimFashion.ViewModel;
 using System;
@@ -50,6 +51,11 @@ namespace MuslimFashion.BusinessLogic
             {
                 return new DbResponse<ProductDetailsModel>(false, $"{e.Message}. {e.InnerException?.Message ?? ""}");
             }
+        }
+
+        public DataResult<ProductRecordView> ListByAdmin(DataRequest request)
+        {
+            return _db.product.ListByAdmin(request);
         }
     }
 }
