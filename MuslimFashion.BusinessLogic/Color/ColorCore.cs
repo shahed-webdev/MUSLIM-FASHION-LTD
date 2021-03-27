@@ -42,7 +42,7 @@ namespace MuslimFashion.BusinessLogic
                 if (string.IsNullOrEmpty(model.ColorName))
                     return new DbResponse(false, "Invalid Data");
 
-                if (_db.Color.IsNull(model.ColorId))
+                if (!_db.Color.IsNull(model.ColorId))
                     return new DbResponse(false, "No Data Found");
 
                 if (_db.Color.IsExistName(model.ColorName, model.ColorId))
@@ -64,7 +64,7 @@ namespace MuslimFashion.BusinessLogic
         {
             try
             {
-                if (_db.Color.IsNull(id))
+                if (!_db.Color.IsNull(id))
                     return new DbResponse(false, "No data Found");
 
                 if (_db.Color.IsRelatedDataExist(id))
