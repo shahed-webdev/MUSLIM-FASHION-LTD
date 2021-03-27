@@ -1,4 +1,5 @@
-﻿using MuslimFashion.ViewModel;
+﻿using JqueryDataTables.LoopsIT;
+using MuslimFashion.ViewModel;
 
 namespace MuslimFashion.Repository
 {
@@ -14,6 +15,8 @@ namespace MuslimFashion.Repository
         bool IsExistCode(string code, int updateId);
         bool IsNull(int id);
         bool IsRelatedDataExist(int id);
+
+        DataResult<ProductRecordView> ListByAdmin(DataRequest request);
 
     }
 }

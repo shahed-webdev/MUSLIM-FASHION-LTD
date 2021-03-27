@@ -7,11 +7,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MuslimFashion.Web", "Muslim
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MuslimFashion.Data", "MuslimFashion.Data\MuslimFashion.Data.csproj", "{29A19720-EB0F-42DC-8B16-682997AA6133}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MuslimFashion.ViewModel", "MuslimFashion.ViewModel\MuslimFashion.ViewModel.csproj", "{306974B4-CB73-44D5-8281-B829DE1274C3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MuslimFashion.ViewModel", "MuslimFashion.ViewModel\MuslimFashion.ViewModel.csproj", "{306974B4-CB73-44D5-8281-B829DE1274C3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MuslimFashion.Repository", "MuslimFashion.Repository\MuslimFashion.Repository.csproj", "{C6315D3B-9977-4109-9565-9C846DE9ED70}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MuslimFashion.Repository", "MuslimFashion.Repository\MuslimFashion.Repository.csproj", "{C6315D3B-9977-4109-9565-9C846DE9ED70}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MuslimFashion.BusinessLogic", "MuslimFashion.BusinessLogic\MuslimFashion.BusinessLogic.csproj", "{5686428C-3ECA-4DDF-A9D1-14F2EDE4982B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MuslimFashion.BusinessLogic", "MuslimFashion.BusinessLogic\MuslimFashion.BusinessLogic.csproj", "{5686428C-3ECA-4DDF-A9D1-14F2EDE4982B}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JqueryDataTables.LoopsIT", "JqueryDataTables.LoopsIT\JqueryDataTables.LoopsIT.csproj", "{09F25B04-C41C-4EC8-9E6B-15DB088E9C3C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +41,10 @@ Global
 		{5686428C-3ECA-4DDF-A9D1-14F2EDE4982B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5686428C-3ECA-4DDF-A9D1-14F2EDE4982B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5686428C-3ECA-4DDF-A9D1-14F2EDE4982B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{09F25B04-C41C-4EC8-9E6B-15DB088E9C3C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{09F25B04-C41C-4EC8-9E6B-15DB088E9C3C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{09F25B04-C41C-4EC8-9E6B-15DB088E9C3C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{09F25B04-C41C-4EC8-9E6B-15DB088E9C3C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

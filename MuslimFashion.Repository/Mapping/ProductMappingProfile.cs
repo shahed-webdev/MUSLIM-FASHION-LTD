@@ -32,6 +32,7 @@ namespace MuslimFashion.Repository
                 .ForMember(d => d.ImageFileNames, opt => opt.MapFrom(c => c.ProductImages.Select(p => p.ImageFileName).ToArray()))
                 ;
 
+            CreateMap<Product, ProductRecordView>();
         }
     }
 }
