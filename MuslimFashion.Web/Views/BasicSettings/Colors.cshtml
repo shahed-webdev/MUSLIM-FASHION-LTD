@@ -1,28 +1,26 @@
-﻿
+﻿@model IEnumerable<ColorCrudModel>
 @{
-    ViewData["Title"] = "SubMenu";
+    ViewData["Title"] = "Colors";
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 
 
 <div class="container">
-    <h4 class="page-header mb-3">Sub Menu</h4>
+    <h4 class="page-header mb-3">Colors</h4>
 
     <div class="card card-body">
         <form id="formAdd">
             <div class="row">
                 <div class="col-lg-4">
                     <div class="form-group">
-                        <label>Menu</label>
-                        <select name="MenuId" class="form-control" asp-items="ViewBag.Menus" required>
-                            <option value="">[ SELECT ]</option>
-                        </select>
+                        <label>Color Name</label>
+                        <input name="ColorName" type="text" class="form-control" required>
                     </div>
                 </div>
                 <div class="col-lg-4">
                     <div class="form-group">
-                        <label>Sub Menu Name</label>
-                        <input name="SubMenuName" type="text" class="form-control" required />
+                        <label>Color Code</label>
+                        <input name="ColorCode" type="text" class="form-control">
                     </div>
                 </div>
                 <div class="col">
@@ -33,9 +31,21 @@
             </div>
         </form>
 
-        <ul id="menu-list" class="list-group list-group-flush"></ul>
+        <ul id="menu-list" class="list-group list-group-flush">
+            @foreach (var item in Model)
+            {
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    <span>@item.ColorName</span>
+                    <div>
+                        <i id="@item.ColorId" data-value="@item.ColorName" data-code="@item.ColorCode" class="update far fa-edit mr-3"></i>
+                        <i id="@item.ColorId" class="delete far fa-trash-alt"></i>
+                    </div>
+                </li>
+            }
+        </ul>
     </div>
 </div>
+
 
 <!-- Modal -->
 <div class="modal fade" id="updateModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
@@ -53,10 +63,14 @@
             <!--Body-->
             <div class="modal-body">
                 <form id="formUpdate">
-                    <input type="hidden" name="SubMenuId" />
+                    <input type="hidden" name="ColorId" />
                     <div class="form-group">
-                        <label>Sub Menu Name</label>
-                        <input type="text" name="SubMenuName" class="form-control" required />
+                        <label>Color Name</label>
+                        <input name="ColorName" type="text" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Color Code</label>
+                        <input name="ColorCode" type="text" class="form-control">
                     </div>
                     <input name="btnSubmit" type="submit" value="update" class="btn btn-danger" />
                 </form>
@@ -78,7 +92,7 @@
                     this.btnSubmit.disabled = true;
 
                     $.ajax({
-                        url: "/BasicSettings/PostSubMenu",
+                        url: "/BasicSettings/PostColor",
                         type: "POST",
                         data: methods.getForm(this),
                         success: response => {
@@ -107,8 +121,9 @@
 
                     //update
                     if (onUpdate) {
-                        formUpdate.SubMenuId.value = element.id;
-                        formUpdate.SubMenuName.value = element.getAttribute("data-value");
+                        formUpdate.ColorId.value = element.id;
+                        formUpdate.ColorName.value = element.getAttribute("data-value");
+                        formUpdate.ColorCode.value = element.getAttribute("data-code");
 
                         $("#updateModal").modal("show");
                     }
@@ -116,7 +131,7 @@
                     //delete
                     if (onDelete) {
                         $.ajax({
-                            url: "/BasicSettings/DeleteSubMenu",
+                            url: "/BasicSettings/DeleteColor",
                             type: "POST",
                             data: { id: element.id },
                             success: response => {
@@ -139,13 +154,10 @@
                     evt.preventDefault();
                     this.btnSubmit.disabled = true;
 
-                    const body = methods.getForm(this);
-                    body.MenuId = formAdd.MenuId.value;
-
                     $.ajax({
-                        url: "/BasicSettings/UpdateSubMenu",
+                        url: "/BasicSettings/UpdateColor",
                         type: "POST",
-                        data: body,
+                        data: methods.getForm(this),
                         success: response => {
                             $.notify(response.Message, response.IsSuccess ? "success" : "error");
 
@@ -162,38 +174,6 @@
                     });
                 });
 
-            //get sub menu
-            formAdd.MenuId.addEventListener("change",
-                function() {
-                    if (!this.value) return;
-                    menuList.innerHTML = "";
-
-                    $.ajax({
-                        url: "/BasicSettings/GetSubMenu",
-                        data: { id: this.value },
-                        success: response => {
-                            response.forEach(item => {
-                                menuList.appendChild(createList(item));
-                            })
-
-                        },
-                        error: error => {
-                            console.log(error);
-                        }
-                    });
-                })
-
-            //create list
-            function createList(item) {
-                const li = document.createElement("li");
-                li.className = "list-group-item d-flex justify-content-between align-items-center";
-                li.innerHTML = `<span>${item.SubMenuName}</span>
-                                <div>
-                                    <i id="${item.SubMenuId}" data-value="${item.SubMenuName}" class="update far fa-edit mr-3"></i>
-                                    <i id="${item.SubMenuId}" class="delete far fa-trash-alt"></i>
-                                </div>`;
-                return li;
-            }
         })();
     </script>
 }
