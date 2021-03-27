@@ -1,0 +1,117 @@
+﻿
+@{
+    ViewData["Title"] = "Add Product";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+
+<div class="m-md-3">
+    <h4 class="page-header mb-3">Add Product</h4>
+    <form id="formAdd">
+        <div class="card card-body">
+            <div class="row">
+                <div class="col-lg-3">
+                    <div class="form-group">
+                        <label>Menu</label>
+                        <select id="selectMenu" class="form-control" asp-items="ViewBag.Menus" required>
+                            <option value="">[ SELECT ]</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-lg-3">
+                    <div class="form-group">
+                        <label>Sub-Menu</label>
+                        <select name="SubMenuId" class="form-control" required>
+                            <option value="">[ SELECT ]</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-lg-3">
+                    <div class="form-group">
+                        <label>Product Name</label>
+                        <input name="ProductName" type="text" class="form-control" required>
+                    </div>
+                </div>
+                <div class="col-lg-3">
+                    <div class="form-group">
+                        <label>Product Code</label>
+                        <input name="ProductCode" type="text" class="form-control" required>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row my-3">
+                <div class="col-lg-3">
+                    <div class="form-group">
+                        <label>Product Brand</label>
+                        <input name="Brand" type="text" class="form-control">
+                    </div>
+                </div>
+                <div class="col-lg-3">
+                    <div class="form-group">
+                        <label>Fabric Type</label>
+                        <input name="FabricType" type="text" class="form-control">
+                    </div>
+                </div>
+                <div class="col-lg-3">
+                    <div class="form-group">
+                        <label>Price</label>
+                        <input name="Price" type="number" class="form-control" required>
+                    </div>
+                </div>
+                <div class="col-lg-3">
+                    <div class="form-group">
+                        <label>Old Price</label>
+                        <input name="OldPrice" type="number" class="form-control">
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Description</label>
+                <textarea name="Description" rows="2" class="form-control"></textarea>
+            </div>
+        </div>
+        
+        <h5 class="font-weight-bold mt-4 mb-2">Product Images</h5>
+        <div class="card card-body">
+            <div class="md-form">
+                <div class="file-field">
+                    <div class="btn btn-outline-danger btn-rounded waves-effect btn-md float-left">
+                        <span>Choose file<i class="fas fa-upload ml-3" aria-hidden="true"></i></span>
+                        <input name="productImageFiles" type="file" multiple>
+                    </div>
+                    <div class="file-path-wrapper">
+                        <input class="file-path validate" type="text" placeholder="Upload image">
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <h5 class="font-weight-bold mt-4 mb-2">Colors And Sizes</h5>
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="card card-body">
+                    <div class="form-group">
+                        <label>Color</label>
+                        <select id="selectColors" class="form-control" required>
+                            <option value="">[ SELECT ]</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="card card-body">
+                    <div class="form-group">
+                        <label>Sizes</label>
+                        <select id="selectSize" class="form-control" required>
+                            <option value="">[ SELECT ]</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <input value="Add Product" name="btnSubmit" type="submit" class="btn btn-danger mt-4">
+    </form>
+</div>

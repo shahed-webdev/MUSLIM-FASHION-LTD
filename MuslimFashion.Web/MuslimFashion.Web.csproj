@@ -8,6 +8,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="wwwroot\SHOP-IMAGE\**" />
+    <Content Remove="wwwroot\SHOP-IMAGE\**" />
+    <EmbeddedResource Remove="wwwroot\SHOP-IMAGE\**" />
+    <None Remove="wwwroot\SHOP-IMAGE\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.1.10">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -20,7 +27,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="wwwroot\SHOP-IMAGE\" />
     <Folder Include="wwwroot\PRODUCTS\suit\" />
     <Folder Include="wwwroot\PRODUCTS\pants\" />
     <Folder Include="wwwroot\PRODUCTS\shirts\" />
