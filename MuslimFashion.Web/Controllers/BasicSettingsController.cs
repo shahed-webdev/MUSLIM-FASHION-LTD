@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using MuslimFashion.BusinessLogic;
 using MuslimFashion.BusinessLogic.Menu;
@@ -6,16 +7,19 @@ using MuslimFashion.ViewModel;
 
 namespace MuslimFashion.Web.Controllers
 {
+    [Authorize]
     public class BasicSettingsController : Controller
     {
         private readonly IMenuCore _menu;
         private readonly ISubMenuCore _subMenu;
         private readonly IColorCore _color;
-        public BasicSettingsController(IMenuCore menu, ISubMenuCore subMenu, IColorCore color)
+        private readonly ISizeCore _size;
+        public BasicSettingsController(IMenuCore menu, ISubMenuCore subMenu, IColorCore color, ISizeCore size)
         {
             _menu = menu;
             _subMenu = subMenu;
             _color = color;
+            _size = size;
         }
 
         public IActionResult ImageSlider()
@@ -52,6 +56,15 @@ namespace MuslimFashion.Web.Controllers
         {
             var response = _menu.Delete(id);
             return Json(response);
+        }
+
+
+        //get menus from layout
+        [AllowAnonymous]
+        public IActionResult RenderMenu()
+        {
+            var model = _menu.ListWithSubMenu();
+            return Json(model);
         }
         #endregion
 
@@ -121,6 +134,37 @@ namespace MuslimFashion.Web.Controllers
         public IActionResult DeleteColor(int id)
         {
             var response = _color.Delete(id);
+            return Json(response);
+        }
+        #endregion
+
+        #region Size
+        public IActionResult Size()
+        {
+            return View(_size.List());
+        }
+
+        //add
+        [HttpPost]
+        public IActionResult PostSize(SizeCrudModel model)
+        {
+            var response = _size.Add(model);
+            return Json(response);
+        }
+
+        //update
+        [HttpPost]
+        public IActionResult UpdateSize(SizeCrudModel model)
+        {
+            var response = _size.Edit(model);
+            return Json(response);
+        }
+
+        //delete
+        [HttpPost]
+        public IActionResult DeleteSize(int id)
+        {
+            var response = _size.Delete(id);
             return Json(response);
         }
         #endregion

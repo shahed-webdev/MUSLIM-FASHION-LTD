@@ -1,26 +1,25 @@
-﻿@model IEnumerable<ColorCrudModel>
+﻿@model IEnumerable<SizeCrudModel>
 @{
-    ViewData["Title"] = "Colors";
+    ViewData["Title"] = "Size";
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 
-
 <div class="container">
-    <h4 class="page-header mb-3">Colors</h4>
+    <h4 class="page-header mb-3">Size</h4>
 
     <div class="card card-body">
         <form id="formAdd">
             <div class="row">
                 <div class="col-lg-4">
                     <div class="form-group">
-                        <label>Color Name</label>
-                        <input name="ColorName" type="text" class="form-control" required>
+                        <label>Size Name</label>
+                        <input name="SizeName" type="text" class="form-control" required>
                     </div>
                 </div>
                 <div class="col-lg-4">
                     <div class="form-group">
-                        <label>Color Code</label>
-                        <input name="ColorCode" type="text" class="form-control">
+                        <label>Description</label>
+                        <input name="Description" type="text" class="form-control" required>
                     </div>
                 </div>
                 <div class="col">
@@ -35,10 +34,10 @@
             @foreach (var item in Model)
             {
                 <li class="list-group-item d-flex justify-content-between align-items-center">
-                    <span>@item.ColorName</span>
+                    <span>@item.SizeName</span>
                     <div>
-                        <i id="@item.ColorId" data-value="@item.ColorName" data-code="@item.ColorCode" class="update far fa-edit mr-3"></i>
-                        <i id="@item.ColorId" class="delete far fa-trash-alt"></i>
+                        <i id="@item.SizeId" data-value="@item.SizeName" data-code="@item.Description" class="update far fa-edit mr-3"></i>
+                        <i id="@item.SizeId" class="delete far fa-trash-alt"></i>
                     </div>
                 </li>
             }
@@ -63,14 +62,14 @@
             <!--Body-->
             <div class="modal-body">
                 <form id="formUpdate">
-                    <input type="hidden" name="ColorId" />
+                    <input type="hidden" name="SizeId" />
                     <div class="form-group">
-                        <label>Color Name</label>
-                        <input name="ColorName" type="text" class="form-control" required>
+                        <label>Size Name</label>
+                        <input name="SizeName" type="text" class="form-control" required>
                     </div>
                     <div class="form-group">
-                        <label>Color Code</label>
-                        <input name="ColorCode" type="text" class="form-control">
+                        <label>Description</label>
+                        <input name="Description" type="text" class="form-control" required>
                     </div>
                     <input name="btnSubmit" type="submit" value="update" class="btn btn-danger" />
                 </form>
@@ -92,7 +91,7 @@
                     this.btnSubmit.disabled = true;
 
                     $.ajax({
-                        url: "/BasicSettings/PostColor",
+                        url: "/BasicSettings/PostSize",
                         type: "POST",
                         data: methods.getForm(this),
                         success: response => {
@@ -121,9 +120,9 @@
 
                     //update
                     if (onUpdate) {
-                        formUpdate.ColorId.value = element.id;
-                        formUpdate.ColorName.value = element.getAttribute("data-value");
-                        formUpdate.ColorCode.value = element.getAttribute("data-code");
+                        formUpdate.SizeId.value = element.id;
+                        formUpdate.SizeName.value = element.getAttribute("data-value");
+                        formUpdate.Description.value = element.getAttribute("data-code");
 
                         $("#updateModal").modal("show");
                     }
@@ -131,7 +130,7 @@
                     //delete
                     if (onDelete) {
                         $.ajax({
-                            url: "/BasicSettings/DeleteColor",
+                            url: "/BasicSettings/DeleteSize",
                             type: "POST",
                             data: { id: element.id },
                             success: response => {
@@ -155,7 +154,7 @@
                     this.btnSubmit.disabled = true;
 
                     $.ajax({
-                        url: "/BasicSettings/UpdateColor",
+                        url: "/BasicSettings/UpdateSize",
                         type: "POST",
                         data: methods.getForm(this),
                         success: response => {
