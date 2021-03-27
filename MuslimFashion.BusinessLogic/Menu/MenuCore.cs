@@ -94,6 +94,11 @@ namespace MuslimFashion.BusinessLogic.Menu
             return _db.Menu.List();
         }
 
+        public List<MenuWithSubMenuViewModel> ListWithSubMenu()
+        {
+            return _db.Menu.ListWithSubMenu();
+        }
+
         public List<DDL> ListDdl()
         {
             return _db.Menu.ListDdl();

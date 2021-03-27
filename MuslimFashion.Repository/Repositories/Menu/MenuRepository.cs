@@ -76,6 +76,14 @@ namespace MuslimFashion.Repository
                 .ToList();
         }
 
+        public List<MenuWithSubMenuViewModel> ListWithSubMenu()
+        {
+            return Db.Menu
+       .ProjectTo<MenuWithSubMenuViewModel>(_mapper.ConfigurationProvider)
+                .OrderBy(a => a.MenuName)
+                .ToList();
+        }
+
         public List<DDL> ListDdl()
         {
             return Db.Menu

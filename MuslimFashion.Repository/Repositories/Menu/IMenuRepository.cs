@@ -14,6 +14,7 @@ namespace MuslimFashion.Repository
         bool IsNull(int id);
         bool IsRelatedDataExist(int id);
         List<MenuCrudModel> List();
+        List<MenuWithSubMenuViewModel> ListWithSubMenu();
         List<DDL> ListDdl();
     }
 }

@@ -10,6 +10,7 @@ namespace MuslimFashion.BusinessLogic.Menu
         DbResponse Delete(int id);
         DbResponse<MenuCrudModel> Get(int id);
         List<MenuCrudModel> List();
+        List<MenuWithSubMenuViewModel> ListWithSubMenu();
         List<DDL> ListDdl();
     }
 }
