@@ -174,7 +174,6 @@
                         type: "POST",
                         data: { id: this.value },
                         success: response => {
-                            console.log(response);
                             response.forEach(item => {
                                 const opt = document.createElement('option');
                                 opt.value = item.value;
@@ -265,6 +264,37 @@
                 li.innerHTML = `<span>${item.value}</span><i id="${item.id}" class="delete fas fa-trash"></i>`
                 return li;
             }
+
+            //post product
+            const formAdd = document.getElementById("formAdd");
+            formAdd.addEventListener("submit",
+                function(evt) {
+                    evt.preventDefault();
+
+                    const fileData = new FormData(this);
+
+                    ProductColors.forEach((item, i) => {
+                        fileData.append(`ProductColors[${i}]`, item);
+                    });
+
+                    ProductSizes.forEach((item, i) => {
+                        fileData.append(`ProductSizes[${i}]`, item);
+                    });
+                   
+                    $.ajax({
+                        url: "/Product/PostAddProduct",
+                        type: "POST",
+                        contentType: false,
+                        processData: false,
+                        data: fileData,
+                        success: response => {
+                            console.log(response);
+                        },
+                        error: error => {
+                            console.log(error);
+                        }
+                    });
+                });
         })();
     </script>
 }
