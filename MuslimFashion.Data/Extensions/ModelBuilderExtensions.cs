@@ -24,6 +24,13 @@ namespace MuslimFashion.Data
                     Name = UserType.SubAdmin.ToString(),
                     NormalizedName = UserType.SubAdmin.ToString().ToUpper(),
                     ConcurrencyStamp = "9E6E9812-4A93-4F28-81F3-8B52181EFA77"
+                },
+                new IdentityRole
+                {
+                    Id = "EC8F8D09-01B0-4C83-AF29-733F057BC139",
+                    Name = UserType.Customer.ToString(),
+                    NormalizedName = UserType.Customer.ToString().ToUpper(),
+                    ConcurrencyStamp = "EC8F8D09-01B0-4C83-AF29-733F057BC139"
                 }
             );
 

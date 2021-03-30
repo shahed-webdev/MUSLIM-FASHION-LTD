@@ -1,10 +1,9 @@
-﻿using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using MuslimFashion.Data;
-using MuslimFashion.Repository;
+using MuslimFashion.BusinessLogic;
 using MuslimFashion.ViewModel;
+using System.Threading.Tasks;
 
 namespace MuslimFashion.Web.Controllers
 {
@@ -13,10 +12,12 @@ namespace MuslimFashion.Web.Controllers
     {
         private readonly UserManager<IdentityUser> _userManager;
         private readonly SignInManager<IdentityUser> _signInManager;
-        public AccountController(UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager)
+        private readonly ICustomerCore _customer;
+        public AccountController(UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager, ICustomerCore customer)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _customer = customer;
         }
 
         //GET: Login
@@ -110,6 +111,18 @@ namespace MuslimFashion.Web.Controllers
             if (returnUrl != null) return LocalRedirect(returnUrl);
 
             return RedirectToAction("Index", "Home");
+        }
+
+
+        //POST: Customer Registration
+        [HttpPost]
+        [AllowAnonymous]
+        public async Task<IActionResult> CustomerRegistration(CustomerAddModel model)
+        {
+            var response = await _customer.AddAsync(model);
+            if (response.IsSuccess)
+                await _signInManager.SignInAsync(response.Data, false);
+            return Json(response);
         }
     }
 }
