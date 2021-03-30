@@ -8,7 +8,6 @@ namespace MuslimFashion.Data
         public Product()
         {
             ProductImages = new HashSet<ProductImage>();
-            ProductColors = new HashSet<ProductColor>();
             ProductSizes = new HashSet<ProductSize>();
             HomeProducts = new HashSet<HomeProduct>();
         }
@@ -24,7 +23,6 @@ namespace MuslimFashion.Data
         public string Description { get; set; }
         public DateTime InsertDateUtc { get; set; }
         public ICollection<ProductImage> ProductImages { get; set; }
-        public ICollection<ProductColor> ProductColors { get; set; }
         public ICollection<ProductSize> ProductSizes { get; set; }
         public ICollection<HomeProduct> HomeProducts { get; set; }
     }
