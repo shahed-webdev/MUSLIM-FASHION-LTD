@@ -1,0 +1,70 @@
+﻿
+@{
+    ViewData["Title"] = "Sign Up";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-8 col-lg-8 mx-auto mt-5">
+            <div class="card card-signin my-5 pt-3">
+                <div class="card-body">
+                    <h5 class="card-title text-center">
+                        <strong class="dark-grey-text">Customer Registration</strong>
+                    </h5>
+
+                    <form>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="md-form">
+                                    <label for="inputName">Full Name</label>
+                                    <input id="inputName" type="text" name="" class="form-control" required>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="md-form">
+                                    <label for="inputMobile">Mobile Number</label>
+                                    <input id="inputMobile" type="text" pattern="^(?:\\+88|88)?(01[3-9]\\d{8})$" name="" class="form-control" required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="md-form">
+                                    <label for="inputUserName">Username</label>
+                                    <input id="inputUserName" type="text" name="" class="form-control" required>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="md-form">
+                                    <label for="inputEmail">Email</label>
+                                    <input id="inputEmail" type="email" name="" class="form-control">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="md-form">
+                                    <label for="inputPassword">Password</label>
+                                    <input id="inputPassword" type="password" name="" class="form-control" required>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="md-form">
+                                    <label for="inputConfirmPassword">Confirm Password</label>
+                                    <input id="inputConfirmPassword" type="password" name="" class="form-control">
+                                </div>
+                            </div>
+                        </div>
+
+                        <button class="btn z-depth-1a my-3 btn-custom-bg" type="submit">SignUp</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial"/>
+}

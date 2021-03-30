@@ -34,4 +34,6 @@ input[type="checkbox"].input-validation-error { border: 0 none; }
 input[type="number"]::-webkit-outer-spin-button,
 input[type="number"]::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
 input[type="number"] { -moz-appearance: textfield; }
+
+
 #toTop { background-color: var(--bg-secondary); color: #fff; bottom: 10px; cursor: pointer; display: none; position: fixed; right: 10px; z-index: 999; padding: 6px 13px; border-radius: 5px; }

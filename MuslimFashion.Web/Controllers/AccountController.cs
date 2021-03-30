@@ -25,7 +25,8 @@ namespace MuslimFashion.Web.Controllers
         {
             ViewBag.ReturnUrl = returnUrl;
 
-            if (User.Identity.IsAuthenticated) return RedirectToAction("Index", "Dashboard");
+            if (User.Identity.IsAuthenticated) 
+                return RedirectToAction("Index", "home");
 
             return View();
         }
@@ -42,7 +43,7 @@ namespace MuslimFashion.Web.Controllers
             var result = await _signInManager.PasswordSignInAsync(model.UserName, model.Password, model.RememberMe, false);
 
             if (result.Succeeded)
-                return LocalRedirect(returnUrl ??= Url.Content("~/Dashboard/Index"));
+                return LocalRedirect(returnUrl ??= Url.Content($"/Dashboard/Index"));
 
             if (result.RequiresTwoFactor) return RedirectToPage("./LoginWith2fa", new { ReturnUrl = returnUrl, model.RememberMe });
 
@@ -53,6 +54,19 @@ namespace MuslimFashion.Web.Controllers
             ModelState.AddModelError(string.Empty, "Incorrect username or password");
             return View(model);
         }
+
+        //GET: SignUp
+        [AllowAnonymous]
+        public IActionResult SignUp(string returnUrl)
+        {
+            ViewBag.ReturnUrl = returnUrl;
+
+            if (User.Identity.IsAuthenticated) 
+                return RedirectToAction("Index", "home");
+
+            return View();
+        }
+
 
 
         // GET: ChangePassword
