@@ -19,15 +19,13 @@ namespace MuslimFashion.Web.Controllers
         private readonly IProductCore _product;
         private readonly IMenuCore _menu;
         private readonly ISubMenuCore _subMenu;
-        private readonly IColorCore _color;
         private readonly ISizeCore _size;
 
-        public ProductController( IMenuCore menu, ISubMenuCore subMenu, IColorCore color, ISizeCore size, IProductCore product)
+        public ProductController( IMenuCore menu, ISubMenuCore subMenu, ISizeCore size, IProductCore product)
         {
             //_product = product;
             _menu = menu;
             _subMenu = subMenu;
-            _color = color;
             _size = size;
             _product = product;
         }
@@ -43,7 +41,6 @@ namespace MuslimFashion.Web.Controllers
         public IActionResult AddProduct()
         {
             ViewBag.Menus = new SelectList(_menu.ListDdl(), "value", "label");
-            ViewBag.Colors = new SelectList(_color.ListDdl(), "value", "label");
             ViewBag.Sizes = new SelectList(_size.ListDdl(), "value", "label");
 
             return View();

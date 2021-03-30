@@ -10,7 +10,7 @@
         public string Brand { get; set; }
         public string FabricType { get; set; }
         public string Description { get; set; }
-        public string[] ImageFileNames { get; set; }
+        public string ImageFileName { get; set; }
         public int[] ProductColors { get; set; }
         public int[] ProductSizes { get; set; }
     }

@@ -19,13 +19,13 @@ namespace MuslimFashion.BusinessLogic
                 if (string.IsNullOrEmpty(model.ProductName))
                     return new DbResponse<int>(false, "Invalid Data");
 
-                if (_db.Color.IsExistName(model.ProductName))
+                if (_db.product.IsExistName(model.ProductName))
                     return new DbResponse<int>(false, $" {model.ProductName} already Exist");
 
-                if (_db.Color.IsExistCode(model.ProductCode))
+                if (_db.product.IsExistCode(model.ProductCode))
                     return new DbResponse<int>(false, $" {model.ProductCode} Code already Exist");
 
-                if (model.ImageFileNames.Length <= 0)
+                if (string.IsNullOrEmpty(model.ImageFileName))
                     return new DbResponse<int>(false, $"No Product Image Added");
 
                 return _db.product.Add(model);

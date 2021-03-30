@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MuslimFashion.Data;
 
 namespace MuslimFashion.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210330051717_DeleteColorTables")]
+    partial class DeleteColorTables
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -352,10 +354,6 @@ namespace MuslimFashion.Data.Migrations
                         .HasColumnType("nvarchar(128)")
                         .HasMaxLength(128);
 
-                    b.Property<string>("ImageFileName")
-                        .HasColumnType("nvarchar(128)")
-                        .HasMaxLength(128);
-
                     b.Property<DateTime>("InsertDateUtc")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime")
@@ -385,6 +383,28 @@ namespace MuslimFashion.Data.Migrations
                     b.HasIndex("SubMenuId");
 
                     b.ToTable("Product");
+                });
+
+            modelBuilder.Entity("MuslimFashion.Data.ProductImage", b =>
+                {
+                    b.Property<int>("ProductImageId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("ImageFileName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(128)")
+                        .HasMaxLength(128);
+
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
+                    b.HasKey("ProductImageId");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("ProductImage");
                 });
 
             modelBuilder.Entity("MuslimFashion.Data.ProductSize", b =>
@@ -597,6 +617,16 @@ namespace MuslimFashion.Data.Migrations
                         .HasForeignKey("SubMenuId")
                         .HasConstraintName("FK_Product_SubMenu")
                         .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("MuslimFashion.Data.ProductImage", b =>
+                {
+                    b.HasOne("MuslimFashion.Data.Product", "Product")
+                        .WithMany("ProductImages")
+                        .HasForeignKey("ProductId")
+                        .HasConstraintName("FK_ProductImage_Product")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 

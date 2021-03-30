@@ -12,13 +12,11 @@ namespace MuslimFashion.Web.Controllers
     {
         private readonly IMenuCore _menu;
         private readonly ISubMenuCore _subMenu;
-        private readonly IColorCore _color;
         private readonly ISizeCore _size;
-        public BasicSettingsController(IMenuCore menu, ISubMenuCore subMenu, IColorCore color, ISizeCore size)
+        public BasicSettingsController(IMenuCore menu, ISubMenuCore subMenu, ISizeCore size)
         {
             _menu = menu;
             _subMenu = subMenu;
-            _color = color;
             _size = size;
         }
 
@@ -30,7 +28,7 @@ namespace MuslimFashion.Web.Controllers
         #region Menu
         public IActionResult Menu()
         {
-           var mode= _menu.List();
+            var mode = _menu.List();
             return View(mode);
         }
 
@@ -103,37 +101,6 @@ namespace MuslimFashion.Web.Controllers
         public IActionResult DeleteSubMenu(int id)
         {
             var response = _subMenu.Delete(id);
-            return Json(response);
-        }
-        #endregion
-
-        #region Colors
-        public IActionResult Colors()
-        {
-            return View(_color.List());
-        }
-
-        //add
-        [HttpPost]
-        public IActionResult PostColor(ColorCrudModel model)
-        {
-            var response = _color.Add(model);
-            return Json(response);
-        }
-
-        //update
-        [HttpPost]
-        public IActionResult UpdateColor(ColorCrudModel model)
-        {
-            var response = _color.Edit(model);
-            return Json(response);
-        }
-
-        //delete
-        [HttpPost]
-        public IActionResult DeleteColor(int id)
-        {
-            var response = _color.Delete(id);
             return Json(response);
         }
         #endregion
