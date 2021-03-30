@@ -1,6 +1,8 @@
 ﻿@model LoginViewModel
 @{
     ViewBag.Title = "Login";
+    var queryUrl = Context.Request.Query["ReturnUrl"].ToString();
+    var returnUrl = string.IsNullOrEmpty(queryUrl) ? "" : "?ReturnUrl=" + queryUrl;
 }
 
 @section Styles {
@@ -12,9 +14,9 @@
         <div class="col-sm-9 col-md-7 col-lg-5 mx-auto mt-5">
             <div class="card card-signin my-5 pt-3">
                 <div class="card-body">
-                    <h5 class="card-title text-center">
+                    <h4 class="card-title text-center">
                         <strong class="dark-grey-text">Sign In</strong>
-                    </h5>
+                    </h4>
 
                     <form class="form-signin" asp-route-returnUrl="@ViewBag.ReturnUrl" asp-controller="Account" asp-action="Login" method="post">
                         <div class="md-form mb-5">
@@ -39,6 +41,9 @@
                             </button>
                         </div>
                     </form>
+                    <div class="mt-5">
+                        <p class="mb-0 font-small grey-text d-flex justify-content-end">Not have account? <a href="/Account/SignUp@(returnUrl)" class="blue-text ml-1">Register</a></p>
+                    </div>
                 </div>
             </div>
         </div>
