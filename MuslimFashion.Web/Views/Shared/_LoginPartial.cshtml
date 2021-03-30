@@ -1,5 +1,4 @@
 ﻿@using Microsoft.AspNetCore.Identity
-@using MuslimFashion.Data
 @inject SignInManager<IdentityUser> SignInManager
 @inject UserManager<IdentityUser> UserManager
 
@@ -23,6 +22,9 @@
 }
 else
 {
+    <li class="nav-item">
+        <a class="nav-link" href="/Account/Signup"><i class="fal fa-sign-in mr-1"></i>SignUp</a>
+    </li>
     <li class="nav-item">
         <a class="nav-link" href="/Account/Login"><i class="fal fa-sign-in mr-1"></i>Login</a>
     </li>

@@ -7,10 +7,10 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace MuslimFashion.Web.Controllers
 {
-    [Authorize(Roles = "Admin, SubAdmin")]
-    public class DashboardController : Controller
+    [Authorize(Roles = "Customer")]
+    public class CustomerController : Controller
     {
-        public IActionResult Index()
+        public IActionResult Dashboard()
         {
             return View();
         }

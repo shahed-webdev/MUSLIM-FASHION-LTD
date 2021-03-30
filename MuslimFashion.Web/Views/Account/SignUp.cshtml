@@ -9,9 +9,9 @@
         <div class="col-md-8 col-lg-8 mx-auto mt-5">
             <div class="card card-signin my-5 pt-3">
                 <div class="card-body">
-                    <h5 class="card-title text-center">
+                    <h4 class="card-title text-center">
                         <strong class="dark-grey-text">Customer Registration</strong>
-                    </h5>
+                    </h4>
 
                     <form asp-route-returnUrl="@ViewBag.ReturnUrl" asp-controller="Account" asp-action="SignUp" method="post">
                         <div class="row">
@@ -24,7 +24,7 @@
                             <div class="col-md-6">
                                 <div class="md-form">
                                     <label asp-for="Phone">Mobile Number</label>
-                                    <input asp-for="Phone" type="text" maxlength="11" pattern="^(88)?((011)|(015)|(016)|(017)|(018)|(019)|(013)|(014))\d{8,8}$" class="form-control" required>
+                                    <input type="text" asp-for="Phone" maxlength="11" class="form-control" required>
                                     <span asp-validation-for="Phone"></span>
                                 </div>
                             </div>

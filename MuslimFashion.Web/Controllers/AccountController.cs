@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using MuslimFashion.BusinessLogic;
 using MuslimFashion.ViewModel;
 using System.Threading.Tasks;
+using MuslimFashion.Data;
 
 namespace MuslimFashion.Web.Controllers
 {
@@ -44,7 +45,22 @@ namespace MuslimFashion.Web.Controllers
             var result = await _signInManager.PasswordSignInAsync(model.UserName, model.Password, model.RememberMe, false);
 
             if (result.Succeeded)
-                return LocalRedirect(returnUrl ??= Url.Content($"/Dashboard/Index"));
+            {
+                if (User.IsInRole(UserType.Admin.ToString()))
+                {
+                    return LocalRedirect(returnUrl ??= Url.Content($"/Dashboard/Index"));
+                }
+
+                if (User.IsInRole(UserType.SubAdmin.ToString()))
+                {
+                    return LocalRedirect(returnUrl ??= Url.Content($"/Dashboard/Index"));
+                }
+
+                if (User.IsInRole(UserType.Customer.ToString()))
+                {
+                    return LocalRedirect(returnUrl ??= Url.Content($"/Customer/Dashboard"));
+                }
+            }
 
             if (result.RequiresTwoFactor) return RedirectToPage("./LoginWith2fa", new { ReturnUrl = returnUrl, model.RememberMe });
 
@@ -78,7 +94,10 @@ namespace MuslimFashion.Web.Controllers
             var response = await _customer.AddAsync(model);
 
             if (response.IsSuccess)
+            {
+                await _signInManager.SignInAsync(response.Data, false);
                 return LocalRedirect(returnUrl ??= Url.Content($"/Customer/Dashboard"));
+            }
 
             ModelState.AddModelError(response.FieldName, response.Message);
 
@@ -126,18 +145,6 @@ namespace MuslimFashion.Web.Controllers
             if (returnUrl != null) return LocalRedirect(returnUrl);
 
             return RedirectToAction("Index", "Home");
-        }
-
-
-        //POST: Customer Registration
-        [HttpPost]
-        [AllowAnonymous]
-        public async Task<IActionResult> CustomerRegistration(CustomerAddModel model)
-        {
-            var response = await _customer.AddAsync(model);
-            if (response.IsSuccess)
-                await _signInManager.SignInAsync(response.Data, false);
-            return Json(response);
         }
     }
 }
