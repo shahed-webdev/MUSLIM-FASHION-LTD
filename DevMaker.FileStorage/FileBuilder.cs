@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Hosting;
+using System;
 using System.IO;
 
 namespace DevMaker.FileStorage
@@ -6,7 +7,9 @@ namespace DevMaker.FileStorage
 
     public static class FileBuilder
     {
-        public static string FileNameImage(string title, string fileName)
+        private static readonly IHostingEnvironment _environment;
+
+        public static string FileName(string title, string fileName)
         {
             var fileExtension = Path.GetExtension(fileName);
             var fileNameForStorage = $"{title}-{DateTime.Now:yyyyMMddHHmmss}{fileExtension}";
@@ -14,16 +17,11 @@ namespace DevMaker.FileStorage
             return fileNameForStorage;
         }
 
-        public static string FileNameFromUrl(string url)
-        {
-            var uri = new Uri(url);
-            return Path.GetFileName(uri.AbsolutePath);
-        }
 
-        public static string BaseUrl()
+        public static string BasePath()
         {
-            return @"";
+            var path = Path.Combine(_environment.WebRootPath, "products");
+            return path;
         }
     }
-
 }
