@@ -23,10 +23,10 @@ namespace MuslimFashion.BusinessLogic
             try
             {
                 if (string.IsNullOrEmpty(model.UserName) || string.IsNullOrEmpty(model.Phone))
-                    return new DbResponse<IdentityUser>(false, "Invalid Data");
+                    return new DbResponse<IdentityUser>(false, "UserName or mobile number empty", null, "UserName");
 
                 if (_db.Customer.IsExistPhone(model.Phone))
-                    return new DbResponse<IdentityUser>(false, $" {model.Phone} already Exist");
+                    return new DbResponse<IdentityUser>(false, $" {model.Phone} already Exist",null, "Phone");
 
                 //Identity Create
                 var user = new IdentityUser { UserName = model.UserName, Email = model.Email };
@@ -34,7 +34,7 @@ namespace MuslimFashion.BusinessLogic
 
                 var result = await _userManager.CreateAsync(user, password).ConfigureAwait(false);
 
-                if (!result.Succeeded) return new DbResponse<IdentityUser>(false, result.Errors.FirstOrDefault()?.Description);
+                if (!result.Succeeded) return new DbResponse<IdentityUser>(false, result.Errors.FirstOrDefault()?.Description,null,"CustomError");
 
                 await _userManager.AddToRoleAsync(user, UserType.Customer.ToString()).ConfigureAwait(false);
 

@@ -68,7 +68,22 @@ namespace MuslimFashion.Web.Controllers
             return View();
         }
 
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> SignUp(CustomerAddModel model, string returnUrl)
+        {
+            if (!ModelState.IsValid) return View(model);
 
+            var response = await _customer.AddAsync(model);
+
+            if (response.IsSuccess)
+                return LocalRedirect(returnUrl ??= Url.Content($"/Customer/Dashboard"));
+
+            ModelState.AddModelError(response.FieldName, response.Message);
+
+            return View(model);
+        }
 
         // GET: ChangePassword
         public ActionResult ChangePassword()

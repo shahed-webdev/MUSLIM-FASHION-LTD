@@ -1,4 +1,4 @@
-﻿
+﻿@model CustomerAddModel
 @{
     ViewData["Title"] = "Sign Up";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -13,51 +13,60 @@
                         <strong class="dark-grey-text">Customer Registration</strong>
                     </h5>
 
-                    <form>
+                    <form asp-route-returnUrl="@ViewBag.ReturnUrl" asp-controller="Account" asp-action="SignUp" method="post">
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="md-form">
-                                    <label for="inputName">Full Name</label>
-                                    <input id="inputName" type="text" name="" class="form-control" required>
+                                    <label asp-for="Name">Full Name</label>
+                                    <input asp-for="Name" class="form-control" required>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="md-form">
-                                    <label for="inputMobile">Mobile Number</label>
-                                    <input id="inputMobile" type="text" pattern="^(?:\\+88|88)?(01[3-9]\\d{8})$" name="" class="form-control" required>
+                                    <label asp-for="Phone">Mobile Number</label>
+                                    <input asp-for="Phone" type="text" maxlength="11" pattern="^(88)?((011)|(015)|(016)|(017)|(018)|(019)|(013)|(014))\d{8,8}$" class="form-control" required>
+                                    <span asp-validation-for="Phone"></span>
                                 </div>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="md-form">
-                                    <label for="inputUserName">Username</label>
-                                    <input id="inputUserName" type="text" name="" class="form-control" required>
+                                    <label asp-for="UserName">Username</label>
+                                    <input asp-for="UserName" type="text" class="form-control" required>
+                                    <span asp-validation-for="UserName"></span>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="md-form">
-                                    <label for="inputEmail">Email</label>
-                                    <input id="inputEmail" type="email" name="" class="form-control">
+                                    <label asp-for="Email">Email</label>
+                                    <input asp-for="Email" type="email" class="form-control">
                                 </div>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="md-form">
-                                    <label for="inputPassword">Password</label>
-                                    <input id="inputPassword" type="password" name="" class="form-control" required>
+                                    <label asp-for="Password">Password</label>
+                                    <input asp-for="Password" type="password" class="form-control" required>
+                                    <span asp-validation-for="Password"></span>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="md-form">
-                                    <label for="inputConfirmPassword">Confirm Password</label>
-                                    <input id="inputConfirmPassword" type="password" name="" class="form-control">
+                                    <label asp-for="ConfirmPassword">Confirm Password</label>
+                                    <input asp-for="ConfirmPassword" type="password" class="form-control" required>
+                                    <span asp-validation-for="ConfirmPassword"></span>
                                 </div>
                             </div>
                         </div>
 
                         <button class="btn z-depth-1a my-3 btn-custom-bg" type="submit">SignUp</button>
+                        <div asp-validation-summary="ModelOnly" class="alert alert-danger alert-dismissible fade show" role="alert">
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
                     </form>
                 </div>
             </div>
