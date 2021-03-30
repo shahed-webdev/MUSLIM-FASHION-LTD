@@ -21,7 +21,7 @@
                 <div class="col-lg-3">
                     <div class="form-group">
                         <label>Sub-Menu</label>
-                        <select name="SubMenuId" class="form-control" required>
+                        <select id="selectSubMenu" name="SubMenuId" class="form-control" required>
                             <option value="">[ SELECT ]</option>
                         </select>
                     </div>
@@ -77,9 +77,9 @@
         <div class="card card-body">
             <div class="md-form">
                 <div class="file-field">
-                    <div class="btn btn-outline-danger btn-rounded waves-effect btn-md float-left">
+                    <div class="btn btn-outline-danger btn-rounded waves-effect btn-sm float-left">
                         <span>Choose file<i class="fas fa-upload ml-3" aria-hidden="true"></i></span>
-                        <input name="productImageFiles" type="file" multiple>
+                        <input name="productImageFiles" type="file" accept="image/*" multiple required>
                     </div>
                     <div class="file-path-wrapper">
                         <input class="file-path validate" type="text" placeholder="Upload image">
@@ -93,21 +93,25 @@
             <div class="col-lg-6">
                 <div class="card card-body">
                     <div class="form-group">
-                        <label>Color</label>
-                        <select id="selectColors" class="form-control" required>
+                        <label>Colors</label>
+                        <select id="selectColors" class="form-control" asp-items="ViewBag.Colors" required>
                             <option value="">[ SELECT ]</option>
                         </select>
                     </div>
+                    
+                    <ul id="list-colors" class="list-group list-group-flush"></ul>
                 </div>
             </div>
             <div class="col-lg-6">
                 <div class="card card-body">
                     <div class="form-group">
                         <label>Sizes</label>
-                        <select id="selectSize" class="form-control" required>
+                        <select id="selectSize" asp-items="ViewBag.Sizes" class="form-control" required>
                             <option value="">[ SELECT ]</option>
                         </select>
                     </div>
+                    
+                    <ul id="list-size" class="list-group list-group-flush"></ul>
                 </div>
             </div>
         </div>
@@ -115,3 +119,182 @@
         <input value="Add Product" name="btnSubmit" type="submit" class="btn btn-danger mt-4">
     </form>
 </div>
+
+
+@section Scripts
+{
+    <script>
+        //set image file
+        $('input[type="file"]').change(function(e) {
+            const pathInput = e.target.parentElement.parentElement.querySelector(".file-path");
+            const size = e.target.files[0].size / 1024 / 1024;
+            const allowSize = 2;
+            const regex = new RegExp("(.*?)\.(jpeg|jpg|png|webp)$");
+
+            if (!(regex.test(e.target.value.toLowerCase()))) {
+                e.target.value = "";
+                pathInput.value = "";
+
+                $(pathInput).notify("Please select image file", { position: "bottom left" });
+                return;
+            }
+
+            if (size > allowSize) {
+                e.target.value = "";
+                pathInput.value = "";
+                $(pathInput).notify(`image size must be less than ${allowSize}MB. your file size:${size.toFixed()} MB`, { position: "bottom left" });
+                return;
+            }
+
+            let fileName = "";
+            for (let i = 0; i <= e.target.files.length - 1; i++) {
+                fileName += i > 0 ? `, ${e.target.files[i].name}` : e.target.files[i].name;
+            }
+
+            pathInput.value = fileName;
+        });
+
+        (function() {
+            //sub menu
+            const selectMenu = document.getElementById("selectMenu");
+            const selectSubMenu = document.getElementById("selectSubMenu");
+
+            selectMenu.addEventListener("change",
+                function() {
+                    if (!this.value) return;
+                    selectSubMenu.innerHTML = "";
+
+                    const opt1 = document.createElement('option');
+                    opt1.value = "";
+                    opt1.innerHTML = "[ SELECT ]";
+                    selectSubMenu.appendChild(opt1);
+
+                    $.ajax({
+                        url: "/Product/GetSubMenuByMenu",
+                        type: "POST",
+                        data: { id: this.value },
+                        success: response => {
+                            response.forEach(item => {
+                                const opt = document.createElement('option');
+                                opt.value = item.value;
+                                opt.innerHTML = item.label;
+                                selectSubMenu.appendChild(opt);
+                            });
+                        },
+                        error: error => {
+                            console.log(error);
+                        }
+                    });
+                });
+
+            //add color
+            const ProductColors = [];
+            const selectColors = document.getElementById("selectColors");
+            const listColors = document.getElementById("list-colors");
+
+            //on change
+            selectColors.addEventListener("change",
+                function() {
+                    const id = this.value;
+                    if (!id) return;
+
+                    if (ProductColors.indexOf(id) === -1) {
+                        ProductColors.push(id);
+
+                        const item = { value: selectColors.options[selectColors.selectedIndex].text, id };
+                        listColors.appendChild(createListItem(item));
+                    }
+                });
+
+            //remove color
+            listColors.addEventListener("click",
+                function(evt) {
+                    evt.preventDefault();
+
+                    const onDelete = evt.target.classList.contains("delete");
+                    if (onDelete) {
+                        remove(ProductColors, evt.target.id);
+                        evt.target.parentElement.remove();
+                    }
+                });
+
+            //add size
+            const ProductSizes = [];
+            const selectSize = document.getElementById("selectSize");
+            const listSize = document.getElementById("list-size");
+
+            //on change
+            selectSize.addEventListener("change",
+                function() {
+                    const id = this.value;
+                    if (!id) return;
+
+                    if (ProductSizes.indexOf(id) === -1) {
+                        ProductSizes.push(id);
+
+                        const item = { value: selectSize.options[selectSize.selectedIndex].text, id };
+                        listSize.appendChild(createListItem(item));
+                    }
+                });
+
+            // remove color
+            listSize.addEventListener("click",
+                function(evt) {
+                    evt.preventDefault();
+
+                    const onDelete = evt.target.classList.contains("delete");
+                    if (onDelete) {
+                        remove(ProductSizes, evt.target.id);
+                        evt.target.parentElement.remove();
+                    }
+                });
+
+            //remove from array
+            function remove(list, id) {
+                const index = list.indexOf(id);
+                if (index > -1) {
+                    list.splice(index, 1);
+                }
+            }
+
+            //create li
+            function createListItem(item) {
+                const li = document.createElement("li");
+                li.className = "list-group-item d-flex justify-content-between align-items-center";
+                li.innerHTML = `<span>${item.value}</span><i id="${item.id}" class="delete fas fa-trash"></i>`
+                return li;
+            }
+
+            //post product
+            const formAdd = document.getElementById("formAdd");
+            formAdd.addEventListener("submit",
+                function(evt) {
+                    evt.preventDefault();
+
+                    const fileData = new FormData(this);
+
+                    ProductColors.forEach((item, i) => {
+                        fileData.append(`ProductColors[${i}]`, item);
+                    });
+
+                    ProductSizes.forEach((item, i) => {
+                        fileData.append(`ProductSizes[${i}]`, item);
+                    });
+                   
+                    $.ajax({
+                        url: "/Product/PostAddProduct",
+                        type: "POST",
+                        contentType: false,
+                        processData: false,
+                        data: fileData,
+                        success: response => {
+                            console.log(response);
+                        },
+                        error: error => {
+                            console.log(error);
+                        }
+                    });
+                });
+        })();
+    </script>
+}
