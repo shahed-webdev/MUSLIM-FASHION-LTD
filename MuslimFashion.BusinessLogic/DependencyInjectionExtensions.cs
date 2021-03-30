@@ -10,6 +10,7 @@ namespace MuslimFashion.BusinessLogic
         {
             services.AddTransient<IUnitOfWork, UnitOfWork>();
             services.AddTransient<IColorCore, ColorCore>();
+            services.AddTransient<ICustomerCore, CustomerCore>();
             services.AddTransient<IMenuCore, MenuCore>();
             services.AddTransient<ISubMenuCore, SubMenuCore>();
             services.AddTransient<ISizeCore, SizeCore>();

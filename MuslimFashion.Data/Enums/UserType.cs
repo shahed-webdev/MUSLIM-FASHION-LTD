@@ -8,6 +8,9 @@ namespace MuslimFashion.Data
         Admin,
 
         [Description("Sub-Admin")]
-        SubAdmin
+        SubAdmin,
+
+        [Description("Customer")]
+        Customer
     }
 }
