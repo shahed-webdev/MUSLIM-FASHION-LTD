@@ -61,5 +61,17 @@ namespace MuslimFashion.Web.Controllers
             return Json(response);
         }
         #endregion
+
+        #region Add to cart and order
+        //add to cart
+        [AllowAnonymous]
+        public IActionResult Item(int? id)
+        {
+            if (!id.HasValue) return RedirectToAction("index", "home");
+            return View();
+        }
+
+
+        #endregion
     }
 }
