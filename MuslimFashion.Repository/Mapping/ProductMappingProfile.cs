@@ -20,7 +20,6 @@ namespace MuslimFashion.Repository
                     SizeName = p.Size.SizeName,
                     Description = p.Size.Description
                 })))
-                .ForMember(d => d.ImageFileNames, opt => opt.MapFrom(c => c.ProductImages.Select(p => p.ImageFileName).ToArray()))
                 ;
 
             CreateMap<Product, ProductRecordView>();

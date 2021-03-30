@@ -14,7 +14,6 @@ namespace MuslimFashion.Data
         public virtual DbSet<Menu> Menu { get; set; }
         public virtual DbSet<Product> Product { get; set; }
         public virtual DbSet<ProductSize> ProductSize { get; set; }
-        public virtual DbSet<ProductImage> ProductImage { get; set; }
         public virtual DbSet<Registration> Registration { get; set; }
         public virtual DbSet<Size> Size { get; set; }
         public virtual DbSet<SubMenu> SubMenu { get; set; }
@@ -24,7 +23,6 @@ namespace MuslimFashion.Data
             builder.ApplyConfiguration(new HomeProductConfiguration());
             builder.ApplyConfiguration(new MenuConfiguration());
             builder.ApplyConfiguration(new ProductConfiguration());
-            builder.ApplyConfiguration(new ProductImageConfiguration());
             builder.ApplyConfiguration(new ProductSizeConfiguration());
             builder.ApplyConfiguration(new RegistrationConfiguration());
             builder.ApplyConfiguration(new SubMenuConfiguration());

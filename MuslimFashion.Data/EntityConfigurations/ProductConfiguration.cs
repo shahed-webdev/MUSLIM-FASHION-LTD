@@ -19,6 +19,8 @@ namespace MuslimFashion.Data
                 .HasMaxLength(50);
             builder.Property(e => e.Description)
                 .HasMaxLength(1024);
+            builder.Property(e => e.ImageFileName)
+                .HasMaxLength(128);
             builder.Property(e => e.Price)
                 .HasColumnType("decimal(18, 2)");
             builder.Property(e => e.OldPrice)

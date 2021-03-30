@@ -25,7 +25,7 @@ namespace MuslimFashion.BusinessLogic
                 if (_db.product.IsExistCode(model.ProductCode))
                     return new DbResponse<int>(false, $" {model.ProductCode} Code already Exist");
 
-                if (model.ImageFileNames.Length <= 0)
+                if (string.IsNullOrEmpty(model.ImageFileName))
                     return new DbResponse<int>(false, $"No Product Image Added");
 
                 return _db.product.Add(model);
