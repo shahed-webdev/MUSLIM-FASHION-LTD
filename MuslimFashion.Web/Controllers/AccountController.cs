@@ -2,9 +2,10 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using MuslimFashion.BusinessLogic;
+using MuslimFashion.BusinessLogic.Registration;
+using MuslimFashion.Data;
 using MuslimFashion.ViewModel;
 using System.Threading.Tasks;
-using MuslimFashion.Data;
 
 namespace MuslimFashion.Web.Controllers
 {
@@ -14,11 +15,13 @@ namespace MuslimFashion.Web.Controllers
         private readonly UserManager<IdentityUser> _userManager;
         private readonly SignInManager<IdentityUser> _signInManager;
         private readonly ICustomerCore _customer;
-        public AccountController(UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager, ICustomerCore customer)
+        private readonly IRegistrationCore _registration;
+        public AccountController(UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager, ICustomerCore customer, IRegistrationCore registration)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _customer = customer;
+            _registration = registration;
         }
 
         //GET: Login
@@ -27,7 +30,7 @@ namespace MuslimFashion.Web.Controllers
         {
             ViewBag.ReturnUrl = returnUrl;
 
-            if (User.Identity.IsAuthenticated) 
+            if (User.Identity.IsAuthenticated)
                 return RedirectToAction("Index", "home");
 
             return View();
@@ -46,20 +49,15 @@ namespace MuslimFashion.Web.Controllers
 
             if (result.Succeeded)
             {
-                if (User.IsInRole(UserType.Admin.ToString()))
-                {
-                    return LocalRedirect(returnUrl ??= Url.Content($"/Dashboard/Index"));
-                }
+                var type = _registration.UserTypeByUserName(model.UserName);
 
-                if (User.IsInRole(UserType.SubAdmin.ToString()))
+                return type switch
                 {
-                    return LocalRedirect(returnUrl ??= Url.Content($"/Dashboard/Index"));
-                }
-
-                if (User.IsInRole(UserType.Customer.ToString()))
-                {
-                    return LocalRedirect(returnUrl ??= Url.Content($"/Customer/Dashboard"));
-                }
+                    UserType.Admin => LocalRedirect(returnUrl ??= Url.Content($"/Dashboard/Index")),
+                    UserType.SubAdmin => LocalRedirect(returnUrl ??= Url.Content($"/Dashboard/Index")),
+                    UserType.Customer => LocalRedirect(returnUrl ??= Url.Content($"/Customer/Dashboard")),
+                    _ => LocalRedirect(returnUrl ??= Url.Content("~/Account/Login"))
+                };
             }
 
             if (result.RequiresTwoFactor) return RedirectToPage("./LoginWith2fa", new { ReturnUrl = returnUrl, model.RememberMe });
@@ -78,7 +76,7 @@ namespace MuslimFashion.Web.Controllers
         {
             ViewBag.ReturnUrl = returnUrl;
 
-            if (User.Identity.IsAuthenticated) 
+            if (User.Identity.IsAuthenticated)
                 return RedirectToAction("Index", "home");
 
             return View();
