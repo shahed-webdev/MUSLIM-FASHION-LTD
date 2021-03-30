@@ -5,6 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\DevMaker.FileStorage\DevMaker.FileStorage.csproj" />
     <ProjectReference Include="..\JqueryDataTables.LoopsIT\JqueryDataTables.LoopsIT.csproj" />
     <ProjectReference Include="..\MuslimFashion.ViewModel\MuslimFashion.ViewModel.csproj" />
   </ItemGroup>
