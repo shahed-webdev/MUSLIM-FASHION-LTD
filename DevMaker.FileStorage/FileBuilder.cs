@@ -7,8 +7,6 @@ namespace DevMaker.FileStorage
 
     public static class FileBuilder
     {
-        private static readonly IHostingEnvironment _environment;
-
         public static string FileName(string title, string fileName)
         {
             var fileExtension = Path.GetExtension(fileName);
@@ -20,7 +18,7 @@ namespace DevMaker.FileStorage
 
         public static string BasePath()
         {
-            var path = Path.Combine(_environment.WebRootPath, "product");
+            var path=   Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "product");
             return path;
         }
     }

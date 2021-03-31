@@ -2,11 +2,13 @@
 using System.IO;
 using Microsoft.AspNetCore.Http;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Hosting;
 
 namespace DevMaker.FileStorage
 {
     public class FileStorage : IFileStorage
     {
+        //upload file
         public async Task<string> UploadFileAsync(IFormFile imageFile, string fileNameForStorage)
         {
             if (imageFile == null) return null;
@@ -20,9 +22,12 @@ namespace DevMaker.FileStorage
             return fileName;
         }
 
-        public Task DeleteFileAsync(string fileNameForStorage)
+        //delete file
+        public void DeleteFile(string fileNameForStorage)
         {
-            throw new System.NotImplementedException();
+            var filePath = Path.Combine(FileBuilder.BasePath(), fileNameForStorage);
+            if (File.Exists(filePath))
+                File.Delete(filePath);
         }
     }
 }

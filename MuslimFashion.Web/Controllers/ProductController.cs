@@ -3,6 +3,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using DevMaker.FileStorage;
+using JqueryDataTables.LoopsIT;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Features;
@@ -21,7 +23,7 @@ namespace MuslimFashion.Web.Controllers
         private readonly ISubMenuCore _subMenu;
         private readonly ISizeCore _size;
 
-        public ProductController( IMenuCore menu, ISubMenuCore subMenu, ISizeCore size, IProductCore product)
+        public ProductController(IMenuCore menu, ISubMenuCore subMenu, ISizeCore size, IProductCore product)
         {
             //_product = product;
             _menu = menu;
@@ -29,14 +31,32 @@ namespace MuslimFashion.Web.Controllers
             _size = size;
             _product = product;
         }
-        
+
+        #region Product List
         public IActionResult AllProducts()
         {
             return View();
         }
+        
+        //details
+        public IActionResult Details(int? id)
+        {
+            if (!id.HasValue) return RedirectToAction("AllProducts");
+            return View();
+        }
+
+        //data table
+        public IActionResult GetAllProductData(DataRequest request)
+        {
+            var response = _product.ListByAdmin(request);
+            return Json(response);
+        }
+        #endregion
+
 
 
         #region Add Product
+
         //add
         public IActionResult AddProduct()
         {
@@ -55,14 +75,21 @@ namespace MuslimFashion.Web.Controllers
         }
 
 
-        public IActionResult PostAddProduct(ProductAddModel model, IFormFile[] productImageFiles)
+        public async Task<IActionResult> PostAddProduct(ProductAddModel model, IFormFile imageFile)
         {
+            var storage = new FileStorage();
+            var fileName = await storage.UploadFileAsync(imageFile, model.ProductName);
+
+            model.ImageFileName = fileName;
             var response = _product.Add(model);
+
             return Json(response);
         }
+
         #endregion
 
         #region Add to cart and order
+
         //add to cart
         [AllowAnonymous]
         public IActionResult Item(int? id)

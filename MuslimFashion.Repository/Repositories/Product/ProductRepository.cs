@@ -25,9 +25,7 @@ namespace MuslimFashion.Repository
 
         public DbResponse<ProductDetailsModel> Get(int id)
         {
-            var product = Db.Product.Where(r => r.ProductId == id)
-                .ProjectTo<ProductDetailsModel>(_mapper.ConfigurationProvider)
-                .FirstOrDefault();
+            var product = Db.Product.Where(r => r.ProductId == id).ProjectTo<ProductDetailsModel>(_mapper.ConfigurationProvider).FirstOrDefault();
             return new DbResponse<ProductDetailsModel>(true, $"{product.ProductName} Get Successfully", product);
         }
 

@@ -4,5 +4,64 @@
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 
-<h1>AllProducts</h1>
 
+<div class="m-md-3">
+    <h4 class="mb-3 page-header">All Products</h4>
+    <div class="card card-body">
+        <table id="data-table" class="table table-sm table-bordered">
+            <thead>
+                <tr>
+                    <th>Product Code</th>
+                    <th>Product Name</th>
+                    <th>Price</th>
+                    <th>Old Price</th>
+                    <th>Details</th>
+                </tr>
+            </thead>
+        </table>
+    </div>
+</div>
+
+@section scripts{
+    <script>
+        $(function() {
+            dataTable.getData();
+        });
+
+        //get data
+        var dataTable = {
+            table: null,
+            init: function() {
+                dataTable.table = $("#data-table").DataTable({
+                    processing: true,
+                    serverSide: true,
+                    ajax: {
+                        url: "/Product/GetAllProductData",
+                        type: "POST"
+                    },
+                    columns:
+                    [
+                        { data: "ProductCode" },
+                        { data: "ProductName" },
+                        { data: "Price", "render": dataTable.addSign },
+                        { data: "OldPrice", "render": dataTable.addSign },
+                        {
+                            data: "ProductId", "render": function(data) {
+                                return `<a href="/Product/Details/${data}">Details</a>`;
+                            }
+                        }
+                    ],
+                    columnDefs: [
+                        { 'searchable': false, 'targets': [4] },
+                        { 'className': "text-right", "targets": [2, 3] },
+                        { 'className': "text-center", "targets": [0,3,4] }
+                    ]
+                });
+            },
+            getData: function() {
+                dataTable.table ? dataTable.table.ajax.reload() : dataTable.init();
+            },
+            addSign: function(data) { return `${data}/-` }
+        }
+    </script>
+}

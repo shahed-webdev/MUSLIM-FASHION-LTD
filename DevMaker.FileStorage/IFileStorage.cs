@@ -7,6 +7,6 @@ namespace DevMaker.FileStorage
     public interface IFileStorage
     {
         Task<string> UploadFileAsync(IFormFile imageFile, string fileNameForStorage);
-        Task DeleteFileAsync(string fileNameForStorage);
+        void DeleteFile(string fileNameForStorage);
     }
 }

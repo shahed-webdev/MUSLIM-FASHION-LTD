@@ -72,34 +72,24 @@
                 <textarea name="Description" rows="2" class="form-control"></textarea>
             </div>
         </div>
+
         
-        <h5 class="font-weight-bold mt-4 mb-2">Product Images</h5>
-        <div class="card card-body">
-            <div class="md-form">
-                <div class="file-field">
-                    <div class="btn btn-outline-danger btn-rounded waves-effect btn-sm float-left">
-                        <span>Choose file<i class="fas fa-upload ml-3" aria-hidden="true"></i></span>
-                        <input name="productImageFiles" type="file" accept="image/*" multiple required>
-                    </div>
-                    <div class="file-path-wrapper">
-                        <input class="file-path validate" type="text" placeholder="Upload image">
-                    </div>
-                </div>
-            </div>
-        </div>
-        
-        <h5 class="font-weight-bold mt-4 mb-2">Colors And Sizes</h5>
+        <h5 class="font-weight-bold mt-4 mb-2">Product Image And Sizes</h5>
         <div class="row">
             <div class="col-lg-6">
                 <div class="card card-body">
-                    <div class="form-group">
-                        <label>Colors</label>
-                        <select id="selectColors" class="form-control" asp-items="ViewBag.Colors" required>
-                            <option value="">[ SELECT ]</option>
-                        </select>
+                    <div class="md-form">
+                        <div class="file-field">
+                            <div class="btn btn-outline-danger btn-rounded waves-effect btn-sm float-left">
+                                <span>Choose file<i class="fas fa-upload ml-3" aria-hidden="true"></i></span>
+                                <input name="imageFile" type="file" accept="image/*" required>
+                            </div>
+                            <div class="file-path-wrapper">
+                                <input class="file-path validate" type="text" placeholder="Upload image">
+                            </div>
+                        </div>
                     </div>
-                    
-                    <ul id="list-colors" class="list-group list-group-flush"></ul>
+                    <img id="previewImage" style="width: 100px">
                 </div>
             </div>
             <div class="col-lg-6">
@@ -151,8 +141,23 @@
                 fileName += i > 0 ? `, ${e.target.files[i].name}` : e.target.files[i].name;
             }
 
+            readURL(e.target);
             pathInput.value = fileName;
         });
+
+        //read image
+        function readURL(input) {
+            if (input.files && input.files[0]) {
+                const reader = new FileReader();
+    
+                reader.onload = function(e) {
+                    $('#previewImage').attr('src', e.target.result);
+                }
+    
+                reader.readAsDataURL(input.files[0]); // convert to base64 string
+            }
+        }
+
 
         (function() {
             //sub menu
@@ -185,37 +190,6 @@
                             console.log(error);
                         }
                     });
-                });
-
-            //add color
-            const ProductColors = [];
-            const selectColors = document.getElementById("selectColors");
-            const listColors = document.getElementById("list-colors");
-
-            //on change
-            selectColors.addEventListener("change",
-                function() {
-                    const id = this.value;
-                    if (!id) return;
-
-                    if (ProductColors.indexOf(id) === -1) {
-                        ProductColors.push(id);
-
-                        const item = { value: selectColors.options[selectColors.selectedIndex].text, id };
-                        listColors.appendChild(createListItem(item));
-                    }
-                });
-
-            //remove color
-            listColors.addEventListener("click",
-                function(evt) {
-                    evt.preventDefault();
-
-                    const onDelete = evt.target.classList.contains("delete");
-                    if (onDelete) {
-                        remove(ProductColors, evt.target.id);
-                        evt.target.parentElement.remove();
-                    }
                 });
 
             //add size
@@ -273,14 +247,10 @@
 
                     const fileData = new FormData(this);
 
-                    ProductColors.forEach((item, i) => {
-                        fileData.append(`ProductColors[${i}]`, item);
-                    });
-
                     ProductSizes.forEach((item, i) => {
                         fileData.append(`ProductSizes[${i}]`, item);
                     });
-                   
+
                     $.ajax({
                         url: "/Product/PostAddProduct",
                         type: "POST",
