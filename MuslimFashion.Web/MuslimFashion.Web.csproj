@@ -27,6 +27,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="wwwroot\product\" />
     <Folder Include="wwwroot\PRODUCTS\suit\" />
     <Folder Include="wwwroot\PRODUCTS\pants\" />
     <Folder Include="wwwroot\PRODUCTS\shirts\" />

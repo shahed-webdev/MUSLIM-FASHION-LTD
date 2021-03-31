@@ -20,7 +20,7 @@ namespace DevMaker.FileStorage
 
         public static string BasePath()
         {
-            var path = Path.Combine(_environment.WebRootPath, "products");
+            var path = Path.Combine(_environment.WebRootPath, "product");
             return path;
         }
     }
