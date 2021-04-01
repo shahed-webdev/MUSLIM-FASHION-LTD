@@ -13,6 +13,7 @@ namespace MuslimFashion.Data
         public string HomeMenuName { get; set; }
         public string ImageFileName { get; set; }
         public DateTime InsertDateUtc { get; set; }
+        public int Sn { get; set; }
         public ICollection<HomeProduct> HomeProducts { get; set; }
     }
 }

@@ -1,21 +1,19 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
 using System.IO;
-using Microsoft.AspNetCore.Http;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Hosting;
 
 namespace DevMaker.FileStorage
 {
-    public class FileStorage : IFileStorage
+    public static class FileStorage
     {
         //upload file
-        public async Task<string> UploadFileAsync(IFormFile imageFile, string fileNameForStorage)
+        public static async Task<string> UploadFileAsync(IFormFile imageFile, string fileNameForStorage)
         {
             if (imageFile == null) return null;
 
             var fileName = FileBuilder.FileName(fileNameForStorage, imageFile.FileName);
             var filePath = Path.Combine(FileBuilder.BasePath(), fileName);
-           
+
             await using var fileStream = new FileStream(filePath, FileMode.Create);
             await imageFile.CopyToAsync(fileStream);
 
@@ -23,7 +21,7 @@ namespace DevMaker.FileStorage
         }
 
         //delete file
-        public void DeleteFile(string fileNameForStorage)
+        public static void DeleteFile(string fileNameForStorage)
         {
             var filePath = Path.Combine(FileBuilder.BasePath(), fileNameForStorage);
             if (File.Exists(filePath))

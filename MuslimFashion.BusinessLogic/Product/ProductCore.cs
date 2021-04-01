@@ -1,8 +1,11 @@
 ﻿using AutoMapper;
+using DevMaker.FileStorage;
 using JqueryDataTables.LoopsIT;
+using Microsoft.AspNetCore.Http;
 using MuslimFashion.Repository;
 using MuslimFashion.ViewModel;
 using System;
+using System.Threading.Tasks;
 
 namespace MuslimFashion.BusinessLogic
 {
@@ -12,7 +15,7 @@ namespace MuslimFashion.BusinessLogic
         {
         }
 
-        public DbResponse<int> Add(ProductAddModel model)
+        public async Task<DbResponse<int>> AddAsync(ProductAddModel model, IFormFile imageFile)
         {
             try
             {
@@ -24,6 +27,12 @@ namespace MuslimFashion.BusinessLogic
 
                 if (_db.product.IsExistCode(model.ProductCode))
                     return new DbResponse<int>(false, $" {model.ProductCode} Code already Exist");
+
+                if (imageFile == null)
+                    return new DbResponse<int>(false, $"No Product Image Added");
+
+                var fileName = await FileStorage.UploadFileAsync(imageFile, model.ProductName);
+                model.ImageFileName = fileName;
 
                 if (string.IsNullOrEmpty(model.ImageFileName))
                     return new DbResponse<int>(false, $"No Product Image Added");
