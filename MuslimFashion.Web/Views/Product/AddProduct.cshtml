@@ -258,7 +258,11 @@
                         processData: false,
                         data: fileData,
                         success: response => {
-                            console.log(response);
+                            $.notify(response.Message, response.IsSuccess ? "success" : "error");
+
+                            if (response.IsSuccess) {
+                                location.href = "/Product/AllProducts";
+                            }
                         },
                         error: error => {
                             console.log(error);

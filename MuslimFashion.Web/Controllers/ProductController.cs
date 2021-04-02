@@ -117,6 +117,13 @@ namespace MuslimFashion.Web.Controllers
             
             return View();
         }
+
+        //post assign
+        public IActionResult PostAssignCategory(HomeMenuAddProductModel model)
+        {
+            var response = _homeMenu.AddProduct(model);
+            return Json(response);
+        }
         #endregion
 
 

@@ -19,6 +19,8 @@
             </thead>
         </table>
     </div>
+    
+    <button id="btnAssign" class="btn btn-danger mt-3">Add Product To Home Page</button>
 </div>
 
 @section scripts{
@@ -28,7 +30,7 @@
         });
 
         //get data
-        var dataTable = {
+        const dataTable = {
             table: null,
             init: function() {
                 dataTable.table = $("#data-table").DataTable({
@@ -43,7 +45,7 @@
                         {
                             data: "ProductId",
                             "render": function(data) {
-                                return `<a href="/Product/Details/${data}">Details</a>`;
+                                return `<input class="form-check-input" type="checkbox" value="${data}" id="${data}"/><label class="form-check-label" for="${data}"></label>`;
                             }
                         },
                         { data: "ProductCode" },
@@ -62,6 +64,34 @@
                 dataTable.table ? dataTable.table.ajax.reload() : dataTable.init();
             },
             addSign: function(data) { return `${data}/-` }
-        }
+        };
+
+        (function() {
+            const btnAssign = document.getElementById("btnAssign");
+            btnAssign.addEventListener("click",
+                function () {
+                    const ProductIds = [];
+                    $("input:checkbox[class=form-check-input]:checked").each(function () {
+                        ProductIds.push($(this).val());
+                    });
+
+                    const body = { HomeMenuId: @ViewContext.RouteData.Values["id"], ProductIds }
+
+                    if (!ProductIds.length) return;
+
+                    $.ajax({
+                        url: "/Product/PostAssignCategory",
+                        type: "POST",
+                        data: body,
+                        success: response => {
+                            $.notify(response.Message, response.IsSuccess ? "success" : "error");
+                            console.log(response);
+                        },
+                        error: error => {
+                            console.log(error);
+                        }
+                    });
+                });
+        })();
     </script>
 }
