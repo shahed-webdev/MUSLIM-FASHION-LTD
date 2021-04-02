@@ -1,9 +1,12 @@
 ﻿using AutoMapper;
 using AutoMapper.QueryableExtensions;
+using DevMaker.FileStorage;
+using Microsoft.AspNetCore.Http;
 using MuslimFashion.Data;
 using MuslimFashion.ViewModel;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace MuslimFashion.Repository
 {
@@ -23,20 +26,29 @@ namespace MuslimFashion.Repository
             return new DbResponse<HomeMenuCrudModel>(true, $"{model.HomeMenuName} Added Successfully", model);
         }
 
-        public DbResponse Edit(HomeMenuCrudModel model)
+        public async Task<DbResponse> EditAsync(HomeMenuCrudModel model, IFormFile imageFile)
         {
-            var menu = Db.HomeMenu.Find(model.HomeMenuId);
-            menu.HomeMenuName = model.HomeMenuName;
-            menu.Sn = model.Sn;
-            menu.ImageFileName = model.ImageFileName;
-            Db.HomeMenu.Update(menu);
-            Db.SaveChanges();
-            return new DbResponse(true, $"{menu.HomeMenuName} Updated Successfully");
+            var homeMenu = await Db.HomeMenu.FindAsync(model.HomeMenuId);
+            homeMenu.HomeMenuName = model.HomeMenuName;
+            homeMenu.Sn = model.Sn;
+
+            if (imageFile != null)
+            {
+                var fileName = await FileStorage.UploadFileAsync(imageFile, model.HomeMenuName);
+                homeMenu.ImageFileName = fileName;
+
+                if (!string.IsNullOrEmpty(homeMenu.ImageFileName)) FileStorage.DeleteFile(homeMenu.ImageFileName);
+            }
+
+            Db.HomeMenu.Update(homeMenu);
+            await Db.SaveChangesAsync();
+            return new DbResponse(true, $"{homeMenu.HomeMenuName} Updated Successfully");
         }
 
         public DbResponse Delete(int id)
         {
             var homeMenu = Db.HomeMenu.Find(id);
+            if (!string.IsNullOrEmpty(homeMenu.ImageFileName)) FileStorage.DeleteFile(homeMenu.ImageFileName);
             Db.HomeMenu.Remove(homeMenu);
             Db.SaveChanges();
             return new DbResponse(true, $"{homeMenu.HomeMenuName} Deleted Successfully");
@@ -62,9 +74,13 @@ namespace MuslimFashion.Repository
 
         public bool IsNull(int id)
         {
-            return Db.HomeMenu.Any(r => r.HomeMenuId == id);
+            return !Db.HomeMenu.Any(r => r.HomeMenuId == id);
         }
 
+        public bool IsExistProduct(HomeMenuDeleteProductModel model)
+        {
+            return Db.HomeProduct.Any(r => r.HomeMenuId == model.HomeMenuId && r.HomeProductId == model.ProductId);
+        }
         public bool IsRelatedDataExist(int id)
         {
             return Db.HomeProduct.Any(r => r.HomeMenuId == id);
@@ -95,6 +111,27 @@ namespace MuslimFashion.Repository
                     value = m.HomeMenuId.ToString(),
                     label = m.HomeMenuName
                 }).ToList();
+        }
+
+        public DbResponse AddProduct(HomeMenuAddProductModel model)
+        {
+            var homeProducts = model.ProductIds.Select(p => new HomeProduct
+            {
+                ProductId = model.HomeMenuId,
+                HomeMenuId = p
+            }).ToList();
+            Db.HomeProduct.AddRange(homeProducts);
+            Db.SaveChanges();
+
+            return new DbResponse(true, $"Product added Added Successfully");
+        }
+
+        public DbResponse DeleteProduct(HomeMenuDeleteProductModel model)
+        {
+            var homeProduct = Db.HomeProduct.FirstOrDefault(r => r.HomeMenuId == model.HomeMenuId && r.HomeProductId == model.ProductId);
+            Db.HomeProduct.Remove(homeProduct);
+            Db.SaveChanges();
+            return new DbResponse(true, $"Product Deleted Successfully");
         }
     }
 }
