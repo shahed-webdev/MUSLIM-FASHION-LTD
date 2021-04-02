@@ -1,27 +1,25 @@
 ﻿
 @{
-    ViewData["Title"] = "SubMenu";
+    ViewData["Title"] = "Assign Product To Category";
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 
 
 <div class="container">
-    <h4 class="page-header mb-3">Product Sub Category</h4>
+    <h4 class="page-header mb-3">Home Page Category</h4>
 
     <div class="card card-body">
         <form id="formAdd">
             <div class="row">
                 <div class="col-lg-4">
                     <div class="form-group">
-                        <label>Category</label>
-                        <select name="MenuId" class="form-control" asp-items="ViewBag.Menus" required>
-                            <option value="">[ SELECT ]</option>
-                        </select>
+                        <label>Display Title</label>
+                        <input name="SubMenuName" type="text" class="form-control" required />
                     </div>
                 </div>
                 <div class="col-lg-4">
                     <div class="form-group">
-                        <label>Sub Category Name</label>
+                        <label>Display Serial</label>
                         <input name="SubMenuName" type="text" class="form-control" required />
                     </div>
                 </div>
@@ -36,6 +34,7 @@
         <ul id="menu-list" class="list-group list-group-flush"></ul>
     </div>
 </div>
+
 
 <!-- Modal -->
 <div class="modal fade" id="updateModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"

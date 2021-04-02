@@ -53,8 +53,6 @@ namespace MuslimFashion.Web.Controllers
         }
         #endregion
 
-
-
         #region Add Product
 
         //add
@@ -85,8 +83,25 @@ namespace MuslimFashion.Web.Controllers
 
             return Json(response);
         }
+        #endregion
+
+        #region Home Page Category
+        //add home category
+        public IActionResult HomeCategory()
+        {
+            return View();
+        }
+
+        //assign product
+        public IActionResult AssignProductInCategory(int? id)
+        {
+            if (!id.HasValue) return RedirectToAction("HomeCategory");
+            return View();
+        }
+
 
         #endregion
+
 
         #region Add to cart and order
 
