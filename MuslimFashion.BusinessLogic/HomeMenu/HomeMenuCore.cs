@@ -61,8 +61,6 @@ namespace MuslimFashion.BusinessLogic
             }
         }
 
-
-
         public DbResponse Delete(int id)
         {
             try
@@ -105,7 +103,12 @@ namespace MuslimFashion.BusinessLogic
 
         public List<HomeMenuWithProductModel> ListWithProducts()
         {
-            return _db.HomeMenu.ListWithProducts();
+            var homeMenus = _db.HomeMenu.ListWithProducts();
+            foreach (var menu in homeMenus)
+            {
+                menu.Products = _db.HomeMenu.Products(menu.HomeMenuId, 0, 4);
+            }
+            return homeMenus;
         }
 
         public List<DDL> ListDdl()

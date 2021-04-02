@@ -56,10 +56,11 @@ namespace MuslimFashion.Repository
 
         public DbResponse<HomeMenuWithProductModel> Get(int id)
         {
-            var menu = Db.HomeMenu.Where(r => r.HomeMenuId == id)
+            var homeMenu = Db.HomeMenu.Where(r => r.HomeMenuId == id)
                 .ProjectTo<HomeMenuWithProductModel>(_mapper.ConfigurationProvider)
                 .FirstOrDefault();
-            return new DbResponse<HomeMenuWithProductModel>(true, $"{menu.HomeMenuName} Get Successfully", menu);
+            homeMenu.Products = Products(homeMenu.HomeMenuId, 0, 10);
+            return new DbResponse<HomeMenuWithProductModel>(true, $"{homeMenu.HomeMenuName} Get Successfully", homeMenu);
         }
 
         public bool IsExistName(string name)
@@ -97,6 +98,7 @@ namespace MuslimFashion.Repository
         public List<HomeMenuWithProductModel> ListWithProducts()
         {
             return Db.HomeMenu
+                .OrderBy(m => m.Sn)
                 .ProjectTo<HomeMenuWithProductModel>(_mapper.ConfigurationProvider)
                 .OrderBy(a => a.HomeMenuName)
                 .ToList();
@@ -132,6 +134,17 @@ namespace MuslimFashion.Repository
             Db.HomeProduct.Remove(homeProduct);
             Db.SaveChanges();
             return new DbResponse(true, $"Product Deleted Successfully");
+        }
+
+        public List<ProductGridViewModel> Products(int homeMenuId, int getFrom, int quantity)
+        {
+            return Db.HomeProduct
+                .Where(p => p.HomeMenuId == homeMenuId)
+                .Take(quantity)
+                .Skip(getFrom)
+                .Select(p => p.Product)
+                .ProjectTo<ProductGridViewModel>(_mapper.ConfigurationProvider)
+                .ToList();
         }
     }
 }

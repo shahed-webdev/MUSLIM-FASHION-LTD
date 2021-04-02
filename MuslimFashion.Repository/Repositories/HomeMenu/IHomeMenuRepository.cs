@@ -21,5 +21,6 @@ namespace MuslimFashion.Repository
         List<DDL> ListDdl();
         DbResponse AddProduct(HomeMenuAddProductModel model);
         DbResponse DeleteProduct(HomeMenuDeleteProductModel model);
+        List<ProductGridViewModel> Products(int homeMenuId, int getFrom, int quantity);
     }
 }

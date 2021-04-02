@@ -23,6 +23,7 @@ namespace MuslimFashion.Repository
                 ;
 
             CreateMap<Product, ProductRecordView>();
+            CreateMap<Product, ProductGridViewModel>();
         }
     }
 }
