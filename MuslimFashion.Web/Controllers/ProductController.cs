@@ -18,13 +18,16 @@ namespace MuslimFashion.Web.Controllers
         private readonly ISubMenuCore _subMenu;
         private readonly ISizeCore _size;
 
-        public ProductController(IMenuCore menu, ISubMenuCore subMenu, ISizeCore size, IProductCore product)
+        private readonly IHomeMenuCore _homeMenu;
+
+        public ProductController(IMenuCore menu, ISubMenuCore subMenu, ISizeCore size, IProductCore product, IHomeMenuCore homeMenu)
         {
             //_product = product;
             _menu = menu;
             _subMenu = subMenu;
             _size = size;
             _product = product;
+            _homeMenu = homeMenu;
         }
 
         #region Product List
@@ -76,20 +79,44 @@ namespace MuslimFashion.Web.Controllers
         #endregion
 
         #region Home Page Category
-        //add home category
+        //get home category
         public IActionResult HomeCategory()
         {
-            return View();
+            var response = _homeMenu.List();
+            return View(response);
         }
+
+        //Add
+        public async Task<IActionResult> PostHomeCategory(HomeMenuCrudModel model, IFormFile file)
+        {
+            var response = await _homeMenu.AddAsync(model, file);
+            return Json(response);
+        }
+
+
+        //Update
+        public async Task<IActionResult> UpdateHomeCategory(HomeMenuCrudModel model, IFormFile file)
+        {
+            var response = await _homeMenu.EditAsync(model,file);
+            return Json(response);
+        }
+
+        //Delete
+        public IActionResult DeleteHomeCategory(int id)
+        {
+            var response =  _homeMenu.Delete(id);
+            return Json(response);
+        }
+
+
 
         //assign product
         public IActionResult AssignProductInCategory(int? id)
         {
             if (!id.HasValue) return RedirectToAction("HomeCategory");
+            
             return View();
         }
-
-
         #endregion
 
 
