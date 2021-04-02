@@ -1,17 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using DevMaker.FileStorage;
-using JqueryDataTables.LoopsIT;
+﻿using JqueryDataTables.LoopsIT;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Http.Features;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using MuslimFashion.BusinessLogic;
 using MuslimFashion.BusinessLogic.Menu;
 using MuslimFashion.ViewModel;
+using System.Threading.Tasks;
 
 namespace MuslimFashion.Web.Controllers
 {
@@ -37,7 +32,7 @@ namespace MuslimFashion.Web.Controllers
         {
             return View();
         }
-        
+
         //details
         public IActionResult Details(int? id)
         {
@@ -75,12 +70,7 @@ namespace MuslimFashion.Web.Controllers
 
         public async Task<IActionResult> PostAddProduct(ProductAddModel model, IFormFile imageFile)
         {
-            var storage = new FileStorage();
-            var fileName = await storage.UploadFileAsync(imageFile, model.ProductName);
-
-            model.ImageFileName = fileName;
-            var response = _product.Add(model);
-
+            var response = await _product.AddAsync(model, imageFile);
             return Json(response);
         }
         #endregion
