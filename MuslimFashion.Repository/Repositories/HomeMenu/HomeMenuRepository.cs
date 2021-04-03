@@ -54,13 +54,22 @@ namespace MuslimFashion.Repository
             return new DbResponse(true, $"{homeMenu.HomeMenuName} Deleted Successfully");
         }
 
-        public DbResponse<HomeMenuWithProductModel> Get(int id)
+        public DbResponse<HomeMenuWithProductModel> GetWithProducts(int id)
         {
             var homeMenu = Db.HomeMenu.Where(r => r.HomeMenuId == id)
                 .ProjectTo<HomeMenuWithProductModel>(_mapper.ConfigurationProvider)
                 .FirstOrDefault();
             homeMenu.Products = Products(homeMenu.HomeMenuId, 0, 10);
             return new DbResponse<HomeMenuWithProductModel>(true, $"{homeMenu.HomeMenuName} Get Successfully", homeMenu);
+        }
+
+        public DbResponse<HomeMenuCrudModel> Get(int id)
+        {
+            var homeMenu = Db.HomeMenu.Where(r => r.HomeMenuId == id)
+                .ProjectTo<HomeMenuCrudModel>(_mapper.ConfigurationProvider)
+                .FirstOrDefault();
+
+            return new DbResponse<HomeMenuCrudModel>(true, $"{homeMenu.HomeMenuName} Get Successfully", homeMenu);
         }
 
         public bool IsExistName(string name)
@@ -120,8 +129,8 @@ namespace MuslimFashion.Repository
 
             var homeProducts = model.ProductIds.Select(p => new HomeProduct
             {
-                ProductId = model.HomeMenuId,
-                HomeMenuId = p
+                ProductId = p,
+                HomeMenuId = model.HomeMenuId
             }).ToList();
 
             var newProducts = homeProducts.Where(h =>

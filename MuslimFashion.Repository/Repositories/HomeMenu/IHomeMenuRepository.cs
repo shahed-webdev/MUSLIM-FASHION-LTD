@@ -10,7 +10,8 @@ namespace MuslimFashion.Repository
         DbResponse<HomeMenuCrudModel> Add(HomeMenuCrudModel model);
         Task<DbResponse> EditAsync(HomeMenuCrudModel model, IFormFile imageFile);
         DbResponse Delete(int id);
-        DbResponse<HomeMenuWithProductModel> Get(int id);
+        DbResponse<HomeMenuWithProductModel> GetWithProducts(int id);
+        DbResponse<HomeMenuCrudModel> Get(int id);
         bool IsExistName(string name);
         bool IsExistName(string name, int updateId);
         bool IsNull(int id);
