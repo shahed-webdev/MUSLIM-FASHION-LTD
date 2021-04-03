@@ -117,15 +117,21 @@ namespace MuslimFashion.Repository
 
         public DbResponse AddProduct(HomeMenuAddProductModel model)
         {
+
             var homeProducts = model.ProductIds.Select(p => new HomeProduct
             {
                 ProductId = model.HomeMenuId,
                 HomeMenuId = p
             }).ToList();
-            Db.HomeProduct.AddRange(homeProducts);
+
+            var newProducts = homeProducts.Where(h =>
+                 !Db.HomeProduct.Any(p => p.HomeMenuId == h.HomeMenuId && p.ProductId == h.ProductId)).ToList();
+            if (!newProducts.Any())
+                return new DbResponse(true, $"Product already Added");
+            Db.HomeProduct.AddRange(newProducts);
             Db.SaveChanges();
 
-            return new DbResponse(true, $"Product added Added Successfully");
+            return new DbResponse(true, $"Product Added Successfully");
         }
 
         public DbResponse DeleteProduct(HomeMenuDeleteProductModel model)
