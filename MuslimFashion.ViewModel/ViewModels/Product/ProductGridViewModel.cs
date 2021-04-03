@@ -8,6 +8,6 @@
         public decimal OldPrice { get; set; }
         public string ProductCode { get; set; }
         public string Brand { get; set; }
-        public string ImageFileNames { get; set; }
+        public string ImageFileName { get; set; }
     }
 }
