@@ -41,7 +41,13 @@
                         <a class="nav-link" target="_blank" href="https://www.facebook.com/Muslimfashionltd/"><i class="fab fa-facebook"></i></a>
                     </li>
                     <li class="nav-item">
-                        <span class="nav-link"><i class="fal fa-shopping-cart"></i></span>
+                        <div data-toggle="modal" data-target="#cartModal" style="cursor: pointer">
+                            <span class="nav-link"><i class="fal fa-shopping-cart"></i></span>
+                            <span class="cart-product-count">
+                                <span class="total-cart-count"></span>
+                            </span>
+                        </div>
+
                     </li>
                 </ul>
             </div>
@@ -59,8 +65,44 @@
         </div>
     </footer>
 
+    <!-- cart Modal -->
+    <div class="modal fade" id="cartModal" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-notify modal-danger modal-lg" role="document">
+            <div class="modal-content text-center">
+                <div class="modal-header">
+                    <p class="heading mb-0"><strong>Shopping Cart</strong></p>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true" class="white-text">&times;</span>
+                    </button>
+                </div>
+                <form asp-action="Checkout" asp-controller="Product">
+                    <div class="modal-body">
+                        <table class="show-cart table product-table">
+                            <thead>
+                                <tr>
+                                    <th class="text-left"><strong>Product</strong></th>
+                                    <th><strong>Price</strong></th>
+                                    <th class="text-center"><strong>Quantity</strong></th>
+                                    <th><strong>Line Total</strong></th>
+                                    <th class="text-right"><strong>Remove</strong></th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                    <div class="modal-footer flex-end">
+                        <h5 class="mb-0 font-weight-bold">Total: ৳<strong class="grand-total-amount">0</strong></h5>
+                        <button type="submit" class="btn btn-danger btn-rounded">Checkout <i class="fas fa-angle-right right"></i></button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 
-    <!-- JQuery -->
+
+
+
+<!-- JQuery -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <!-- Bootstrap core JavaScript -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>

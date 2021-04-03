@@ -28,7 +28,7 @@
                     <p>Brand: <strong class="ml-2">@Model.Brand</strong></p>
                     <p class="mb-4">Fabric Type: <strong class="ml-2">@Model.FabricType</strong></p>
 
-                    <div class="d-flex flex-wrap mb-3">
+                    <div id="sizeContainer" class="d-flex flex-wrap mb-3">
                         <span class="mr-2">Size:</span>
                         @foreach (var size in Model.ProductSizes)
                         {
@@ -37,12 +37,13 @@
                                 <label for="size-@size.SizeId">@size.SizeName</label>
                             </div>
                         }
+                        <em id="size-description"></em>
                     </div>
-                   
+
                     <div class="my-3">
                         Quantity: <input id="inputQuantity" min="1" type="number" class="input-quantity ml-2" required value="1">
                     </div>
-                    
+
                     <div class="my-4">
                         <h5 class="font-weight-bold">Description</h5>
                         <p>@Model.Description</p>
@@ -53,8 +54,63 @@
                         <input id="btnBuyNow" class="btn btn-outline-danger btn-md" type="submit" value="Buy Now">
                     </div>
                 </div>
-            </div> 
+            </div>
         </form>
     </div>
 </div>
 
+@section Scripts{
+    <script>
+        $(function() {
+            //uncheck radio button
+            const inp = document.getElementsByTagName('input');
+            for (let i = inp.length - 1; i >= 0; i--) {
+                if (inp[i].type === 'radio')
+                    inp[i].checked = false;
+            }
+        });
+
+        //selectors
+        const cartForm = document.getElementById("formAdd");
+        const sizeContainer = document.getElementById("sizeContainer");
+        const productPrice = cartForm.querySelector("#productPrice");
+
+        const btnAddToCart = cartForm.btnAddToCart;
+        const btnBuyNow = cartForm.btnBuyNow;
+
+        // size change event
+        sizeContainer.addEventListener("change",
+            function(evt) {
+                const element = evt.target;
+
+                const onChange = element.classList.contains("inputSize");
+                if (!onChange) return;
+
+                const sizeDetails = document.getElementById("size-description");
+                sizeDetails.textContent = element.getAttribute("data-details");
+            });
+
+        //add to cart
+        cartForm.addEventListener("submit",
+            function(evt) {
+                evt.preventDefault();
+
+                const obj = {
+                    ProductId: @Model.ProductId,
+                    Name: "@Model.ProductName",
+                    Quantity: +inputQuantity.value,
+                    ProductQuantitySetId: +hiddenQuantitySetId.value
+                }
+
+                shoppingCart.addItemToCart(obj);
+                displayCart();
+
+                if (document.activeElement.id === "btnBuyNow") {
+                    location.href = "/Product/Checkout";
+                    return;
+                }
+
+                $.notify("Product added to Shopping Cart", "success", { position: "right" });
+            });
+    </script>
+}
