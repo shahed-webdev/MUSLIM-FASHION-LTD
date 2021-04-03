@@ -17,6 +17,7 @@ namespace MuslimFashion.Repository
         bool IsRelatedDataExist(int id);
 
         DataResult<ProductRecordView> ListByAdmin(DataRequest request);
+        DataResult<ProductRecordView> ListOfUnassignedHomeMenu(DataRequest request, int homeMenuId);
 
     }
 }

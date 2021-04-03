@@ -66,5 +66,10 @@ namespace MuslimFashion.BusinessLogic
         {
             return _db.product.ListByAdmin(request);
         }
+
+        public DataResult<ProductRecordView> ListOfUnassignedHomeMenu(DataRequest request, int homeMenuId)
+        {
+            return _db.product.ListOfUnassignedHomeMenu(request, homeMenuId);
+        }
     }
 }

@@ -65,5 +65,14 @@ namespace MuslimFashion.Repository
                 .ProjectTo<ProductRecordView>(_mapper.ConfigurationProvider)
                 .ToDataResult(request);
         }
+
+        public DataResult<ProductRecordView> ListOfUnassignedHomeMenu(DataRequest request, int homeMenuId)
+        {
+            var assignedProductIds = Db.HomeProduct.Where(h => h.HomeMenuId == homeMenuId).Select(h => h.ProductId).ToList();
+            return Db.Product
+                .Where(p => !assignedProductIds.Contains(p.ProductId))
+                .ProjectTo<ProductRecordView>(_mapper.ConfigurationProvider)
+                .ToDataResult(request);
+        }
     }
 }
