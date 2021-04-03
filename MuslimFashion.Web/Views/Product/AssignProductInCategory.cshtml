@@ -1,0 +1,97 @@
+﻿
+@{
+    ViewData["Title"] = "AssignProductInCategory";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="m-md-3">
+    <h4 class="mb-3 page-header">Assign Product In Category</h4>
+    <div class="card card-body">
+        <table id="data-table" class="table table-sm table-bordered">
+            <thead>
+            <tr>
+                <th>Assign</th>
+                <th>Product Code</th>
+                <th>Product Name</th>
+                <th>Price</th>
+                <th>Old Price</th>
+            </tr>
+            </thead>
+        </table>
+    </div>
+    
+    <button id="btnAssign" class="btn btn-danger mt-3">Add Product To Home Page</button>
+</div>
+
+@section scripts{
+    <script>
+        $(function() {
+            dataTable.getData();
+        });
+
+        //get data
+        const dataTable = {
+            table: null,
+            init: function() {
+                dataTable.table = $("#data-table").DataTable({
+                    processing: true,
+                    serverSide: true,
+                    ajax: {
+                        url: "/Product/GetAllProductData",
+                        type: "POST"
+                    },
+                    columns:
+                    [
+                        {
+                            data: "ProductId",
+                            "render": function(data) {
+                                return `<input class="form-check-input" type="checkbox" value="${data}" id="${data}"/><label class="form-check-label" for="${data}"></label>`;
+                            }
+                        },
+                        { data: "ProductCode" },
+                        { data: "ProductName" },
+                        { data: "Price", "render": dataTable.addSign },
+                        { data: "OldPrice", "render": dataTable.addSign },
+                    ],
+                    columnDefs: [
+                        { 'searchable': false, 'targets': [4] },
+                        { 'className': "text-right", "targets": [2, 3] },
+                        { 'className': "text-center", "targets": [0, 3, 4] }
+                    ]
+                });
+            },
+            getData: function() {
+                dataTable.table ? dataTable.table.ajax.reload() : dataTable.init();
+            },
+            addSign: function(data) { return `${data}/-` }
+        };
+
+        (function() {
+            const btnAssign = document.getElementById("btnAssign");
+            btnAssign.addEventListener("click",
+                function () {
+                    const ProductIds = [];
+                    $("input:checkbox[class=form-check-input]:checked").each(function () {
+                        ProductIds.push($(this).val());
+                    });
+
+                    const body = { HomeMenuId: @ViewContext.RouteData.Values["id"], ProductIds }
+
+                    if (!ProductIds.length) return;
+
+                    $.ajax({
+                        url: "/Product/PostAssignCategory",
+                        type: "POST",
+                        data: body,
+                        success: response => {
+                            $.notify(response.Message, response.IsSuccess ? "success" : "error");
+                            console.log(response);
+                        },
+                        error: error => {
+                            console.log(error);
+                        }
+                    });
+                });
+        })();
+    </script>
+}

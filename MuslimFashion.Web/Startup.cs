@@ -42,7 +42,7 @@ namespace MuslimFashion.Web
             services.ConfigureApplicationCookie(config =>
             {
                 config.Cookie.Name = "Identity.Cookie";
-                config.LoginPath = "/Home/Index";
+                config.LoginPath = "/Account/Login";
             });
 
             services.AddDependencyInjection();

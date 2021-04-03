@@ -1,28 +1,26 @@
-﻿
+﻿@model IEnumerable<HomeMenuCrudModel>
 @{
-    ViewData["Title"] = "SubMenu";
+    ViewData["Title"] = "Assign Product To Category";
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 
 
 <div class="container">
-    <h4 class="page-header mb-3">Product Sub Category</h4>
+    <h4 class="page-header mb-3">Home Page Category</h4>
 
     <div class="card card-body">
         <form id="formAdd">
             <div class="row">
                 <div class="col-lg-4">
                     <div class="form-group">
-                        <label>Category</label>
-                        <select name="MenuId" class="form-control" asp-items="ViewBag.Menus" required>
-                            <option value="">[ SELECT ]</option>
-                        </select>
+                        <label>Display Title</label>
+                        <input name="HomeMenuName" type="text" class="form-control" required />
                     </div>
                 </div>
                 <div class="col-lg-4">
                     <div class="form-group">
-                        <label>Sub Category Name</label>
-                        <input name="SubMenuName" type="text" class="form-control" required />
+                        <label>Display Serial</label>
+                        <input name="Sn" type="text" class="form-control" required />
                     </div>
                 </div>
                 <div class="col">
@@ -33,9 +31,26 @@
             </div>
         </form>
 
-        <ul id="menu-list" class="list-group list-group-flush"></ul>
+        <ul id="menu-list" class="list-group list-group-flush">
+            @foreach (var item in Model)
+            {
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    <div>
+                        <span>@item.Sn. @item.HomeMenuName</span>
+                        <small>
+                            <i id="@item.HomeMenuId" data-value="@item.HomeMenuName" data-sn="@item.Sn" class="update far fa-edit mx-2"></i>
+                            <i id="@item.HomeMenuId" class="delete far fa-trash-alt"></i>
+                        </small>
+                    </div>
+                    <div>
+                        <a href="/product/AssignProductInCategory/@item.HomeMenuId" class="btn btn-outline-success btn-sm">Add Product</a>
+                    </div>
+                </li>
+            }
+        </ul>
     </div>
 </div>
+
 
 <!-- Modal -->
 <div class="modal fade" id="updateModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
@@ -53,10 +68,14 @@
             <!--Body-->
             <div class="modal-body">
                 <form id="formUpdate">
-                    <input type="hidden" name="SubMenuId" />
+                    <input type="hidden" name="HomeMenuId" />
                     <div class="form-group">
-                        <label>Sub Menu Name</label>
-                        <input type="text" name="SubMenuName" class="form-control" required />
+                        <label>Display Title</label>
+                        <input type="text" name="HomeMenuName" class="form-control" required />
+                    </div>
+                    <div class="form-group">
+                        <label>Display Serial</label>
+                        <input name="Sn" type="text" class="form-control" required />
                     </div>
                     <input name="btnSubmit" type="submit" value="update" class="btn btn-danger" />
                 </form>
@@ -78,7 +97,7 @@
                     this.btnSubmit.disabled = true;
 
                     $.ajax({
-                        url: "/BasicSettings/PostSubMenu",
+                        url: "/Product/PostHomeCategory",
                         type: "POST",
                         data: methods.getForm(this),
                         success: response => {
@@ -86,6 +105,7 @@
 
                             if (response.IsSuccess) {
                                 location.reload();
+                                return;
                             }
 
                             this.btnSubmit.disabled = false;
@@ -107,8 +127,9 @@
 
                     //update
                     if (onUpdate) {
-                        formUpdate.SubMenuId.value = element.id;
-                        formUpdate.SubMenuName.value = element.getAttribute("data-value");
+                        formUpdate.HomeMenuId.value = element.id;
+                        formUpdate.HomeMenuName.value = element.getAttribute("data-value");
+                        formUpdate.Sn.value = element.getAttribute("data-sn");
 
                         $("#updateModal").modal("show");
                     }
@@ -116,7 +137,7 @@
                     //delete
                     if (onDelete) {
                         $.ajax({
-                            url: "/BasicSettings/DeleteSubMenu",
+                            url: "/Product/DeleteHomeCategory",
                             type: "POST",
                             data: { id: element.id },
                             success: response => {
@@ -139,13 +160,10 @@
                     evt.preventDefault();
                     this.btnSubmit.disabled = true;
 
-                    const body = methods.getForm(this);
-                    body.MenuId = formAdd.MenuId.value;
-
                     $.ajax({
-                        url: "/BasicSettings/UpdateSubMenu",
+                        url: "/Product/UpdateHomeCategory",
                         type: "POST",
-                        data: body,
+                        data: methods.getForm(this),
                         success: response => {
                             $.notify(response.Message, response.IsSuccess ? "success" : "error");
 
@@ -161,39 +179,6 @@
                         }
                     });
                 });
-
-            //get sub menu
-            formAdd.MenuId.addEventListener("change",
-                function() {
-                    if (!this.value) return;
-                    menuList.innerHTML = "";
-
-                    $.ajax({
-                        url: "/BasicSettings/GetSubMenu",
-                        data: { id: this.value },
-                        success: response => {
-                            response.forEach(item => {
-                                menuList.appendChild(createList(item));
-                            })
-
-                        },
-                        error: error => {
-                            console.log(error);
-                        }
-                    });
-                })
-
-            //create list
-            function createList(item) {
-                const li = document.createElement("li");
-                li.className = "list-group-item d-flex justify-content-between align-items-center";
-                li.innerHTML = `<span>${item.SubMenuName}</span>
-                                <div>
-                                    <i id="${item.SubMenuId}" data-value="${item.SubMenuName}" class="update far fa-edit mr-3"></i>
-                                    <i id="${item.SubMenuId}" class="delete far fa-trash-alt"></i>
-                                </div>`;
-                return li;
-            }
         })();
     </script>
 }

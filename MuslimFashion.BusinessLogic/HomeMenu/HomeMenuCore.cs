@@ -65,7 +65,7 @@ namespace MuslimFashion.BusinessLogic
         {
             try
             {
-                if (!_db.HomeMenu.IsNull(id))
+                if (_db.HomeMenu.IsNull(id))
                     return new DbResponse(false, "No data Found");
 
                 if (_db.HomeMenu.IsRelatedDataExist(id))
