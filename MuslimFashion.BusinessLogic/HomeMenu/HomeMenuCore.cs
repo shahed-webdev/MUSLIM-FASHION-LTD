@@ -61,8 +61,6 @@ namespace MuslimFashion.BusinessLogic
             }
         }
 
-
-
         public DbResponse Delete(int id)
         {
             try
@@ -82,19 +80,35 @@ namespace MuslimFashion.BusinessLogic
             }
         }
 
-        public DbResponse<HomeMenuWithProductModel> Get(int id)
+        public DbResponse<HomeMenuWithProductModel> GetWithProducts(int id)
         {
             try
             {
                 if (_db.HomeMenu.IsNull(id))
                     return new DbResponse<HomeMenuWithProductModel>(false, "No data Found");
 
-                return _db.HomeMenu.Get(id);
+                return _db.HomeMenu.GetWithProducts(id);
 
             }
             catch (Exception e)
             {
                 return new DbResponse<HomeMenuWithProductModel>(false, $"{e.Message}. {e.InnerException?.Message ?? ""}");
+            }
+        }
+
+        public DbResponse<HomeMenuCrudModel> Get(int id)
+        {
+            try
+            {
+                if (_db.HomeMenu.IsNull(id))
+                    return new DbResponse<HomeMenuCrudModel>(false, "No data Found");
+
+                return _db.HomeMenu.Get(id);
+
+            }
+            catch (Exception e)
+            {
+                return new DbResponse<HomeMenuCrudModel>(false, $"{e.Message}. {e.InnerException?.Message ?? ""}");
             }
         }
 
@@ -105,7 +119,12 @@ namespace MuslimFashion.BusinessLogic
 
         public List<HomeMenuWithProductModel> ListWithProducts()
         {
-            return _db.HomeMenu.ListWithProducts();
+            var homeMenus = _db.HomeMenu.ListWithProducts();
+            foreach (var menu in homeMenus)
+            {
+                menu.Products = _db.HomeMenu.Products(menu.HomeMenuId, 0, 4);
+            }
+            return homeMenus;
         }
 
         public List<DDL> ListDdl()
@@ -149,6 +168,11 @@ namespace MuslimFashion.BusinessLogic
             {
                 return new DbResponse(false, $"{e.Message}. {e.InnerException?.Message ?? ""}");
             }
+        }
+
+        public List<ProductGridViewModel> Products(int homeMenuId, int getFrom, int quantity)
+        {
+            return _db.HomeMenu.Products(homeMenuId, getFrom, quantity);
         }
     }
 }

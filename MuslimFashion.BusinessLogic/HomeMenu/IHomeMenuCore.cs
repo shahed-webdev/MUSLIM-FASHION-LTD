@@ -10,11 +10,13 @@ namespace MuslimFashion.BusinessLogic
         Task<DbResponse<HomeMenuCrudModel>> AddAsync(HomeMenuCrudModel model, IFormFile imageFile);
         Task<DbResponse> EditAsync(HomeMenuCrudModel model, IFormFile imageFile);
         DbResponse Delete(int id);
-        DbResponse<HomeMenuWithProductModel> Get(int id);
+        DbResponse<HomeMenuWithProductModel> GetWithProducts(int id);
+        DbResponse<HomeMenuCrudModel> Get(int id);
         List<HomeMenuCrudModel> List();
         List<HomeMenuWithProductModel> ListWithProducts();
         List<DDL> ListDdl();
         DbResponse AddProduct(HomeMenuAddProductModel model);
         DbResponse DeleteProduct(HomeMenuDeleteProductModel model);
+        List<ProductGridViewModel> Products(int homeMenuId, int getFrom, int quantity);
     }
 }
