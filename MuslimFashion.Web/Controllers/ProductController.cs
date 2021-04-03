@@ -22,7 +22,6 @@ namespace MuslimFashion.Web.Controllers
 
         public ProductController(IMenuCore menu, ISubMenuCore subMenu, ISizeCore size, IProductCore product, IHomeMenuCore homeMenu)
         {
-            //_product = product;
             _menu = menu;
             _subMenu = subMenu;
             _size = size;
@@ -125,7 +124,6 @@ namespace MuslimFashion.Web.Controllers
             return Json(response);
         }
         #endregion
-
 
         #region Add to cart and order
 

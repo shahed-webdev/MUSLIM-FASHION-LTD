@@ -31,7 +31,7 @@ namespace MuslimFashion.BusinessLogic
                 if (imageFile == null)
                     return new DbResponse<int>(false, $"No Product Image Added");
 
-                var fileName = await FileStorage.UploadFileAsync(imageFile, model.ProductName);
+                var fileName = await FileStorage.UploadFileAsync(imageFile, "product-image");
                 model.ImageFileName = fileName;
 
                 if (string.IsNullOrEmpty(model.ImageFileName))
