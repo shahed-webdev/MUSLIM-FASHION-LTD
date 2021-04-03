@@ -50,11 +50,7 @@ namespace MuslimFashion.BusinessLogic
         {
             try
             {
-                if (_db.product.IsNull(id))
-                    return new DbResponse<ProductDetailsModel>(false, "No data Found");
-
-                return _db.product.Get(id);
-
+                return !_db.product.IsNull(id) ? new DbResponse<ProductDetailsModel>(false, "No data Found") : _db.product.Get(id);
             }
             catch (Exception e)
             {

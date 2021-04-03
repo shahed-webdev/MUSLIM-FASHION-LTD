@@ -140,9 +140,10 @@ namespace MuslimFashion.Web.Controllers
         public IActionResult Item(int? id)
         {
             if (!id.HasValue) return RedirectToAction("index", "home");
-            return View();
+           
+            var model = _product.Get(id.GetValueOrDefault());
+            return View(model.Data);
         }
-
 
         #endregion
     }

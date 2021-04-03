@@ -26,10 +26,4 @@
     <ProjectReference Include="..\MuslimFashion.BusinessLogic\MuslimFashion.BusinessLogic.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="wwwroot\PRODUCTS\suit\" />
-    <Folder Include="wwwroot\PRODUCTS\pants\" />
-    <Folder Include="wwwroot\PRODUCTS\shirts\" />
-  </ItemGroup>
-
 </Project>

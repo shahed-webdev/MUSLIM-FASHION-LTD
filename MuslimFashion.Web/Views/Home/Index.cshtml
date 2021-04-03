@@ -6,17 +6,17 @@
 }
 
 @section Styles{
-    <link href="~/pages-css/home.css" rel="stylesheet" />
+    <link href="~/pages-css/home.css?v=1.0.0" rel="stylesheet" />
 }
 
 <div class="container">
     <div id="carouselImage" class="carousel slide carousel-fade mt-4 z-depth-1 rounded" data-ride="carousel">
         <div class="carousel-inner">
             <div class="carousel-item active">
-                <img class="d-block w-100" src="/PRODUCTS/slider/1.jpg" alt="">
+                <img class="d-block w-100" src="/product/slider/1.jpg" alt="">
             </div>
             <div class="carousel-item">
-                <img class="d-block w-100" src="/PRODUCTS/slider/2.jpg" alt="">
+                <img class="d-block w-100" src="/product/slider/2.jpg" alt="">
             </div>
         </div>
 
@@ -35,24 +35,30 @@
         {
             <h4 class="category-title">@category.HomeMenuName</h4>
             <div class="row mb-5">
-        @foreach (var product in category.Products)
-        {
-            <div class="col-lg-3 col-sm-6">
-                <div class="card h-100">
-                    <div class="view overlay h-100">
-                        <img class="card-img-top" src="@baseUrl/@product.ImageFileName" alt="@product.ProductName">
-                        <a href="#!">
-                            <div class="mask rgba-white-slight"></div>
-                        </a>
-                    </div>
+                @foreach (var product in category.Products)
+                {
+                    <div class="col-lg-3 col-sm-6">
+                        <div class="card h-100">
+                            <div class="view overlay h-100">
+                                <img class="card-img-top" src="@baseUrl/@product.ImageFileName" alt="@product.ProductName">
+                                <a href="/product/item/@product.ProductId">
+                                    <div class="mask rgba-white-slight"></div>
+                                </a>
+                            </div>
 
-                    <div class="card-body text-center">
-                        <h4 class="product-name">@product.ProductName</h4>
-                        <p class="product-price">৳@product.Price</p>
+                            <div class="card-body text-center">
+                                <h4 class="product-name">@product.ProductName</h4>
+                                <p class="product-price">
+                                    ৳@product.Price
+                                    @if (product.OldPrice > 0)
+                                    {
+                                        <small class="old-price-label">৳@product.OldPrice</small>
+                                    }
+                                </p>
+                            </div>
+                        </div>
                     </div>
-                </div>
-            </div>
-        }
+                }
             </div>
         }
     </section>

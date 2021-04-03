@@ -1,16 +1,60 @@
-﻿
+﻿@using DevMaker.FileStorage
+@model ProductDetailsModel
 @{
-    ViewData["Title"] = "Item";
+    ViewData["Title"] = Model.ProductName;
+    var baseUrl = FileBuilder.RootUrl;
 }
 
-<div class="container">
-    <form id="formAdd">
-        <div class="row">
-            <div class="col-lg-6 col-lg-5"></div>
-            <div class="col-lg-6 col-lg-7">
+@section Styles{
+    <link href="~/pages-css/product-details.css" rel="stylesheet" />
+}
 
-            </div>
-        </div>
-    </form>
+<div id="item-details" class="container">
+    <div class="card card-body my-4">
+        <form id="formAdd">
+            <div class="row">
+                <div class="col-lg-6 col-md-5">
+                    <img src="@baseUrl/@Model.ImageFileName" alt="@Model.ProductName">
+                </div>
+                <div class="col-lg-6 col-md-7">
+                    <h2 class="font-weight-bold mb-3">@Model.ProductName</h2>
+                    <p>
+                        Price: <strong class="ml-2">৳@Model.Price</strong>
+                        @if (Model.OldPrice > 0)
+                        {
+                            <small class="old-price-label ml-2">৳@Model.OldPrice</small>
+                        }
+                    </p>
+                    <p>Brand: <strong class="ml-2">@Model.Brand</strong></p>
+                    <p class="mb-4">Fabric Type: <strong class="ml-2">@Model.FabricType</strong></p>
+
+                    <div class="d-flex flex-wrap mb-3">
+                        <span class="mr-2">Size:</span>
+                        @foreach (var size in Model.ProductSizes)
+                        {
+                            <div class="size-radio">
+                                <input class="inputSize" id="size-@size.SizeId" type="radio" data-details="@size.Description" name="productSize" value="@size.SizeName" required>
+                                <label for="size-@size.SizeId">@size.SizeName</label>
+                            </div>
+                        }
+                    </div>
+                   
+                    <div class="my-3">
+                        Quantity: <input id="inputQuantity" min="1" type="number" class="input-quantity ml-2" required value="1">
+                    </div>
+                    
+                    <div class="my-4">
+                        <h5 class="font-weight-bold">Description</h5>
+                        <p>@Model.Description</p>
+                    </div>
+
+                    <div>
+                        <input id="btnAddToCart" class="btn btn-danger btn-md" type="submit" value="Add to Cart">
+                        <input id="btnBuyNow" class="btn btn-outline-danger btn-md" type="submit" value="Buy Now">
+                    </div>
+                </div>
+            </div> 
+        </form>
+    </div>
 </div>
 
