@@ -12,7 +12,7 @@ namespace DevMaker.FileStorage
             if (imageFile == null) return null;
 
             var fileName = FileBuilder.FileName(fileNameForStorage, imageFile.FileName);
-            var filePath = Path.Combine(FileBuilder.BasePath(), fileName);
+            var filePath = Path.Combine(FileBuilder.RootPath, fileName);
 
             await using var fileStream = new FileStream(filePath, FileMode.Create);
             await imageFile.CopyToAsync(fileStream);
@@ -23,7 +23,7 @@ namespace DevMaker.FileStorage
         //delete file
         public static void DeleteFile(string fileNameForStorage)
         {
-            var filePath = Path.Combine(FileBuilder.BasePath(), fileNameForStorage);
+            var filePath = Path.Combine(FileBuilder.RootPath, fileNameForStorage);
             if (File.Exists(filePath))
                 File.Delete(filePath);
         }

@@ -1,4 +1,5 @@
-﻿using JqueryDataTables.LoopsIT;
+﻿using System;
+using JqueryDataTables.LoopsIT;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -7,6 +8,7 @@ using MuslimFashion.BusinessLogic;
 using MuslimFashion.BusinessLogic.Menu;
 using MuslimFashion.ViewModel;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Hosting;
 
 namespace MuslimFashion.Web.Controllers
 {
@@ -17,7 +19,6 @@ namespace MuslimFashion.Web.Controllers
         private readonly IMenuCore _menu;
         private readonly ISubMenuCore _subMenu;
         private readonly ISizeCore _size;
-
         private readonly IHomeMenuCore _homeMenu;
 
         public ProductController(IMenuCore menu, ISubMenuCore subMenu, ISizeCore size, IProductCore product, IHomeMenuCore homeMenu)
@@ -115,6 +116,13 @@ namespace MuslimFashion.Web.Controllers
             if (!id.HasValue) return RedirectToAction("HomeCategory");
             
             return View();
+        }
+
+        //data table
+        public IActionResult GetUnassignedData(DataRequest request, int id)
+        {
+            var response = _product.ListOfUnassignedHomeMenu(request, id);
+            return Json(response);
         }
 
         //post assign

@@ -1,11 +1,20 @@
 ﻿@using DevMaker.FileStorage
 
 @{
-    ViewData["Title"] = "AssignProductInCategory";
+    ViewData["Title"] = "Assign Product In Category";
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
-    var baseUrl = FileBuilder.BasePath();
+   
+    var baseUrl = FileBuilder.RootUrl;
+    var id = ViewContext.RouteData.Values["id"];
 }
 
+@section Styles{
+    <style>
+        #data-table tbody tr td img {
+            height: 60px;
+        }
+    </style>
+}
 <div class="m-md-3">
     <h4 class="page-header">Assign Product In Category</h4>
     <a href="/product/HomeCategory" class="mb-3 d-block"><i class="far fa-long-arrow-alt-left mr-1"></i>Back to Category</a>
@@ -24,7 +33,7 @@
             </thead>
         </table>
     </div>
-    
+
     <button id="btnAssign" class="btn btn-danger mt-3">Add Product To Home Page</button>
 </div>
 
@@ -42,8 +51,9 @@
                     processing: true,
                     serverSide: true,
                     ajax: {
-                        url: "/Product/GetAllProductData",
-                        type: "POST"
+                        url: "/Product/GetUnassignedData",
+                        type: "POST",
+                        data: { id: @id }
                     },
                     columns:
                     [
@@ -65,9 +75,9 @@
                         { data: "OldPrice", "render": dataTable.addSign },
                     ],
                     columnDefs: [
-                        //{ 'searchable': false, 'targets': [0] },
-                        //{ 'className': "text-right", "targets": [3, 4] },
-                        //{ 'className': "text-center", "targets": [0, 1] }
+                        { 'searchable': false, 'targets': [0] },
+                        { 'className': "text-right", "targets": [4, 5] },
+                        { 'className': "text-center", "targets": [0, 1,2] }
                     ]
                 });
             },
@@ -86,7 +96,7 @@
                         ProductIds.push($(this).val());
                     });
 
-                    const body = { HomeMenuId: @ViewContext.RouteData.Values["id"], ProductIds }
+                    const body = { HomeMenuId: @id, ProductIds }
 
                     if (!ProductIds.length) return;
 
@@ -96,7 +106,10 @@
                         data: body,
                         success: response => {
                             $.notify(response.Message, response.IsSuccess ? "success" : "error");
-                            console.log(response);
+
+                            if (response.IsSuccess) {
+                                dataTable.getData();
+                            }
                         },
                         error: error => {
                             console.log(error);

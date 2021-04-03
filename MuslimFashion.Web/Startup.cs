@@ -1,4 +1,5 @@
 using AutoMapper;
+using DevMaker.FileStorage;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;

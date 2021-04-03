@@ -1,12 +1,18 @@
-﻿using Microsoft.AspNetCore.Hosting;
-using System;
+﻿using System;
 using System.IO;
+using System.Runtime.CompilerServices;
 
 namespace DevMaker.FileStorage
 {
 
     public static class FileBuilder
     {
+        static FileBuilder()
+        {
+            RootUrl = "/product";
+            RootPath= Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "product");
+        }
+
         public static string FileName(string title, string fileName)
         {
             var fileExtension = Path.GetExtension(fileName);
@@ -15,11 +21,7 @@ namespace DevMaker.FileStorage
             return fileNameForStorage;
         }
 
-
-        public static string BasePath()
-        {
-            var path=   Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "product");
-            return path;
-        }
+        public static string RootUrl { get; }
+        public static string RootPath { get; }
     }
 }
