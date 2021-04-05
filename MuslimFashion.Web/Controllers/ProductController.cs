@@ -145,6 +145,19 @@ namespace MuslimFashion.Web.Controllers
             return View(model.Data);
         }
 
+        //Checkout
+        [AllowAnonymous]
+        public IActionResult Checkout()
+        {
+            if (!User.Identity.IsAuthenticated)
+                return Redirect("/Account/Login/?returnUrl=/Product/Checkout");
+
+            if (!User.IsInRole("Customer"))
+                return Redirect("/Home/Index");
+
+            return View();
+        }
+
         #endregion
     }
 }

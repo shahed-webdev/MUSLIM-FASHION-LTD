@@ -56,7 +56,7 @@ namespace MuslimFashion.Web.Controllers
                     UserType.Admin => LocalRedirect(returnUrl ??= Url.Content($"/Dashboard/Index")),
                     UserType.SubAdmin => LocalRedirect(returnUrl ??= Url.Content($"/Dashboard/Index")),
                     UserType.Customer => LocalRedirect(returnUrl ??= Url.Content($"/Customer/Dashboard")),
-                    _ => LocalRedirect(returnUrl ??= Url.Content("~/Account/Login"))
+                    _ => LocalRedirect(returnUrl ??= Url.Content($"/Account/Login"))
                 };
             }
 

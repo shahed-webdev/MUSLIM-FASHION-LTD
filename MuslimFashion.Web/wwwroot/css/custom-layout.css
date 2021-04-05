@@ -6,8 +6,12 @@ header nav { background-color: var(--bg-primary) }
 .btn-custom-bg { background-color: var(--bg-secondary); color: #fff }
 .btn-custom-bg:hover { background-color: var(--bg-primary); color: #fff }
 
-main { min-height: 81vh; }
+/**cart*/
+.cart-area { position: relative;cursor: pointer }
+.cart-product-count { position: absolute; top: -5px; color: #E62E04; right: -6px; font-size: 12px; font-weight: bold; background-color: #fff; border-radius: 50%; height: 22px; width: 22px; text-align: center; padding-top: 2px; }
 
+
+main { min-height: 81vh; }
 footer{ background-color: var(--bg-primary) }
 
 /* validation helpers */

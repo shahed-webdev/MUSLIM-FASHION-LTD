@@ -16,7 +16,7 @@
     <!-- MDB -->
     <link href="~/mdb/css/mdb-admin.min.css" rel="stylesheet" />
     <!-- Custom style -->
-    <link href="~/css/custom-layout.css?v=1.0.0" rel="stylesheet" />
+    <link href="~/css/custom-layout.css?v=1.0.1" rel="stylesheet" />
 
     <!-- Others page style -->
     @await RenderSectionAsync("Styles", false)
@@ -33,21 +33,20 @@
                     <ul id="menu-items" class="navbar-nav mr-auto"></ul>
                 </div>
                 <ul class="navbar-nav ml-sm-auto flex-row">
-                    <partial name="_LoginPartial" />
                     <li class="nav-item">
-                        <a class="nav-link" href="/Home/Contact">Contact</a>
+                        <div data-toggle="modal" data-target="#cartModal" class="cart-area">
+                            <span class="nav-link"><i class="fal fa-shopping-cart"></i></span>
+                            <span class="cart-product-count">
+                                <span class="total-cart-count">0</span>
+                            </span>
+                        </div>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" target="_blank" href="https://www.facebook.com/Muslimfashionltd/"><i class="fab fa-facebook"></i></a>
                     </li>
+                    <partial name="_LoginPartial" />
                     <li class="nav-item">
-                        <div data-toggle="modal" data-target="#cartModal" style="cursor: pointer">
-                            <span class="nav-link"><i class="fal fa-shopping-cart"></i></span>
-                            <span class="cart-product-count">
-                                <span class="total-cart-count"></span>
-                            </span>
-                        </div>
-
+                        <a class="nav-link" href="/Home/Contact">Contact</a>
                     </li>
                 </ul>
             </div>

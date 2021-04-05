@@ -29,7 +29,7 @@ const shoppingCart = (function () {
     // Add to cart
     obj.addItemToCart = function (product) {
         for (let item in cart) {
-            if (cart[item].ProductQuantitySetId === product.ProductQuantitySetId) {
+            if (cart[item].ProductId === product.ProducId) {
                 cart[item].Quantity = product.Quantity;
                 saveCart();
                 return;
@@ -43,8 +43,8 @@ const shoppingCart = (function () {
     // input quantity
     obj.inputQuantity = function (id, quantity) {
         for (let item in cart) {
-            if (cart[item].ProductQuantitySetId === id) {
-                cart[item].Quantity = quantity;
+            if (cart[item].ProductId === id) {
+                cart[item].Quantity = +quantity;
                 break;
             }
         }
@@ -54,8 +54,8 @@ const shoppingCart = (function () {
     // increase quantity
     obj.increaseQuantity = function (id) {
         for (let item in cart) {
-            if (cart[item].ProductQuantitySetId === id) {
-                cart[item].Quantity++;
+            if (cart[item].ProductId === id) {
+                cart[item].Quantity = +cart[item].Quantity+1;
                 saveCart();
                 return;
             }
@@ -65,7 +65,7 @@ const shoppingCart = (function () {
     // decrease quantity
     obj.decreaseQuantity = function (id) {
         for (let item in cart) {
-            if (cart[item].ProductQuantitySetId === id) {
+            if (cart[item].ProductId === id) {
                 cart[item].Quantity--;
                 if (cart[item].Quantity === 0) {
                     cart.splice(item, 1);
@@ -80,7 +80,7 @@ const shoppingCart = (function () {
     // Remove product from cart
     obj.removeProduct = function (id) {
         for (let item in cart) {
-            if (cart[item].ProductQuantitySetId === id) {
+            if (cart[item].ProductId === id) {
                 cart.splice(item, 1);
                 break;
             }
@@ -94,19 +94,19 @@ const shoppingCart = (function () {
         saveCart();
     }
 
-    // Count cart 
-    obj.totalCount = function () {
+    //total quantity Count cart 
+    obj.totalQuantityCount = function () {
         var totalCount = 0;
         for (let item in cart) {
             if (cart.hasOwnProperty(item)) {
-                totalCount += cart[item].Quantity;
+                totalCount += +cart[item].Quantity;
             }
         }
         return totalCount;
     }
 
     // Total amount cart
-    obj.totalCart = function () {
+    obj.totalAmountCart = function () {
         let totalCart = 0;
         for (let item in cart) {
             if (cart.hasOwnProperty(item)) {
@@ -135,7 +135,7 @@ const shoppingCart = (function () {
     // get added product
     obj.getProduct = function (id) {
         for (let i in cart) {
-            if (cart[i].ProductQuantitySetId === id) {
+            if (cart[i].ProductId === id) {
                 return cart[i];
             }
         }
@@ -159,7 +159,7 @@ function displayCart() {
                       <img src="${cartArray[i].ProductUrl}" alt="${cartArray[i].Name}"/>
                       <div class="text-left">
                        <p class="mb-0">${cartArray[i].Name}</p>
-                       <h5 class="mb-0">${addAttribute(cartArray[i].attributesValue)}</h5>
+                     
                       </div>
                     </td>
                     <td>৳${cartArray[i].UnitPrice}</td>
@@ -173,12 +173,12 @@ function displayCart() {
                 </tr>`
     }
 
-    $('.total-cart-count').html(shoppingCart.totalCount());
+    $('.total-cart-count').html(shoppingCart.totalQuantityCount());
     //total amount
-    $('.grand-total-amount').html(shoppingCart.totalCart());
-    $('#orderTotal').html(shoppingCart.totalCart());
+    $('.grand-total-amount').html(shoppingCart.totalAmountCart());
+    $('#orderTotal').html(shoppingCart.totalAmountCart());
 
-    if (!shoppingCart.totalCount()) {
+    if (!shoppingCart.totalQuantityCount()) {
         const emptyRow = `<tr><td colspan="5" class="alert alert-danger">No Product Added</td></tr>`;
         $('.show-cart tbody').html(emptyRow);
 
@@ -192,48 +192,19 @@ function displayCart() {
     $('.show-cart tbody').html(output);
 }
 
-function addAttribute(attributes) {
-    let attr = "";
-    attributes.forEach(att => {
-        attr += `<span class="badge badge-pill grey darken-3 mr-2">${att.KeyName}: ${att.Value}</span>`;
-    })
-    return attr;
-}
 
 // Item quantity input
-$('.show-cart').on("change", ".item-quantity", function (event) {
-    const id = $(this).data('id');
-    const quantity = Number($(this).val());
+$('.show-cart').on("change", ".item-quantity",
+    function(event) {
+        const id = $(this).data('id');
+        const quantity = Number($(this).val());
 
-    if (quantity < 1) return;
+        if (quantity < 1) return;
 
-    $(this).prop("disabled", true);
+        shoppingCart.inputQuantity(id, quantity);
 
-    $.ajax({
-        url: "/Product/GetAvailableQuantity",
-        data: { quantitySetId: id },
-        success: response => {
-            $(this).prop("disabled", false);
-
-            if (response.IsSuccess) {
-                $(this).prop("max", response.Data);
-
-                if (response.Data < quantity) {
-                    $(".show-cart").notify(`Quantity more than current (${response.Data}) stock`, "error");
-                    return;
-                };
-
-                shoppingCart.inputQuantity(id, quantity);
-            }
-
-            displayCart();
-        },
-        error: err => {
-            $(this).prop("disabled", false);
-            console.log(err);
-        }
-    })
-});
+        displayCart();
+    });
 
 
 // Delete item button
