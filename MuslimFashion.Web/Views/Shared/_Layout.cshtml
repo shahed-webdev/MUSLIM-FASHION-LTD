@@ -8,6 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - Muslim Fashion Ltd.</title>
+    <link rel="icon" type="image/png" href="/images/fabicon.ico">
 
     <!-- Font Awesome -->
     <link href="https://pro.fontawesome.com/releases/v5.8.2/css/all.css" rel="stylesheet" />
@@ -16,7 +17,7 @@
     <!-- MDB -->
     <link href="~/mdb/css/mdb-admin.min.css" rel="stylesheet" />
     <!-- Custom style -->
-    <link href="~/css/custom-layout.css?v=1.0.1" rel="stylesheet" />
+    <link href="~/css/custom-layout.css?v=1.0.2" rel="stylesheet" />
 
     <!-- Others page style -->
     @await RenderSectionAsync("Styles", false)
@@ -33,20 +34,21 @@
                     <ul id="menu-items" class="navbar-nav mr-auto"></ul>
                 </div>
                 <ul class="navbar-nav ml-sm-auto flex-row">
-                    <li class="nav-item">
-                        <div data-toggle="modal" data-target="#cartModal" class="cart-area">
+                    <li class="nav-item mr-3">
+                        <div id="cartCount" class="cart-area">
                             <span class="nav-link"><i class="fal fa-shopping-cart"></i></span>
                             <span class="cart-product-count">
                                 <span class="total-cart-count">0</span>
                             </span>
                         </div>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" target="_blank" href="https://www.facebook.com/Muslimfashionltd/"><i class="fab fa-facebook"></i></a>
-                    </li>
+
                     <partial name="_LoginPartial" />
                     <li class="nav-item">
                         <a class="nav-link" href="/Home/Contact">Contact</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" target="_blank" href="https://www.facebook.com/Muslimfashionltd/"><i class="fab fa-facebook"></i></a>
                     </li>
                 </ul>
             </div>
@@ -76,24 +78,25 @@
                 </div>
                 <form asp-action="Checkout" asp-controller="Product">
                     <div class="modal-body">
-                        <table class="show-cart table product-table">
-                            <thead>
+                        <div class="table-responsive">
+                            <table class="show-cart table product-table">
+                                <thead>
                                 <tr>
                                     <th class="text-left"><strong>Product</strong></th>
                                     <th><strong>Price</strong></th>
-                                    <th class="text-center"><strong>Quantity</strong></th>
-                                    <th><strong>Line Total</strong></th>
+                                    <th class="text-left"><strong>Quantity</strong></th>
                                     <th class="text-right"><strong>Remove</strong></th>
                                 </tr>
-                            </thead>
-                            <tbody></tbody>
-                        </table>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
                     </div>
                     <div class="modal-footer flex-end">
                         <h5 class="mb-0 font-weight-bold">Total: ৳<strong class="grand-total-amount">0</strong></h5>
                         <button type="submit" class="btn btn-danger btn-rounded">Checkout <i class="fas fa-angle-right right"></i></button>
                     </div>
-                </form>
+                </form> 
             </div>
         </div>
     </div>
@@ -101,7 +104,7 @@
 
 
 
-<!-- JQuery -->
+    <!-- JQuery -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <!-- Bootstrap core JavaScript -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
@@ -110,8 +113,13 @@
     <!--notify js-->
     <script src="~/js/notify.min.js"></script>
 
+    <!--shopping-cart-->
+    <script src="~/pages-js/shopping-cart.js?v=1.0.0"></script>
     <!--menus js-->
     <script src="~/pages-js/show-menus.js"></script>
+
+    <!--global methods js-->
+    <script src="~/pages-js/global-methods.js"></script>
 
     <!--others page js-->
     @await RenderSectionAsync("Scripts", false)

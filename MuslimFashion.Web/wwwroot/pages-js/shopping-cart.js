@@ -28,16 +28,14 @@ const shoppingCart = (function () {
 
     // Add to cart
     obj.addItemToCart = function (product) {
-        for (let item in cart) {
-            if (cart[item].ProductId === product.ProducId) {
-                cart[item].Quantity = product.Quantity;
-                saveCart();
-                return;
-            }
+        const found = cart.some(el => el.ProductId === product.ProductId);
+        
+        if (!found) {
+            cart.push(product);
+            saveCart();
         }
 
-        cart.push(product);
-        saveCart();
+        return found;
     }
 
     // input quantity
@@ -126,7 +124,7 @@ const shoppingCart = (function () {
                 itemCopy[p] = item[p];
             }
 
-            itemCopy.total = Number(item.UnitPrice * item.Quantity).toFixed(2);
+            itemCopy.LineTotal = Number(item.UnitPrice * item.Quantity).toFixed(2);
             cartCopy.push(itemCopy)
         }
         return cartCopy;
@@ -150,88 +148,96 @@ const shoppingCart = (function () {
 // Triggers / Events
 // ***************************************** 
 
+//show products table data
 function displayCart() {
     const cartArray = shoppingCart.listCart();
     var output = "";
     for (let i in cartArray) {
         output += `<tr>
-                    <td class="d-flex align-items-center">
-                      <img src="${cartArray[i].ProductUrl}" alt="${cartArray[i].Name}"/>
+                    <td class="d-flex flex-wrap align-items-center">
+                      <img src="${cartArray[i].ImageFileName}" alt="${cartArray[i].ProductName}"/>
                       <div class="text-left">
-                       <p class="mb-0">${cartArray[i].Name}</p>
-                     
+                       <p class="mb-0">${cartArray[i].ProductName}</p><strong>Size: ${cartArray[i].ProductSize}</strong>
                       </div>
                     </td>
                     <td>৳${cartArray[i].UnitPrice}</td>
                     <td class="text-center">
-                      <input class="item-quantity" data-id="${cartArray[i].ProductQuantitySetId}" value="${cartArray[i].Quantity}" min="1" type="number">
+                      <input class="item-quantity form-control" id="${cartArray[i].ProductId}" value="${cartArray[i].Quantity}" min="1" max="50" type="number" required>
                     </td>
-                    <td>৳${cartArray[i].total}</td>
                     <td class="text-right">
-                      <button data-id="${cartArray[i].ProductQuantitySetId}" type="button" class="btn btn-sm grey darken-3 text-white delete-item" data-toggle="tooltip" data-placement="top" title="Remove item">X</button>
+                      <button id="${cartArray[i].ProductId}" type="button" class="btn btn-sm grey darken-3 text-white delete-item" title="Remove item">X</button>
                     </td>
                 </tr>`
     }
 
-    $('.total-cart-count').html(shoppingCart.totalQuantityCount());
+    //cart quantity
+    updateCartQuantity();
+
     //total amount
-    $('.grand-total-amount').html(shoppingCart.totalAmountCart());
-    $('#orderTotal').html(shoppingCart.totalAmountCart());
+    setTotalAmountCart();
 
-    if (!shoppingCart.totalQuantityCount()) {
-        const emptyRow = `<tr><td colspan="5" class="alert alert-danger">No Product Added</td></tr>`;
-        $('.show-cart tbody').html(emptyRow);
-
-        $('.show-cart thead').hide();
-        $('.modal-footer').hide();
-
-        return;
-    }
-
-    $('.modal-footer').show();
     $('.show-cart tbody').html(output);
 }
 
+//set total count product cart
+function updateCartQuantity() {
+    if (!shoppingCart.totalQuantityCount()) {
+        $("#cartModal").modal("hide");
+    }
+
+    const totalCart = document.querySelector(".total-cart-count");
+    totalCart.textContent = shoppingCart.totalQuantityCount();
+}
+
+//set grand total amount
+function setTotalAmountCart() {
+    const totalCart = document.querySelector(".grand-total-amount");
+    totalCart.textContent = shoppingCart.totalAmountCart();
+}
+
+//remove item
+const productTable = document.querySelector(".product-table");
+productTable.addEventListener("click", function(evt) {
+    const element = evt.target;
+    const onRemove = element.classList.contains("delete-item");
+
+    if (onRemove) {
+        shoppingCart.removeProduct(element.id);
+        element.parentElement.parentElement.remove();
+
+        setTotalAmountCart();
+        updateCartQuantity();
+    }
+});
 
 // Item quantity input
-$('.show-cart').on("change", ".item-quantity",
-    function(event) {
-        const id = $(this).data('id');
-        const quantity = Number($(this).val());
+productTable.addEventListener("change", function (evt) {
+    const element = evt.target;
+    const onInput = element.classList.contains("item-quantity");
+
+    if (onInput) {
+        const id = element.id;
+        const quantity = +element.value;
 
         if (quantity < 1) return;
 
         shoppingCart.inputQuantity(id, quantity);
 
+        setTotalAmountCart();
+        updateCartQuantity();
+    }
+});
+
+
+//on modal click
+const cartCount = document.getElementById("cartCount");
+cartCount.addEventListener("click", function (evt) {
+
+    if (shoppingCart.totalQuantityCount()) {
         displayCart();
-    });
-
-
-// Delete item button
-$('.show-cart').on("click", ".delete-item", function (event) {
-    const id = $(this).data('id');
-
-    shoppingCart.removeProduct(id);
-    displayCart();
-})
-
-
-// -1
-$('.show-cart').on("click", ".minus-item", function (event) {
-    const id = $(this).data('id');
-    shoppingCart.decreaseQuantity(id);
-
-    displayCart();
-})
-
-
-// +1
-$('.show-cart').on("click", ".plus-item", function (event) {
-    const id = $(this).data('id');
-
-    shoppingCart.increaseQuantity(id);
-    displayCart();
-})
+        $("#cartModal").modal("show");
+    }
+});
 
 
 displayCart();

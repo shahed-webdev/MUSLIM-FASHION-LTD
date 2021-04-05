@@ -10,7 +10,14 @@
 }
 
 <div id="item-details" class="container">
-    <div class="card card-body my-4">
+    <ol class="breadcrumb mb-0 px-0 bg-white">
+        <li class="breadcrumb-item">
+            <a class="black-text" href="/Home/Index">Home</a><i class="fas fa-angle-double-right mx-2"></i>
+        </li>
+       @* <li class="breadcrumb-item active">@Model.</li>*@
+    </ol>
+
+    <div class="card card-body mb-4">
         <form id="formAdd">
             <div class="row">
                 <div class="col-lg-6 col-md-5">
@@ -51,10 +58,10 @@
 
                     <div>
                         <!---for add to local cart-->
-                        <input type="hidden" name="UnitPrice" value="@Model.Price"/>
-                        <input type="hidden" name="ProductName" value="@Model.ProductName"/>
-                        <input type="hidden" name="ProductId" value="@Model.ProductId"/>
-                        <input type="hidden" name="ImageFileName" value="@Model.ImageFileName"/>
+                        <input type="hidden" name="UnitPrice" value="@Model.Price" />
+                        <input type="hidden" name="ProductName" value="@Model.ProductName" />
+                        <input type="hidden" name="ProductId" value="@Model.ProductId" />
+                        <input type="hidden" name="ImageFileName" value="@baseUrl/@Model.ImageFileName" />
 
                         <input id="btnAddToCart" class="btn btn-danger btn-md" type="submit" value="Add to Cart">
                         <input id="btnBuyNow" class="btn btn-outline-danger btn-md" type="submit" value="Buy Now">
@@ -102,16 +109,19 @@
                 evt.preventDefault();
 
                 const obj = methods.getForm(this);
-                shoppingCart.addItemToCart(obj);
+                const added = shoppingCart.addItemToCart(obj);
 
-                //displayCart();
+                $.notify(added ? "Already in cart" : "Product added to Shopping Cart", added ?"error":"success");
+
+                if (!added) {
+                    //update cart quantity
+                    updateCartQuantity();
+                }
 
                 if (document.activeElement.id === "btnBuyNow") {
                     location.href = "/Product/Checkout";
                     return;
                 }
-
-                $.notify("Product added to Shopping Cart", "success", { position: "right" });
             });
     </script>
 }

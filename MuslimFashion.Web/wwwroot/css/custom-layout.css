@@ -10,6 +10,7 @@ header nav { background-color: var(--bg-primary) }
 .cart-area { position: relative;cursor: pointer }
 .cart-product-count { position: absolute; top: -5px; color: #E62E04; right: -6px; font-size: 12px; font-weight: bold; background-color: #fff; border-radius: 50%; height: 22px; width: 22px; text-align: center; padding-top: 2px; }
 
+.show-cart img { width: 45px; min-width: 10px; margin-right: 5px; }
 
 main { min-height: 81vh; }
 footer{ background-color: var(--bg-primary) }
