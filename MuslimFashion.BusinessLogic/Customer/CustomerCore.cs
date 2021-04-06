@@ -18,27 +18,27 @@ namespace MuslimFashion.BusinessLogic
         }
 
 
-        public async Task<DbResponse<IdentityUser>> AddAsync(CustomerAddModel model)
+        public async Task<DbResponse<IdentityUser>> AddWithRegistrationAsync(CustomerAddWithRegistrationModel withRegistrationModel)
         {
             try
             {
-                if (string.IsNullOrEmpty(model.UserName) || string.IsNullOrEmpty(model.Phone))
+                if (string.IsNullOrEmpty(withRegistrationModel.UserName) || string.IsNullOrEmpty(withRegistrationModel.Phone))
                     return new DbResponse<IdentityUser>(false, "UserName or mobile number empty", null, "UserName");
 
-                if (_db.Customer.IsExistPhone(model.Phone))
-                    return new DbResponse<IdentityUser>(false, $" {model.Phone} already Exist",null, "Phone");
+                if (_db.Customer.IsExistPhone(withRegistrationModel.Phone))
+                    return new DbResponse<IdentityUser>(false, $" {withRegistrationModel.Phone} already Exist", null, "Phone");
 
                 //Identity Create
-                var user = new IdentityUser { UserName = model.UserName, Email = model.Email };
-                var password = model.Password;
+                var user = new IdentityUser { UserName = withRegistrationModel.UserName, Email = withRegistrationModel.Email };
+                var password = withRegistrationModel.Password;
 
                 var result = await _userManager.CreateAsync(user, password).ConfigureAwait(false);
 
-                if (!result.Succeeded) return new DbResponse<IdentityUser>(false, result.Errors.FirstOrDefault()?.Description,null,"CustomError");
+                if (!result.Succeeded) return new DbResponse<IdentityUser>(false, result.Errors.FirstOrDefault()?.Description, null, "CustomError");
 
                 await _userManager.AddToRoleAsync(user, UserType.Customer.ToString()).ConfigureAwait(false);
 
-                _db.Customer.Add(model);
+                _db.Customer.AddWithRegistration(withRegistrationModel);
 
                 return new DbResponse<IdentityUser>(true, "Success", user);
             }

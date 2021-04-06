@@ -6,6 +6,6 @@ namespace MuslimFashion.BusinessLogic
 {
     public interface ICustomerCore
     {
-        Task<DbResponse<IdentityUser>> AddAsync(CustomerAddModel model);
+        Task<DbResponse<IdentityUser>> AddWithRegistrationAsync(CustomerAddWithRegistrationModel withRegistrationModel);
     }
 }

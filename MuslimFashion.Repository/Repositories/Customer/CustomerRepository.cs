@@ -11,9 +11,9 @@ namespace MuslimFashion.Repository
         {
         }
 
-        public void Add(CustomerAddModel model)
+        public void AddWithRegistration(CustomerAddWithRegistrationModel withRegistrationModel)
         {
-            var registration = _mapper.Map<Registration>(model);
+            var registration = _mapper.Map<Registration>(withRegistrationModel);
             registration.Type = UserType.Customer;
             Db.Registration.Add(registration);
             Db.SaveChanges();

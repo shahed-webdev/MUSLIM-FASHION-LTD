@@ -4,7 +4,7 @@ namespace MuslimFashion.Repository
 {
     public interface ICustomerRepository
     {
-        void Add(CustomerAddModel model);
+        void AddWithRegistration(CustomerAddWithRegistrationModel withRegistrationModel);
 
         bool IsExistPhone(string phone);
         bool IsExistPhone(string phone, int updateId);
