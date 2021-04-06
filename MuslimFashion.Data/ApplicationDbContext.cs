@@ -11,6 +11,7 @@ namespace MuslimFashion.Data
         }
 
         public virtual DbSet<Customer> Customer { get; set; }
+        public virtual DbSet<CustomerAddress> CustomerAddresses { get; set; }
         public virtual DbSet<HomeMenu> HomeMenu { get; set; }
         public virtual DbSet<HomeProduct> HomeProduct { get; set; }
         public virtual DbSet<Menu> Menu { get; set; }
@@ -22,6 +23,7 @@ namespace MuslimFashion.Data
         protected override void OnModelCreating(ModelBuilder builder)
         {
             builder.ApplyConfiguration(new CustomerConfiguration());
+            builder.ApplyConfiguration(new CustomerAddressConfiguration());
             builder.ApplyConfiguration(new HomeMenuConfiguration());
             builder.ApplyConfiguration(new HomeProductConfiguration());
             builder.ApplyConfiguration(new MenuConfiguration());

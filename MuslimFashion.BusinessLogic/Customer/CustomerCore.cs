@@ -4,6 +4,7 @@ using MuslimFashion.Data;
 using MuslimFashion.Repository;
 using MuslimFashion.ViewModel;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -46,6 +47,53 @@ namespace MuslimFashion.BusinessLogic
             {
                 return new DbResponse<IdentityUser>(false, e.Message);
             }
+        }
+
+        public DbResponse<CustomerAddressCrudModel> AddAddress(CustomerAddressCrudModel model)
+        {
+            try
+            {
+                if (_db.Customer.IsAddressLimitOver(model.CustomerId))
+                    return new DbResponse<CustomerAddressCrudModel>(false, "Address Limit over");
+                return _db.Customer.AddAddress(model);
+            }
+            catch (Exception e)
+            {
+                return new DbResponse<CustomerAddressCrudModel>(false, $"{e.Message}. {e.InnerException?.Message ?? ""}");
+            }
+        }
+
+        public DbResponse DeleteAddress(int customerAddressId)
+        {
+            try
+            {
+                if (_db.Customer.IsAddressNull(customerAddressId))
+                    return new DbResponse(false, "Address Not Found");
+                return _db.Customer.DeleteAddress(customerAddressId);
+            }
+            catch (Exception e)
+            {
+                return new DbResponse(false, $"{e.Message}. {e.InnerException?.Message ?? ""}");
+            }
+        }
+
+        public DbResponse EditAddress(CustomerAddressCrudModel model)
+        {
+            try
+            {
+                if (_db.Customer.IsAddressNull(model.CustomerAddressId))
+                    return new DbResponse(false, "Address Not Found");
+                return _db.Customer.EditAddress(model);
+            }
+            catch (Exception e)
+            {
+                return new DbResponse(false, $"{e.Message}. {e.InnerException?.Message ?? ""}");
+            }
+        }
+
+        public List<CustomerAddressCrudModel> AddressList(int customerId)
+        {
+            return _db.Customer.AddressList(customerId);
         }
     }
 }

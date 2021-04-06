@@ -15,6 +15,8 @@ namespace MuslimFashion.Repository
                     Phone = c.Phone,
                     Email = c.Email
                 }));
+
+            CreateMap<CustomerAddressCrudModel, CustomerAddress>().ReverseMap();
         }
     }
 }
