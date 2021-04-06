@@ -32,6 +32,11 @@ namespace MuslimFashion.Data
             builder.Property(e => e.CreatedOnUtc)
                 .HasColumnType("datetime")
                 .HasDefaultValueSql("(getutcdate())");
+
+            builder.HasOne(e => e.Customer)
+                .WithOne(d => d.Registration)
+                .HasForeignKey<Registration>(e => e.CustomerId)
+                .HasConstraintName("FK_Registration_Customer");
         }
     }
 }

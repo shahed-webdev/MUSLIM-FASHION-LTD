@@ -85,11 +85,11 @@ namespace MuslimFashion.Web.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> SignUp(CustomerAddModel model, string returnUrl)
+        public async Task<IActionResult> SignUp(CustomerAddWithRegistrationModel withRegistrationModel, string returnUrl)
         {
-            if (!ModelState.IsValid) return View(model);
+            if (!ModelState.IsValid) return View(withRegistrationModel);
 
-            var response = await _customer.AddAsync(model);
+            var response = await _customer.AddWithRegistrationAsync(withRegistrationModel);
 
             if (response.IsSuccess)
             {
@@ -99,7 +99,7 @@ namespace MuslimFashion.Web.Controllers
 
             ModelState.AddModelError("", response.Message);
 
-            return View(model);
+            return View(withRegistrationModel);
         }
 
         // GET: ChangePassword

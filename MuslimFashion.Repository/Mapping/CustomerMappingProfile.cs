@@ -8,7 +8,15 @@ namespace MuslimFashion.Repository
     {
         public CustomerMappingProfile()
         {
-            CreateMap<CustomerAddModel, Registration>();
+            CreateMap<CustomerAddWithRegistrationModel, Registration>()
+                .ForMember(d => d.Customer, opt => opt.MapFrom(c => new Customer
+                {
+                    Name = c.Name,
+                    Phone = c.Phone,
+                    Email = c.Email
+                }));
+
+            CreateMap<CustomerAddressCrudModel, CustomerAddress>().ReverseMap();
         }
     }
 }

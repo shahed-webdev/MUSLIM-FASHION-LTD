@@ -14,5 +14,7 @@ namespace MuslimFashion.Data
         public byte[] Image { get; set; }
         public DateTime CreatedOnUtc { get; set; }
         public bool IsDeactivated { get; set; }
+        public int? CustomerId { get; set; }
+        public Customer Customer { get; set; }
     }
 }

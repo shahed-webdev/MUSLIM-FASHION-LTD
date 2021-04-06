@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MuslimFashion.Data;
 
 namespace MuslimFashion.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210406020454_AddCustomerTable")]
+    partial class AddCustomerTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -287,41 +289,6 @@ namespace MuslimFashion.Data.Migrations
                     b.HasKey("CustomerId");
 
                     b.ToTable("Customer");
-                });
-
-            modelBuilder.Entity("MuslimFashion.Data.CustomerAddress", b =>
-                {
-                    b.Property<int>("CustomerAddressId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Address")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(1024)")
-                        .HasMaxLength(1024);
-
-                    b.Property<int>("CustomerId")
-                        .HasColumnType("int");
-
-                    b.Property<bool>("IsDefault")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(128)")
-                        .HasMaxLength(128);
-
-                    b.Property<string>("Phone")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(50)")
-                        .HasMaxLength(50);
-
-                    b.HasKey("CustomerAddressId");
-
-                    b.HasIndex("CustomerId");
-
-                    b.ToTable("CustomerAddresses");
                 });
 
             modelBuilder.Entity("MuslimFashion.Data.HomeMenu", b =>
@@ -640,16 +607,6 @@ namespace MuslimFashion.Data.Migrations
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("MuslimFashion.Data.CustomerAddress", b =>
-                {
-                    b.HasOne("MuslimFashion.Data.Customer", "Customer")
-                        .WithMany("CustomerAddress")
-                        .HasForeignKey("CustomerId")
-                        .HasConstraintName("FK_CustomerAddress_Customer")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
