@@ -21,14 +21,16 @@ namespace MuslimFashion.Web.Controllers
         private readonly ISubMenuCore _subMenu;
         private readonly ISizeCore _size;
         private readonly IHomeMenuCore _homeMenu;
+        private readonly ICustomerCore _customer;
 
-        public ProductController(IMenuCore menu, ISubMenuCore subMenu, ISizeCore size, IProductCore product, IHomeMenuCore homeMenu)
+        public ProductController(IMenuCore menu, ISubMenuCore subMenu, ISizeCore size, IProductCore product, IHomeMenuCore homeMenu, ICustomerCore customer)
         {
             _menu = menu;
             _subMenu = subMenu;
             _size = size;
             _product = product;
             _homeMenu = homeMenu;
+            _customer = customer;
         }
 
         #region Product List
@@ -158,20 +160,20 @@ namespace MuslimFashion.Web.Controllers
 
 
             //ViewBag.DeliveryCost = new SelectList(_region.ListDdl(), "value", "label");
-            //var response = _customer.AddressList(User.Identity.Name);
+            var response = _customer.AddressList(User.Identity.Name);
 
-            return View();
+            return View(response);
         }
 
 
         //Post Shipping Address (Authorize(Roles = "Customer")
-        //[Authorize(Roles = "Customer")]
-        //[HttpPost]
-        //public IActionResult PostShippingAddress(CustomerAddress model)
-        //{
-        //    var response = _customer.AddressAdd(model, User.Identity.Name);
-        //    return Json(response);
-        //}
+        [Authorize(Roles = "Customer")]
+        [HttpPost]
+        public IActionResult PostShippingAddress(CustomerAddressCrudModel model)
+        {
+            var response = _customer.AddAddress(model,User.Identity.Name);
+            return Json(response);
+        }
 
         //place order
         //[Authorize(Roles = "Customer")]

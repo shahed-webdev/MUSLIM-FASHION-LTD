@@ -49,10 +49,15 @@ namespace MuslimFashion.BusinessLogic
             }
         }
 
-        public DbResponse<CustomerAddressCrudModel> AddAddress(CustomerAddressCrudModel model)
+        public DbResponse<CustomerAddressCrudModel> AddAddress(CustomerAddressCrudModel model, string userName)
         {
             try
             {
+                model.CustomerId = _db.Registration.CustomerIdByUserName(userName);
+                
+                if (model.CustomerId == 0)
+                    return new DbResponse<CustomerAddressCrudModel>(false, "Invalid User");
+
                 if (_db.Customer.IsAddressLimitOver(model.CustomerId))
                     return new DbResponse<CustomerAddressCrudModel>(false, "Address Limit over");
                 return _db.Customer.AddAddress(model);
@@ -91,8 +96,9 @@ namespace MuslimFashion.BusinessLogic
             }
         }
 
-        public List<CustomerAddressCrudModel> AddressList(int customerId)
+        public List<CustomerAddressCrudModel> AddressList(string userName)
         {
+            var customerId = _db.Registration.CustomerIdByUserName(userName);
             return _db.Customer.AddressList(customerId);
         }
     }

@@ -9,9 +9,9 @@ namespace MuslimFashion.BusinessLogic
     {
         Task<DbResponse<IdentityUser>> AddWithRegistrationAsync(CustomerAddWithRegistrationModel withRegistrationModel);
 
-        DbResponse<CustomerAddressCrudModel> AddAddress(CustomerAddressCrudModel model);
+        DbResponse<CustomerAddressCrudModel> AddAddress(CustomerAddressCrudModel model, string userName);
         DbResponse DeleteAddress(int customerAddressId);
         DbResponse EditAddress(CustomerAddressCrudModel model);
-        List<CustomerAddressCrudModel> AddressList(int customerId);
+        List<CustomerAddressCrudModel> AddressList(string userName);
     }
 }

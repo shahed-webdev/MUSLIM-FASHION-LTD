@@ -26,7 +26,7 @@ const shoppingCart = (function () {
 
     // get cart
     obj.getCart = function () {
-        return { shoppingList: cart, cartTotal: obj.totalCart() }
+        return { shoppingList: cart, cartTotal: obj.totalAmountCart() }
     }
 
     // Add to cart
@@ -194,8 +194,20 @@ function updateCartQuantity() {
 
 //set grand total amount
 function setTotalAmountCart() {
+    //cart list
+    let totalAmount = shoppingCart.totalAmountCart();
+
     const totalCart = document.querySelector(".grand-total-amount");
-    totalCart.textContent = shoppingCart.totalAmountCart();
+    totalCart.textContent = totalAmount;
+
+    const deliveryCost = document.querySelector('input[name="deliveryCharge"]:checked');
+    if (deliveryCost != null) {
+        totalAmount += +deliveryCost.value;
+    } 
+
+    //check out page total
+    const orderTotal = document.getElementById("orderTotal");
+    orderTotal.textContent = totalAmount;
 }
 
 //remove item
@@ -248,7 +260,8 @@ window.addEventListener('storage',
         //update cart to all opened tabs
         shoppingCart.loadCart();
         //cart quantity
-        updateCartQuantity();
+      updateCartQuantity();
+      displayCart()
     });
 
 //on page load, update cart count

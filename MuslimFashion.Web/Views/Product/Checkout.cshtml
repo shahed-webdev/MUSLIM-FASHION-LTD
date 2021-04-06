@@ -1,22 +1,22 @@
-﻿@model IEnumerable<CustomerAddress>
+﻿@model IEnumerable<CustomerAddressCrudModel>
 @{
     ViewData["Title"] = "Checkout";
-    Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 
 @section Styles{
     <style>
         .default-address { border: 1px solid #00ff00 }
+        #cartCount{pointer-events: none}
     </style>
 }
 
-<div class="container-fluid mb-5">
+<div class="container mb-5">
     <form id="formPurchase">
         <div class="row">
             <div class="col-xl-8 col-lg-8 mt-4">
                 <div id="shipping-address" class="card card-body mb-4">
                     <div class="border-bottom pb-2 mb-3">
-                        <h4 class="font-weight-bold mb-1">Shipping Address</h4>
+                        <h4 class="font-weight-bold mb-1">Delivery Address</h4>
                         @if (Model.Count() < 3)
                         {
                             <a href="" data-toggle="modal" data-target="#modalShippingForm">
@@ -29,8 +29,8 @@
                     {
                         <fieldset class="border rounded px-3 mb-3 @(item.IsDefault ? "border-primary" : "")">
                             <legend class="w-auto mb-0">
-                                <input type="checkbox" data-name="@item.Name" data-phone="@item.Phone" data-address="@item.Address" class="form-check-input address-check" id="@item.CustomerAddressId">
-                                <label class="form-check-label pl-3" for="@item.CustomerAddressId"></label>
+                                <input type="checkbox" id="address-@item.CustomerAddressId" data-name="@item.Name" data-phone="@item.Phone" data-address="@item.Address" class="form-check-input address-check">
+                                <label class="form-check-label pl-3" for="address-@item.CustomerAddressId"></label>
                             </legend>
 
                             <h6 class="font-weight-bold mb-1"><i class="fas fa-user"></i> @item.Name</h6>
@@ -45,13 +45,12 @@
                 <div class="card card-body">
                     <table class="show-cart table product-table">
                         <thead>
-                            <tr>
-                                <th class="text-left"><strong>Product</strong></th>
-                                <th><strong>Price</strong></th>
-                                <th class="text-center"><strong>Quantity</strong></th>
-                                <th><strong>Line Total</strong></th>
-                                <th class="text-right"><strong>Remove</strong></th>
-                            </tr>
+                        <tr>
+                            <th class="text-left"><strong>Product</strong></th>
+                            <th><strong>Price</strong></th>
+                            <th class="text-left"><strong>Quantity</strong></th>
+                            <th class="text-right"><strong>Remove</strong></th>
+                        </tr>
                         </thead>
                         <tbody></tbody>
                     </table>
@@ -62,29 +61,37 @@
                 <div class="card card-body mb-4">
                     <h4 class="font-weight-bold border-bottom pb-3 mb-3">Payment Method</h4>
                     <div>
-                        <div class="custom-control custom-radio">
-                            <input type="radio" class="custom-control-input" id="1" value="Cash On Delivery" name="paymentMethod" checked>
-                            <label class="custom-control-label" for="1">Cash On Delivery</label>
+                        <div class="form-check">
+                            <input type="radio" class="form-check-input" id="1" value="Cash On Delivery" name="paymentMethod" checked>
+                            <label class="form-check-label" for="1">Cash On Delivery</label>
                         </div>
                     </div>
                 </div>
 
                 <div class="card card-body">
                     <h4 class="font-weight-bold border-bottom pb-3 mb-3">Order Summary</h4>
-                    <ul class="list-group mb-3">
-                        <li class="d-flex justify-content-between align-items-center">
+                    <div class="mb-3">
+                        <div class="d-flex justify-content-between align-items-center">
                             <div>Cart Subtotal</div>
                             <div>৳<span class="grand-total-amount">0</span></div>
-                        </li>
-                        <li class="d-flex justify-content-between align-items-center border-bottom my-2 pb-3">
-                            <div>Delivery Charge</div>
-                            <div>৳<span id="shipping-amount">0</span></div>
-                        </li>
-                        <li class="d-flex justify-content-between align-items-center">
+                        </div>
+                        <div class="border-bottom my-2 pb-3">
+                            <div class="font-weight-bold mb-2">Delivery Charge</div>
+
+                            <div class="form-check pl-0">
+                                <input type="radio" class="form-check-input" id="inside" value="60" name="deliveryCharge" required>
+                                <label class="form-check-label" for="inside">Inside Dhaka (৳60)</label>
+                            </div>
+                            <div class="form-check pl-0">
+                                <input type="radio" class="form-check-input" id="outside" value="100" name="deliveryCharge" required>
+                                <label class="form-check-label" for="outside">Outside Dhaka (৳100)</label>
+                            </div>
+                        </div>
+                        <div class="d-flex justify-content-between align-items-center">
                             <h5 class="font-weight-bold">Order Total</h5>
                             <h5 class="font-weight-bold">৳<span id="orderTotal"></span></h5>
-                        </li>
-                    </ul>
+                        </div>
+                    </div>
 
                     <button id="btnPurchase" type="submit" class="btn btn-danger btn-rounded mt-2">Complete purchase <i class="fas fa-angle-right right"></i></button>
                     <p id="purchaseError" class="red-text text-center"></p>
@@ -145,7 +152,7 @@
             });
         });
 
-
+       
         (function () {
             //add address
             const formAdd = document.getElementById("formAdd");
@@ -199,7 +206,7 @@
                 }
 
                 if (!address) {
-                    purchaseError.textContent = "Select shipping address";
+                    purchaseError.textContent = "Select delivery address";
                     return;
                 }
 
@@ -231,6 +238,19 @@
                     }
                 });
             })
+
+            //delivery charge radio change
+            $('input[type=radio][name="deliveryCharge"]').change(function() {
+                const cost = Number($(this).val());
+                const orderTotal = document.getElementById("orderTotal");
+
+                orderTotal.textContent = shoppingCart.totalAmountCart() + cost;
+            });
+
+            //show cart table
+            if (shoppingCart.totalQuantityCount()) {
+                displayCart();
+            }
         })();
     </script>
 }
