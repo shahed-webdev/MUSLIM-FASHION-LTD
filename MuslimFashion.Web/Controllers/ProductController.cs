@@ -9,6 +9,7 @@ using MuslimFashion.BusinessLogic.Menu;
 using MuslimFashion.ViewModel;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
+using MuslimFashion.Data;
 
 namespace MuslimFashion.Web.Controllers
 {
@@ -155,8 +156,31 @@ namespace MuslimFashion.Web.Controllers
             if (!User.IsInRole("Customer"))
                 return Redirect("/Home/Index");
 
+
+            //ViewBag.DeliveryCost = new SelectList(_region.ListDdl(), "value", "label");
+            //var response = _customer.AddressList(User.Identity.Name);
+
             return View();
         }
+
+
+        //Post Shipping Address (Authorize(Roles = "Customer")
+        //[Authorize(Roles = "Customer")]
+        //[HttpPost]
+        //public IActionResult PostShippingAddress(CustomerAddress model)
+        //{
+        //    var response = _customer.AddressAdd(model, User.Identity.Name);
+        //    return Json(response);
+        //}
+
+        //place order
+        //[Authorize(Roles = "Customer")]
+        //[HttpPost]
+        //public IActionResult PlaceOrder(OrderPlaceModel model)
+        //{
+        //    var response = _order.OrderPlace(model, User.Identity.Name);
+        //    return Json(response);
+        //}
 
         #endregion
     }

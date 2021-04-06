@@ -1,8 +1,237 @@
-﻿
+﻿@model IEnumerable<CustomerAddress>
 @{
     ViewData["Title"] = "Checkout";
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 
-<h1>Checkout</h1>
+@section Styles{
+    <style>
+        .default-address { border: 1px solid #00ff00 }
+    </style>
+}
+
+<div class="container-fluid mb-5">
+    <form id="formPurchase">
+        <div class="row">
+            <div class="col-xl-8 col-lg-8 mt-4">
+                <div id="shipping-address" class="card card-body mb-4">
+                    <div class="border-bottom pb-2 mb-3">
+                        <h4 class="font-weight-bold mb-1">Shipping Address</h4>
+                        @if (Model.Count() < 3)
+                        {
+                            <a href="" data-toggle="modal" data-target="#modalShippingForm">
+                                <i class="far fa-address-book mr-1"></i>Add New Address
+                            </a>
+                        }
+                    </div>
+
+                    @foreach (var item in Model)
+                    {
+                        <fieldset class="border rounded px-3 mb-3 @(item.IsDefault ? "border-primary" : "")">
+                            <legend class="w-auto mb-0">
+                                <input type="checkbox" data-name="@item.Name" data-phone="@item.Phone" data-address="@item.Address" class="form-check-input address-check" id="@item.CustomerAddressId">
+                                <label class="form-check-label pl-3" for="@item.CustomerAddressId"></label>
+                            </legend>
+
+                            <h6 class="font-weight-bold mb-1"><i class="fas fa-user"></i> @item.Name</h6>
+                            <p class="mb-2">
+                                <i class="fas fa-phone"></i> @item.Phone
+                            </p>
+                            <p><i class="fas fa-map-marker-alt"></i> @item.Address</p>
+                        </fieldset>
+                    }
+                </div>
+
+                <div class="card card-body">
+                    <table class="show-cart table product-table">
+                        <thead>
+                            <tr>
+                                <th class="text-left"><strong>Product</strong></th>
+                                <th><strong>Price</strong></th>
+                                <th class="text-center"><strong>Quantity</strong></th>
+                                <th><strong>Line Total</strong></th>
+                                <th class="text-right"><strong>Remove</strong></th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="col-xl-4 col-lg-4 mt-4">
+                <div class="card card-body mb-4">
+                    <h4 class="font-weight-bold border-bottom pb-3 mb-3">Payment Method</h4>
+                    <div>
+                        <div class="custom-control custom-radio">
+                            <input type="radio" class="custom-control-input" id="1" value="Cash On Delivery" name="paymentMethod" checked>
+                            <label class="custom-control-label" for="1">Cash On Delivery</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card card-body">
+                    <h4 class="font-weight-bold border-bottom pb-3 mb-3">Order Summary</h4>
+                    <ul class="list-group mb-3">
+                        <li class="d-flex justify-content-between align-items-center">
+                            <div>Cart Subtotal</div>
+                            <div>৳<span class="grand-total-amount">0</span></div>
+                        </li>
+                        <li class="d-flex justify-content-between align-items-center border-bottom my-2 pb-3">
+                            <div>Delivery Charge</div>
+                            <div>৳<span id="shipping-amount">0</span></div>
+                        </li>
+                        <li class="d-flex justify-content-between align-items-center">
+                            <h5 class="font-weight-bold">Order Total</h5>
+                            <h5 class="font-weight-bold">৳<span id="orderTotal"></span></h5>
+                        </li>
+                    </ul>
+
+                    <button id="btnPurchase" type="submit" class="btn btn-danger btn-rounded mt-2">Complete purchase <i class="fas fa-angle-right right"></i></button>
+                    <p id="purchaseError" class="red-text text-center"></p>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+<!--shipping address-->
+<div class="modal fade" id="modalShippingForm" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header text-center red lighten-1 text-white">
+                <h4 class="modal-title w-100 font-weight-bold">Add Delivery Address</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body mx-3">
+                <form id="formAdd">
+                    <div class="form-group">
+                        <label for="inputName">Your name</label>
+                        <input type="text" id="inputName" name="Name" class="form-control validate" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputPhone">Phone</label>
+                        <input type="text" id="inputPhone" name="Phone" class="form-control validate" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputAddress">Address</label>
+                        <textarea type="text" id="inputAddress" name="Address" class="md-textarea form-control" rows="1" required></textarea>
+                    </div>
+
+                    <div class="d-flex justify-content-center">
+                        <button id="btnAddress" type="submit" class="btn btn-danger">Add Address <i class="fas fa-paper-plane-o ml-1"></i></button>
+                    </div>
+                </form>
+            </div>  
+        </div>
+    </div>
+</div>
+
+
+
+@section Scripts{
+    <script>
+        $(function () {
+            $(".address-check").change(function () {
+                $(".address-check").not(this).prop('checked', false);
+
+                $(".address-check").each(function () {
+                    if ($(this).prop('checked') === true)
+                        $(this).parent().parent().addClass('border-primary');
+                    else
+                        $(this).parent().parent().removeClass('border-primary');
+                });
+            });
+        });
+
+
+        (function () {
+            //add address
+            const formAdd = document.getElementById("formAdd");
+            formAdd.addEventListener("submit", function (evt) {
+                evt.preventDefault();
+                this.btnAddress.disabled = true;
+
+                $.ajax({
+                    url: "/Product/PostShippingAddress",
+                    type: "POST",
+                    data: methods.getForm(this),
+                    success: response => {
+                        if (response.IsSuccess) {
+                            location.reload();
+                            return;
+                        }
+
+                        this.btnAddress.disabled = false;
+                        $.notify(response.Message, "error");
+                    },
+                    error: err => {
+                        this.btnAddress.disabled = false;
+                        console.log(err);
+                    }
+                });
+            });
+
+            //place order
+            const purchaseError = document.getElementById("purchaseError");
+            const formPurchase = document.getElementById("formPurchase");
+            formPurchase.addEventListener("submit", function (evt) {
+                evt.preventDefault();
+                purchaseError.textContent = "";
+
+                let address = null;
+                $(".address-check").each(function () {
+                    if ($(this).prop('checked') === true) {
+                        address = {
+                            Name: $(this).data("name"),
+                            Phone: $(this).data("phone"),
+                            Address: $(this).data("address")
+                        }
+                    }
+                });
+
+                const { shoppingList, cartTotal } = shoppingCart.getCart();
+             
+                if (!shoppingList.length) {
+                    purchaseError.textContent = "Add product to purchase";
+                    return;
+                }
+
+                if (!address) {
+                    purchaseError.textContent = "Select shipping address";
+                    return;
+                }
+
+                const model = {
+                    OrderShippingAddress: address,
+                    TotalAmount: cartTotal,
+                    OrderList: shoppingList
+                }
+
+                this.btnPurchase.disabled = true;
+
+                $.ajax({
+                    url: "/Product/PlaceOrder",
+                    type: "POST",
+                    data: model,
+                    success: response => {
+                        this.btnPurchase.disabled = false;
+
+                        if (response.IsSuccess) {
+                            shoppingCart.clearCart();
+                            location.href = `/Product/OrderSuccess/${response.Data}`;
+                            return;
+                        }
+                        $.notify(response.Message, "error", { position: "right" });
+                    },
+                    error: err => {
+                        console.log(err);
+                        this.btnPurchase.disabled = false;
+                    }
+                });
+            })
+        })();
+    </script>
+}
 

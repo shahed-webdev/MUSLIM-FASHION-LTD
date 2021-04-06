@@ -9,7 +9,7 @@ const shoppingCart = (function () {
     }
 
     // Load cart
-    function loadCart() {
+    const loadCart = function() {
         cart = JSON.parse(localStorage.getItem('shoppingCart'));
     }
 
@@ -20,6 +20,9 @@ const shoppingCart = (function () {
 
     // Public methods and properties
     const obj = {};
+
+    //load cart on change storage
+    obj.loadCart = loadCart;
 
     // get cart
     obj.getCart = function () {
@@ -232,7 +235,6 @@ productTable.addEventListener("change", function (evt) {
 //on modal click
 const cartCount = document.getElementById("cartCount");
 cartCount.addEventListener("click", function (evt) {
-
     if (shoppingCart.totalQuantityCount()) {
         displayCart();
         $("#cartModal").modal("show");
@@ -240,4 +242,14 @@ cartCount.addEventListener("click", function (evt) {
 });
 
 
-displayCart();
+//load cart on storage change on other tabs
+window.addEventListener('storage',
+  function (e) {
+        //update cart to all opened tabs
+        shoppingCart.loadCart();
+        //cart quantity
+        updateCartQuantity();
+    });
+
+//on page load, update cart count
+updateCartQuantity();
