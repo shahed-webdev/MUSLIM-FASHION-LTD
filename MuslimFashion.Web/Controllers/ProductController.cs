@@ -145,6 +145,10 @@ namespace MuslimFashion.Web.Controllers
             if (!id.HasValue) return RedirectToAction("index", "home");
            
             var model = _product.Get(id.GetValueOrDefault());
+
+            //var selectedCategory = _homeMenu.Get();
+            //ViewBag.SelectedCategory = selectedCategory.Data.HomeMenuName;
+
             return View(model.Data);
         }
 
@@ -184,6 +188,30 @@ namespace MuslimFashion.Web.Controllers
         //    return Json(response);
         //}
 
+        #endregion
+
+        #region Show Category Wise Product
+        [AllowAnonymous]
+        public IActionResult CategoryProducts(int? id)
+        {
+            if (!id.HasValue) return RedirectToAction("Index", "Home");
+
+            var model = _homeMenu.Products(id.GetValueOrDefault(),0,2);
+            
+            var selectedCategory = _homeMenu.Get(id.GetValueOrDefault());
+            ViewBag.SelectedCategory = selectedCategory.Data;
+            
+            return View(model);
+        }
+
+        //get product from ajax
+        [AllowAnonymous]
+        [HttpPost]
+        public IActionResult GetCategoryProducts(int id, int getFrom, int quantity)
+        {
+            var model = _homeMenu.Products(id, getFrom, quantity);
+            return Json(model);
+        }
         #endregion
     }
 }

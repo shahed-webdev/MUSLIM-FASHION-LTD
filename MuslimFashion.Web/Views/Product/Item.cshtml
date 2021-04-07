@@ -14,7 +14,10 @@
         <li class="breadcrumb-item">
             <a class="black-text" href="/Home/Index">Home</a><i class="fas fa-angle-double-right mx-2"></i>
         </li>
-       @* <li class="breadcrumb-item active">@Model.</li>*@
+        @*<li class="breadcrumb-item">
+            <a class="black-text" href="/Home/Index">Home</a><i class="fas fa-angle-double-right mx-2"></i>
+        </li>*@
+        <li class="breadcrumb-item active">@Model.ProductName</li>
     </ol>
 
     <div class="card card-body mb-4">
@@ -25,6 +28,7 @@
                 </div>
                 <div class="col-lg-6 col-md-7">
                     <h2 class="font-weight-bold mb-3">@Model.ProductName</h2>
+                    <p>Code: <strong class="ml-2">@Model.ProductCode</strong></p>
                     <p>
                         Price: <strong class="ml-2">৳@Model.Price</strong>
                         @if (Model.OldPrice > 0)

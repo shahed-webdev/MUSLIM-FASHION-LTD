@@ -207,6 +207,7 @@ function setTotalAmountCart() {
 
     //check out page total
     const orderTotal = document.getElementById("orderTotal");
+    if (orderTotal)
     orderTotal.textContent = totalAmount;
 }
 
@@ -255,14 +256,13 @@ cartCount.addEventListener("click", function (evt) {
 
 
 //load cart on storage change on other tabs
-window.addEventListener('storage',
-  function (e) {
-        //update cart to all opened tabs
-        shoppingCart.loadCart();
-        //cart quantity
+window.addEventListener('storage',function (e) {
+   //update cart to all opened tabs
+    shoppingCart.loadCart();
+    //cart quantity
       updateCartQuantity();
-      displayCart()
-    });
+      displayCart();
+});
 
 //on page load, update cart count
 updateCartQuantity();

@@ -6,7 +6,7 @@
 }
 
 @section Styles{
-    <link href="~/pages-css/home.css?v=1.0.0" rel="stylesheet" />
+    <link href="~/pages-css/home.css?v=1.0.1" rel="stylesheet" />
 }
 
 <div class="container">
@@ -33,7 +33,12 @@
     <section>
         @foreach (var category in Model)
         {
-            <h4 class="category-title">@category.HomeMenuName</h4>
+            if (!category.Products.Any())
+            {
+                continue;
+            }
+
+            <h4 class="category-title mb-5">@category.HomeMenuName</h4>
             <div class="row mb-5">
                 @foreach (var product in category.Products)
                 {
@@ -59,6 +64,10 @@
                         </div>
                     </div>
                 }
+            </div>
+
+            <div class="text-center mb-5">
+                <a class="btn btn-outline-danger btn-rounded py-2" href="/Product/CategoryProducts/@category.HomeMenuId"><i class="far fa-eye mr-1"></i>View All</a>
             </div>
         }
     </section>
