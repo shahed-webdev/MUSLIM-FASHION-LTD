@@ -24,6 +24,13 @@ namespace MuslimFashion.Repository
 
             CreateMap<Product, ProductRecordView>();
             CreateMap<Product, ProductGridViewModel>();
+            CreateMap<Product, ProductFindViewModel>()
+                .ForMember(d => d.Sizes, opt => opt.MapFrom(c => c.ProductSizes.Select(p => new ProductFindSizeModel
+                {
+                    ProductSizeId = p.ProductSizeId,
+                    SizeName = p.Size.SizeName
+                })))
+                ;
         }
     }
 }

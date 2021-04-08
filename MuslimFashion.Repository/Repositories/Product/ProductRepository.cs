@@ -1,9 +1,12 @@
 ﻿using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using JqueryDataTables.LoopsIT;
+using Microsoft.EntityFrameworkCore;
 using MuslimFashion.Data;
 using MuslimFashion.ViewModel;
+using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace MuslimFashion.Repository
 {
@@ -73,6 +76,18 @@ namespace MuslimFashion.Repository
                 .Where(p => !assignedProductIds.Contains(p.ProductId))
                 .ProjectTo<ProductRecordView>(_mapper.ConfigurationProvider)
                 .ToDataResult(request);
+        }
+
+        public async Task<List<ProductFindViewModel>> SearchAsync(string code)
+        {
+
+            return await Db.Product
+                .Where(c => c.ProductCode.Contains(code))
+                .ProjectTo<ProductFindViewModel>(_mapper.ConfigurationProvider)
+                .Take(5)
+                .ToListAsync()
+                .ConfigureAwait(false);
+
         }
     }
 }

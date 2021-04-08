@@ -9,6 +9,7 @@ namespace MuslimFashion.Data
         {
             ProductSizes = new HashSet<ProductSize>();
             HomeProducts = new HashSet<HomeProduct>();
+            OrderLists = new HashSet<OrderList>();
         }
         public int ProductId { get; set; }
         public int SubMenuId { get; set; }
@@ -24,5 +25,7 @@ namespace MuslimFashion.Data
         public DateTime InsertDateUtc { get; set; }
         public ICollection<ProductSize> ProductSizes { get; set; }
         public ICollection<HomeProduct> HomeProducts { get; set; }
+        public ICollection<OrderList> OrderLists { get; set; }
+
     }
 }

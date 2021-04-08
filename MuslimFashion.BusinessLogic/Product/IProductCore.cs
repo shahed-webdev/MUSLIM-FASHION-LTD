@@ -1,6 +1,7 @@
 ﻿using JqueryDataTables.LoopsIT;
 using Microsoft.AspNetCore.Http;
 using MuslimFashion.ViewModel;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace MuslimFashion.BusinessLogic
@@ -11,5 +12,7 @@ namespace MuslimFashion.BusinessLogic
         DbResponse<ProductDetailsModel> Get(int id);
         DataResult<ProductRecordView> ListByAdmin(DataRequest request);
         DataResult<ProductRecordView> ListOfUnassignedHomeMenu(DataRequest request, int homeMenuId);
+
+        Task<List<ProductFindViewModel>> SearchAsync(string code);
     }
 }
