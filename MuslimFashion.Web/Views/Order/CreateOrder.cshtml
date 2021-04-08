@@ -1,0 +1,172 @@
+﻿
+@{
+    ViewData["Title"] = "Create Order";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+@section Styles{
+    <style>
+        .size-radio { margin-right: 10px; }
+        .size-radio [type=radio] + label { cursor: pointer; padding: 0 6px; border: 1px solid #ddd; border-radius: 5px; text-align: center; font-size: .95rem; white-space: nowrap;margin-bottom: 0 }
+        .size-radio [type=radio]:checked + label { border: 1px solid #ff5722; margin-bottom: 0 }
+
+        #tBody img { width: 80px; min-width: 50px; margin-right: 5px; }
+
+        .input-quantity { border: 1px solid #ddd; width: 72px; border-radius: 5px; text-align: center; }
+    </style>
+}
+
+<div class="container">
+    <h4 class="page-header mb-3">Create Order</h4>
+    <form>
+        <div class="card card-body mb-3">
+            <div class="form-group">
+                <label>Add Product</label>
+                <input id="inputProductCode" placeholder="Enter product code" type="text" class="form-control">
+            </div>
+
+            <div class="table-responsive">
+                <table class="table product-table">
+                    <thead>
+                    <tr>
+                        <th class="text-left"><strong>Product</strong></th>
+                        <th><strong>Price</strong></th>
+                        <th class="text-left"><strong>Quantity</strong></th>
+                        <th class="text-right"><strong>Remove</strong></th>
+                    </tr>
+                    </thead>
+                    <tbody id="tBody">
+                    <tr>
+                        <td class="d-flex flex-wrap align-items-center">
+                            <img src="/product/20210331221248.jpg" alt="full sleb shirt">
+                            <div class="text-left">
+                                <p class="mb-2">full sleb shirt</p>
+                                <div class="d-flex align-items-center flex-wrap">
+                                    <strong class="mr-2">Size:</strong>
+                                    <div class="size-radio">
+                                        <input class="inputSize" id="size-2" type="radio" name="ProductSize" value="L" required>
+                                        <label for="size-2">L</label>
+                                    </div>
+                                    <div class="size-radio">
+                                        <input class="inputSize" id="size-1" type="radio" name="ProductSize" value="M" required>
+                                        <label for="size-1">M</label>
+                                    </div>
+                                    <div class="size-radio">
+                                        <input class="inputSize" id="size-3" type="radio" name="ProductSize" value="XL" required>
+                                        <label for="size-3">XL</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                        <td>৳500.00</td>
+                        <td class="text-center">
+                            <input class="item-quantity form-control" id="1" value="1" min="1" max="50" type="number" required="">
+                        </td>
+                        <td class="text-right">
+                            <button id="1" type="button" class="btn btn-sm grey darken-3 text-white delete-item" title="Remove item">X</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="d-flex flex-wrap align-items-center">
+                            <img src="/product/product-image-20210403170430.jpg" alt="full cotton kids t-shirt">
+                            <div class="text-left">
+                                <p class="mb-2">full cotton kids t-shirt</p>
+                                <div class="d-flex align-items-center flex-wrap">
+                                    <strong class="mr-2">Size:</strong>
+                                    <div class="size-radio">
+                                        <input class="inputSize" id="size-2" type="radio" name="ProductSize" value="L" required>
+                                        <label for="size-2">L</label>
+                                    </div>
+                                    <div class="size-radio">
+                                        <input class="inputSize" id="size-1" type="radio" name="ProductSize" value="M" required>
+                                        <label for="size-1">M</label>
+                                    </div>
+                                    <div class="size-radio">
+                                        <input class="inputSize" id="size-3" type="radio" name="ProductSize" value="XL" required>
+                                        <label for="size-3">XL</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                        <td>৳600.00</td>
+                        <td class="text-center">
+                            <input class="item-quantity form-control" id="2" value="1" min="1" max="50" type="number" required="">
+                        </td>
+                        <td class="text-right">
+                            <button id="2" type="button" class="btn btn-sm grey darken-3 text-white delete-item" title="Remove item">X</button>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <hr/>
+            <div class="text-right">
+                <h5 class="mb-0">Product Total: ৳<strong id="total-amount">1100</strong></h5>
+
+                <div class="border-bottom my-2 pb-3">
+                    <div class="font-weight-bold mb-2">Delivery Charge</div>
+
+                    <div class="form-check pl-0">
+                        <input type="radio" class="form-check-input" id="inside" value="60" name="deliveryCharge" required>
+                        <label class="form-check-label" for="inside">Inside Dhaka: ৳60</label>
+                    </div>
+                    <div class="form-check pl-0">
+                        <input type="radio" class="form-check-input" id="outside" value="100" name="deliveryCharge" required>
+                        <label class="form-check-label" for="outside">Outside Dhaka: ৳100</label>
+                    </div>
+                </div>
+
+                <h5 class="mb-0 font-weight-bold">Grand Total: ৳<strong id="total-amount">1100</strong></h5>
+            </div>
+        </div>
+        
+        <div class="card card-body">
+            <div class="form-group">
+                <label>Add Customer</label>
+                <input id="inputCustomer" placeholder="Mobile Number, Name" type="text" class="form-control">
+            </div>
+
+            <div>
+                <input type="submit" class="btn btn-danger" value="Create Order">
+            </div>
+        </div>
+    </form>
+
+</div>
+
+@section Scripts{
+    <script>
+        (function() {
+            const products = [];
+
+            //autocomplete
+            //$(inputReferenceId).typeahead({
+            //    minLength: 2,
+            //    displayText: function (item) {
+            //        return item.UserName;
+            //    },
+            //    afterSelect: function (item) {
+            //        this.$element[0].value = item.UserName;
+            //    },
+            //    source: function (request, result) {
+            //        $.ajax({
+            //            type: "POST",
+            //            url: "Add_Member.aspx/GetUsers",
+            //            data: JSON.stringify({ 'prefix': request }),
+            //            contentType: "application/json; charset=utf-8",
+            //            dataType: "json",
+            //            success: function (response) {
+            //                result(JSON.parse(response.d));
+            //            },
+            //            error: function (err) { console.log(err) }
+            //        });
+            //    },
+            //    updater: function (item) {
+            //        appendReferenceInfo(item);
+            //        return item;
+            //    }
+            //})
+        })();
+    </script>
+}

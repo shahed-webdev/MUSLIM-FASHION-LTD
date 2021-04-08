@@ -196,7 +196,7 @@ namespace MuslimFashion.Web.Controllers
         {
             if (!id.HasValue) return RedirectToAction("Index", "Home");
 
-            var model = _homeMenu.Products(id.GetValueOrDefault(),0,2);
+            var model = _homeMenu.Products(id.GetValueOrDefault(),0,8);
             
             var selectedCategory = _homeMenu.Get(id.GetValueOrDefault());
             ViewBag.SelectedCategory = selectedCategory.Data;

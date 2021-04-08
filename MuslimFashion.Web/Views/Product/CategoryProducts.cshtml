@@ -58,11 +58,10 @@
             const btnLoadMore = document.getElementById("btnLoadMore");
             const productContainer = document.getElementById("product-container");
 
-            let getFrom = 2;
-            let quantity = 1;
+            let getFrom = 8;
+            const quantity = 4;
             btnLoadMore.addEventListener("click",
-                function () {
-                    
+                function() {
                     loading(this, true);
 
                     const body = { id: @ViewBag.SelectedCategory.HomeMenuId, getFrom, quantity }
@@ -71,13 +70,13 @@
                         type: "POST",
                         data: body,
                         success: response => {
-                            console.log(response)
                             getFrom += quantity;
+
                             response.forEach(item => {
                                 productContainer.appendChild(createProduct(item));
                             });
 
-                            this.style.display = response.length? "":"none";
+                            this.style.display = response.length ? "" : "none";
                             loading(this, false);
                         },
                         error: error => {
@@ -110,7 +109,7 @@
             }
 
             //loading btn
-            function loading(btn,isLoading) {
+            function loading(btn, isLoading) {
                 btn.disabled = isLoading;
                 btn.children[0].style.display = isLoading ? "inline-block" : "none";
             }
