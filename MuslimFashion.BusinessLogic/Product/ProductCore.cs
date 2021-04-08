@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Http;
 using MuslimFashion.Repository;
 using MuslimFashion.ViewModel;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace MuslimFashion.BusinessLogic
@@ -66,6 +67,11 @@ namespace MuslimFashion.BusinessLogic
         public DataResult<ProductRecordView> ListOfUnassignedHomeMenu(DataRequest request, int homeMenuId)
         {
             return _db.product.ListOfUnassignedHomeMenu(request, homeMenuId);
+        }
+
+        public async Task<List<ProductFindViewModel>> SearchAsync(string code)
+        {
+            return await _db.product.SearchAsync(code);
         }
     }
 }

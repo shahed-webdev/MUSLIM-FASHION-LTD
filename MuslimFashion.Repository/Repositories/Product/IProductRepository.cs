@@ -1,5 +1,7 @@
 ﻿using JqueryDataTables.LoopsIT;
 using MuslimFashion.ViewModel;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace MuslimFashion.Repository
 {
@@ -18,6 +20,7 @@ namespace MuslimFashion.Repository
 
         DataResult<ProductRecordView> ListByAdmin(DataRequest request);
         DataResult<ProductRecordView> ListOfUnassignedHomeMenu(DataRequest request, int homeMenuId);
+        Task<List<ProductFindViewModel>> SearchAsync(string code);
 
     }
 }
