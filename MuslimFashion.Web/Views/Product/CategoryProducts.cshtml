@@ -59,7 +59,7 @@
             const productContainer = document.getElementById("product-container");
 
             let getFrom = 2;
-            let quantity = 3;
+            let quantity = 1;
             btnLoadMore.addEventListener("click",
                 function () {
                     
@@ -72,11 +72,12 @@
                         data: body,
                         success: response => {
                             console.log(response)
-                            getFrom += getFrom;
+                            getFrom += quantity;
                             response.forEach(item => {
                                 productContainer.appendChild(createProduct(item));
                             });
 
+                            this.style.display = response.length? "":"none";
                             loading(this, false);
                         },
                         error: error => {

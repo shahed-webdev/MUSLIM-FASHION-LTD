@@ -155,8 +155,8 @@ namespace MuslimFashion.Repository
         {
             return Db.HomeProduct
                 .Where(p => p.HomeMenuId == homeMenuId)
-                .Take(quantity)
                 .Skip(getFrom)
+                .Take(quantity)
                 .Select(p => p.Product)
                 .ProjectTo<ProductGridViewModel>(_mapper.ConfigurationProvider)
                 .ToList();
