@@ -14,6 +14,8 @@ namespace MuslimFashion.ViewModel
         public string Description { get; set; }
         public string ImageFileName { get; set; }
         public List<ProductSizeDetailsModel> ProductSizes { get; set; }
+        public int SubMenuId { get; set; }
+        public string SubMenuName { get; set; }
     }
 
     public class ProductSizeDetailsModel

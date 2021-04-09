@@ -7,6 +7,7 @@ namespace MuslimFashion.Repository
         ICustomerRepository Customer { get; }
         IHomeMenuRepository HomeMenu { get; }
         IMenuRepository Menu { get; }
+        IOrderRepository Order { get; }
         IProductRepository product { get; }
         IRegistrationRepository Registration { get; }
         ISubMenuRepository SubMenu { get; }
