@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MuslimFashion.Data;
 
 namespace MuslimFashion.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210409152050_date_time_nullable")]
+    partial class date_time_nullable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -428,7 +430,7 @@ namespace MuslimFashion.Data.Migrations
                     b.Property<decimal>("Discount")
                         .HasColumnType("decimal(18, 2)");
 
-                    b.Property<DateTime?>("InsertDateUtc")
+                    b.Property<DateTime>("InsertDateUtc")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime")
                         .HasDefaultValueSql("(getutcdate())");
@@ -441,7 +443,7 @@ namespace MuslimFashion.Data.Migrations
                         .HasColumnType("decimal(18,2)")
                         .HasComputedColumnSql("(([TotalPrice]-[Discount])+[DeliveryCost])");
 
-                    b.Property<DateTime?>("OrderDate")
+                    b.Property<DateTime>("OrderDate")
                         .HasColumnType("datetime");
 
                     b.Property<int>("OrderNo")
@@ -452,7 +454,7 @@ namespace MuslimFashion.Data.Migrations
                         .HasColumnType("nvarchar(50)")
                         .HasMaxLength(50);
 
-                    b.Property<DateTime?>("StatusChangeDate")
+                    b.Property<DateTime>("StatusChangeDate")
                         .HasColumnType("datetime");
 
                     b.Property<decimal>("TotalPrice")

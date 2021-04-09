@@ -44,7 +44,7 @@
                         @foreach (var size in Model.ProductSizes)
                         {
                             <div class="size-radio">
-                                <input class="inputSize" id="size-@size.SizeId" type="radio" data-details="@size.Description" name="ProductSize" value="@size.SizeName" required>
+                                <input class="inputSize" id="size-@size.SizeId" type="radio" data-name="@size.SizeName" data-details="@size.Description" name="ProductSizeId" value="@size.SizeId" required>
                                 <label for="size-@size.SizeId">@size.SizeName</label>
                             </div>
                         }
@@ -62,9 +62,9 @@
 
                     <div>
                         <!---for add to local cart-->
+                        <input type="hidden" name="ProductId" value="@Model.ProductId" />
                         <input type="hidden" name="UnitPrice" value="@Model.Price" />
                         <input type="hidden" name="ProductName" value="@Model.ProductName" />
-                        <input type="hidden" name="ProductId" value="@Model.ProductId" />
                         <input type="hidden" name="ImageFileName" value="@baseUrl/@Model.ImageFileName" />
 
                         <input id="btnAddToCart" class="btn btn-danger btn-md" type="submit" value="Add to Cart">
@@ -112,7 +112,10 @@
             function(evt) {
                 evt.preventDefault();
 
+                const sizeName = document.querySelector("input[name=ProductSizeId]:checked").getAttribute("data-name");
                 const obj = methods.getForm(this);
+                obj.ProductSize = sizeName;
+
                 const added = shoppingCart.addItemToCart(obj);
 
                 $.notify(added ? "Already in cart" : "Product added to Shopping Cart", added ?"error":"success");

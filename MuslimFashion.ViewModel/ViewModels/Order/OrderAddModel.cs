@@ -10,7 +10,7 @@ namespace MuslimFashion.ViewModel
         public decimal DeliveryCost { get; set; }
         public bool IsInDhaka { get; set; }
         public int? CustomerId { get; set; }
-        public DateTime OrderDate { get; set; }
+        public DateTime? OrderDate { get; set; }
         public List<OrderListAddModel> OrderLists { get; set; }
         public string DeliveryName { get; set; }
         public string DeliveryAddress { get; set; }

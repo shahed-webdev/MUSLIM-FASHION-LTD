@@ -17,10 +17,7 @@ namespace MuslimFashion.BusinessLogic
         {
             try
             {
-                if (!model.OrderLists.Any())
-                    return new DbResponse<int>(false, "No item added");
-
-                return _db.Order.PleaseOrder(model);
+                return model.OrderLists.Count < 1 ? new DbResponse<int>(false, "No item added") : _db.Order.PleaseOrder(model);
             }
             catch (Exception e)
             {
@@ -34,10 +31,7 @@ namespace MuslimFashion.BusinessLogic
             {
                 model.CustomerId = _db.Registration.CustomerIdByUserName(customerUserName);
 
-                if (model.CustomerId == 0)
-                    return new DbResponse<int>(false, "Invalid User");
-
-                return this.PleaseOrder(model);
+                return model.CustomerId == 0 ? new DbResponse<int>(false, "Invalid User") : this.PleaseOrder(model);
             }
             catch (Exception e)
             {

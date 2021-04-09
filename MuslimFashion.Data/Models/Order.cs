@@ -19,9 +19,9 @@ namespace MuslimFashion.Data
         public decimal NetAmount { get; set; }
         public Customer Customer { get; set; }
         public int? CustomerId { get; set; }
-        public DateTime OrderDate { get; set; }
-        public DateTime StatusChangeDate { get; set; }
-        public DateTime InsertDateUtc { get; set; }
+        public DateTime? OrderDate { get; set; }
+        public DateTime? StatusChangeDate { get; set; }
+        public DateTime? InsertDateUtc { get; set; }
         public ICollection<OrderList> OrderLists { get; set; }
         public string DeliveryName { get; set; }
         public string DeliveryAddress { get; set; }

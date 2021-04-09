@@ -191,9 +191,9 @@
                 $(".address-check").each(function () {
                     if ($(this).prop('checked') === true) {
                         address = {
-                            Name: $(this).data("name"),
-                            Phone: $(this).data("phone"),
-                            Address: $(this).data("address")
+                            DeliveryName: $(this).data("name"),
+                            DeliveryPhone : $(this).data("phone"),
+                            DeliveryAddress: $(this).data("address")
                         }
                     }
                 });
@@ -201,19 +201,24 @@
                 const { shoppingList, cartTotal } = shoppingCart.getCart();
              
                 if (!shoppingList.length) {
+                    $.notify("Add product to purchase", "error");
                     purchaseError.textContent = "Add product to purchase";
                     return;
                 }
 
                 if (!address) {
+                    $.notify("Select delivery address", "error");
                     purchaseError.textContent = "Select delivery address";
                     return;
                 }
 
                 const model = {
-                    OrderShippingAddress: address,
-                    TotalAmount: cartTotal,
-                    OrderList: shoppingList
+                    TotalPrice: cartTotal,
+                    DeliveryCost: document.querySelector("input[name=deliveryCharge]:checked").value,
+                    OrderLists: shoppingList,
+                    DeliveryName: address.DeliveryName,
+                    DeliveryAddress: address.DeliveryAddress,
+                    DeliveryPhone: address.DeliveryPhone
                 }
 
                 this.btnPurchase.disabled = true;

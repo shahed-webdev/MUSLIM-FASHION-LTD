@@ -1,0 +1,32 @@
+﻿
+@{
+    ViewData["Title"] = "Order Success";
+}
+
+@section Styles
+{
+    <style>
+        .success-text { text-align: center }
+            .success-text i { color: #04d95a; display: inline-block; margin: 1.5rem 0; }
+            .success-text h5 { color: #0b0b0b; font-weight: bold; font-size: 1.5rem; }
+            .success-text h6 { color: #353535; font-size: 1.3rem; }
+            .success-text p { color: #4d4c4c }
+    </style> 
+}
+
+<div class="container">
+    <div class="card card-body mt-4">
+        <div class="success-text">
+            <i class="far fa-check-circle fa-5x"></i>
+            <h6>Order Number: #@ViewBag.OrderNo</h6>
+            <h5>Order Completed Successfully</h5>
+            <p>Thank you for ordering. We received your order and will begin processing it soon.</p>
+        </div>
+
+        <div class="text-center my-3">
+            <a href="/Home/Index" class="btn btn-success btn-rounded"><i class="fas fa-long-arrow-alt-left mr-1"></i>Shopping More</a>
+            <a href="/Customer/Dashboard" class="btn btn-outline-success btn-rounded"><i class="fas fa-shopping-cart mr-1"></i>View Order</a>
+        </div>
+    </div>
+</div>
+

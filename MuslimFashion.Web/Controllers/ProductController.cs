@@ -22,8 +22,9 @@ namespace MuslimFashion.Web.Controllers
         private readonly ISizeCore _size;
         private readonly IHomeMenuCore _homeMenu;
         private readonly ICustomerCore _customer;
+        private readonly IOrderCore _order;
 
-        public ProductController(IMenuCore menu, ISubMenuCore subMenu, ISizeCore size, IProductCore product, IHomeMenuCore homeMenu, ICustomerCore customer)
+        public ProductController(IMenuCore menu, ISubMenuCore subMenu, ISizeCore size, IProductCore product, IHomeMenuCore homeMenu, ICustomerCore customer, IOrderCore order)
         {
             _menu = menu;
             _subMenu = subMenu;
@@ -31,6 +32,7 @@ namespace MuslimFashion.Web.Controllers
             _product = product;
             _homeMenu = homeMenu;
             _customer = customer;
+            _order = order;
         }
 
         #region Product List
@@ -180,14 +182,23 @@ namespace MuslimFashion.Web.Controllers
         }
 
         //place order
-        //[Authorize(Roles = "Customer")]
-        //[HttpPost]
-        //public IActionResult PlaceOrder(OrderPlaceModel model)
-        //{
-        //    var response = _order.OrderPlace(model, User.Identity.Name);
-        //    return Json(response);
-        //}
+        [Authorize(Roles = "Customer")]
+        [HttpPost]
+        public IActionResult PlaceOrder(OrderAddModel model)
+        {
+            var response = _order.PleaseOrder(model, User.Identity.Name);
+            return Json(response);
+        }
 
+        //order success
+        [Authorize(Roles = "Customer")]
+        public IActionResult OrderSuccess(int? id)
+        {
+            if (!id.HasValue) return RedirectToAction("Index", "Home");
+            ViewBag.OrderNo = id;
+
+            return View();
+        }
         #endregion
 
         #region Show Category Wise Product
