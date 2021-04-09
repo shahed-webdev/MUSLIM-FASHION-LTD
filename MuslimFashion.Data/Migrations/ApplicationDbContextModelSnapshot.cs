@@ -428,7 +428,7 @@ namespace MuslimFashion.Data.Migrations
                     b.Property<decimal>("Discount")
                         .HasColumnType("decimal(18, 2)");
 
-                    b.Property<DateTime?>("InsertDateUtc")
+                    b.Property<DateTime>("InsertDateUtc")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime")
                         .HasDefaultValueSql("(getutcdate())");
@@ -442,7 +442,7 @@ namespace MuslimFashion.Data.Migrations
                         .HasComputedColumnSql("(([TotalPrice]-[Discount])+[DeliveryCost])");
 
                     b.Property<DateTime?>("OrderDate")
-                        .HasColumnType("datetime");
+                        .HasColumnType("date");
 
                     b.Property<int>("OrderNo")
                         .HasColumnType("int");
@@ -453,7 +453,7 @@ namespace MuslimFashion.Data.Migrations
                         .HasMaxLength(50);
 
                     b.Property<DateTime?>("StatusChangeDate")
-                        .HasColumnType("datetime");
+                        .HasColumnType("date");
 
                     b.Property<decimal>("TotalPrice")
                         .HasColumnType("decimal(18, 2)");

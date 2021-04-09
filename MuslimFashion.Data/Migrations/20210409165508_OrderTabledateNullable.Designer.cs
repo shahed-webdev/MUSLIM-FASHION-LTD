@@ -10,8 +10,8 @@ using MuslimFashion.Data;
 namespace MuslimFashion.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20210409152050_date_time_nullable")]
-    partial class date_time_nullable
+    [Migration("20210409165508_OrderTabledateNullable")]
+    partial class OrderTabledateNullable
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -443,8 +443,8 @@ namespace MuslimFashion.Data.Migrations
                         .HasColumnType("decimal(18,2)")
                         .HasComputedColumnSql("(([TotalPrice]-[Discount])+[DeliveryCost])");
 
-                    b.Property<DateTime>("OrderDate")
-                        .HasColumnType("datetime");
+                    b.Property<DateTime?>("OrderDate")
+                        .HasColumnType("date");
 
                     b.Property<int>("OrderNo")
                         .HasColumnType("int");
@@ -454,8 +454,8 @@ namespace MuslimFashion.Data.Migrations
                         .HasColumnType("nvarchar(50)")
                         .HasMaxLength(50);
 
-                    b.Property<DateTime>("StatusChangeDate")
-                        .HasColumnType("datetime");
+                    b.Property<DateTime?>("StatusChangeDate")
+                        .HasColumnType("date");
 
                     b.Property<decimal>("TotalPrice")
                         .HasColumnType("decimal(18, 2)");

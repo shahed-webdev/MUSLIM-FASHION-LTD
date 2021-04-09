@@ -32,9 +32,9 @@ namespace MuslimFashion.Data
                 .HasColumnType("datetime")
                 .HasDefaultValueSql("(getutcdate())");
             builder.Property(e => e.OrderDate)
-                .HasColumnType("datetime");
+                .HasColumnType("date");
             builder.Property(e => e.StatusChangeDate)
-                .HasColumnType("datetime");
+                .HasColumnType("date");
         }
     }
 }

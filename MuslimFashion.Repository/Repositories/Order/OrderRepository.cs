@@ -18,7 +18,7 @@ namespace MuslimFashion.Repository
         public DbResponse<int> PleaseOrder(OrderAddModel model)
         {
             var order = _mapper.Map<Order>(model);
-            order.OrderId = this.GetNewOrderNo();
+            order.OrderNo = this.GetNewOrderNo();
             Db.Order.Add(order);
             Db.SaveChanges();
             var orderId = order.OrderId;
