@@ -6,10 +6,20 @@
 @if (SignInManager.IsSignedIn(User))
 {
     <li class="nav-item">
-        <a class="nav-link" href="/Dashboard" title="Dashboard">
-            <i class="fal fa-user"></i>
-            @User.Identity.Name
-        </a>
+        @if (User.IsInRole("Admin"))
+        {
+            <a class="nav-link" href="/Dashboard/Index" title="Dashboard">
+                <i class="fal fa-user"></i>
+                @User.Identity.Name
+            </a>
+        }
+        else
+        {
+            <a class="nav-link" href="/Customer/Dashboard" title="Dashboard">
+                <i class="fal fa-user"></i>
+                @User.Identity.Name
+            </a>
+        }
     </li>
     <li class="nav-item">
         <form asp-controller="Account" asp-action="Logout" method="post" id="logoutForm">
