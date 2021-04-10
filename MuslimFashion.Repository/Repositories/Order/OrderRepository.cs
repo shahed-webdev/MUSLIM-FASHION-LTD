@@ -38,6 +38,14 @@ namespace MuslimFashion.Repository
                 .ToDataResult(request);
         }
 
+        public DataResult<OrderListViewModel> CustomerWiseRecords(DataRequest request, int customerId)
+        {
+            return Db.Order
+                .Where(o => o.CustomerId == customerId)
+                .ProjectTo<OrderListViewModel>(_mapper.ConfigurationProvider)
+                .ToDataResult(request);
+        }
+
         public OrderReceiptViewModel OrderReceipt(int orderId)
         {
             return Db.Order

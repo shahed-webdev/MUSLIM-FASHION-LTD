@@ -8,6 +8,7 @@ namespace MuslimFashion.BusinessLogic
         DbResponse<int> PleaseOrder(OrderAddModel model);
         DbResponse<int> PleaseOrder(OrderAddModel model, string customerUserName);
         DataResult<OrderListViewModel> Records(DataRequest request);
+        DataResult<OrderListViewModel> CustomerWiseRecords(DataRequest request, string customerUserName);
         DbResponse<OrderReceiptViewModel> OrderReceipt(int orderId);
         DbResponse Delete(int orderId);
         DbResponse Confirmed(int orderId, decimal discount);

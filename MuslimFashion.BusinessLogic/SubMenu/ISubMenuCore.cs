@@ -11,5 +11,8 @@ namespace MuslimFashion.BusinessLogic
         DbResponse<SubMenuWithMenuModel> Get(int id);
         List<SubMenuViewModel> MenuWiseList(int menuId);
         List<DDL> MenuWiseDdlList(int menuId);
+        List<ProductGridViewModel> Products(int subMenuId, int getFrom, int quantity);
+        DbResponse<SubMenuWithProductModel> GetWithProducts(int id);
     }
+
 }

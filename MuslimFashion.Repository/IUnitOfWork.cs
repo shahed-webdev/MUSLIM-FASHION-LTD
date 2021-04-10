@@ -4,6 +4,7 @@ namespace MuslimFashion.Repository
 {
     public interface IUnitOfWork : IDisposable
     {
+        IBasicSettingRepository BasicSetting { get; }
         ICustomerRepository Customer { get; }
         IHomeMenuRepository HomeMenu { get; }
         IMenuRepository Menu { get; }

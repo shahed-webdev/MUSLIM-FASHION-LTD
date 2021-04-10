@@ -16,5 +16,7 @@ namespace MuslimFashion.Repository
         bool IsRelatedDataExist(int id);
         List<SubMenuViewModel> MenuWiseList(int menuId);
         List<DDL> MenuWiseDdlList(int menuId);
+        DbResponse<SubMenuWithProductModel> GetWithProducts(int id);
+        List<ProductGridViewModel> Products(int subMenuId, int getFrom, int quantity);
     }
 }

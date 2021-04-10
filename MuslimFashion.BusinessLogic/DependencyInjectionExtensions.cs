@@ -10,6 +10,7 @@ namespace MuslimFashion.BusinessLogic
         public static IServiceCollection AddDependencyInjection(this IServiceCollection services)
         {
             services.AddTransient<IUnitOfWork, UnitOfWork>();
+            services.AddTransient<IBasicSettingCore, BasicSettingCore>();
             services.AddTransient<ICustomerCore, CustomerCore>();
             services.AddTransient<IHomeMenuCore, HomeMenuCore>();
             services.AddTransient<IMenuCore, MenuCore>();

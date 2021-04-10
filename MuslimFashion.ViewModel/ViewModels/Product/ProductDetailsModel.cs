@@ -16,6 +16,8 @@ namespace MuslimFashion.ViewModel
         public List<ProductSizeDetailsModel> ProductSizes { get; set; }
         public int SubMenuId { get; set; }
         public string SubMenuName { get; set; }
+        public int MenuId { get; set; }
+        public string MenuName { get; set; }
     }
 
     public class ProductSizeDetailsModel
