@@ -6,13 +6,10 @@
     var baseUrl = FileBuilder.RootUrl;
 }
 
-@section Styles
-{
+@section Styles{
     <style>
-        #receipt-table img {
-            width: 80px;
-        }
-    </style>
+        #receipt-table img { width: 80px; }
+    </style>  
 }
 
 <div class="container">
@@ -61,8 +58,11 @@
             </tbody>
         </table>
         
-        <div class="card-footer text-right">
-            <h5 class="font-weight-bold">Total Amount: @Model.NetAmount</h5>
+        <div class="card-footer bg-white text-right">
+            <p class="mb-0">Product Total: @Model.TotalPrice</p>
+            <p class="mb-0">Discount: @Model.Discount</p>
+            <p class="mb-0 border-bottom pb-2">Delivery Charge: @Model.DeliveryCost</p>
+            <p class="font-weight-bold">Net Amount: @Model.NetAmount</p>
         </div>
     </div> 
 </div>

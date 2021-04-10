@@ -1,26 +1,23 @@
 ﻿
 @{
-    ViewData["Title"] = "Dashboard";
+    ViewData["Title"] = "Confirmed Order List";
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 
+<h1></h1>
 <div class="m-md-3">
-    <div class="d-flex justify-content-between align-items-center mb-3">
-        <h4 class="page-header">Pending Order</h4>
-        <button onclick="location.reload();" class="btn btn-success btn-rounded"><i class="fas fa-sync mr-1"></i>Refresh</button>
-    </div>
-    
+    <h4 class="page-header mb-3">Confirmed Order List</h4>
 
     <div class="card card-body">
         <table id="data-table" class="table table-sm table-bordered">
             <thead>
-            <tr>
-                <th><strong>Order No.</strong></th>
-                <th><strong>Order Amount</strong></th>
-                <th><strong>Delivery Info</strong></th>
-                <th><strong>Order Date</strong></th>
-                <th><strong>Status</strong></th>
-            </tr>
+                <tr>
+                    <th><strong>Order No.</strong></th>
+                    <th><strong>Order Amount</strong></th>
+                    <th><strong>Delivery Info</strong></th>
+                    <th><strong>Order Date</strong></th>
+                    <th><strong>Status</strong></th>
+                </tr>
             </thead>
         </table>
     </div>
@@ -29,6 +26,7 @@
 @section Scripts{
     <script>
         $(function() {
+            dataTable.filter.push({ Field: "OrderStatus", Value: "Confirmed", Operand: dataTable.operand.Equal });
             dataTable.getData();
         });
 
@@ -44,7 +42,7 @@
                         url: "/Order/OrderData",
                         type: "POST",
                         data: function(d) {
-                             d.status = "@OrderStatus.Pending";
+                            d.status = "@OrderStatus.Confirmed";
                         }
                     },
                     columns:
@@ -94,4 +92,3 @@
         }
     </script>
 }
-

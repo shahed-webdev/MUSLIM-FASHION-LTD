@@ -28,7 +28,7 @@ namespace MuslimFashion.Web.Controllers
         //all order
         public IActionResult MyOrderData(DataRequest result)
         {
-            var response = _order.Records(result);
+            var response = _order.CustomerWiseRecords(result, User.Identity.Name);
             return Json(response);
         }
 

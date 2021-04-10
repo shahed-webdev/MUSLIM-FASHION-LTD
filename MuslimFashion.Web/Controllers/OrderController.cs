@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using JqueryDataTables.LoopsIT;
 using MuslimFashion.BusinessLogic;
+using MuslimFashion.Data;
 
 namespace MuslimFashion.Web.Controllers
 {
@@ -15,8 +16,9 @@ namespace MuslimFashion.Web.Controllers
         {
             _order = order;
         }
-        //order data-table
-        public IActionResult OrderData(DataRequest result)
+       
+        //all order data-table
+        public IActionResult OrderData(DataRequest result, OrderStatus status)
         {
             var response = _order.Records(result);
             return Json(response);
@@ -29,6 +31,40 @@ namespace MuslimFashion.Web.Controllers
             return View();
         }
         #endregion
-       
+
+        #region Confirm Order
+        //order confirm
+        public IActionResult ConfirmOrder(int? id)
+        {
+            if (!id.HasValue) return RedirectToAction("Index", "Dashboard");
+
+            var model = _order.OrderReceipt(id.GetValueOrDefault());
+            return View(model.Data);
+        }
+        
+        //confirm
+        [HttpPost]
+        public IActionResult PostConfirmOrder(int orderId, decimal discount)
+        {
+            var response = _order.Confirmed(orderId, discount);
+            return Json(response);
+        }
+
+        //reject
+        [HttpPost]
+        public IActionResult PostRejectOrder(int orderId)
+        {
+            var response = _order.Delete(orderId);
+            return Json(response);
+        }
+
+        //confirmed list
+        public IActionResult ConfirmedList()
+        {
+            return View();
+        }
+
+        #endregion
+
     }
 }
