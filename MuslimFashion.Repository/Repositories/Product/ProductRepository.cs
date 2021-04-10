@@ -78,6 +78,15 @@ namespace MuslimFashion.Repository
                 .ToDataResult(request);
         }
 
+        public DataResult<ProductRecordView> ListOfAssignedHomeMenu(DataRequest request, int homeMenuId)
+        {
+            var assignedProductIds = Db.HomeProduct.Where(h => h.HomeMenuId == homeMenuId).Select(h => h.ProductId).ToList();
+            return Db.Product
+                .Where(p => assignedProductIds.Contains(p.ProductId))
+                .ProjectTo<ProductRecordView>(_mapper.ConfigurationProvider)
+                .ToDataResult(request);
+        }
+
         public async Task<List<ProductFindViewModel>> SearchAsync(string code)
         {
 

@@ -86,11 +86,6 @@ namespace MuslimFashion.Repository
         {
             return !Db.HomeMenu.Any(r => r.HomeMenuId == id);
         }
-
-        public bool IsExistProduct(HomeMenuDeleteProductModel model)
-        {
-            return Db.HomeProduct.Any(r => r.HomeMenuId == model.HomeMenuId && r.HomeProductId == model.ProductId);
-        }
         public bool IsRelatedDataExist(int id)
         {
             return Db.HomeProduct.Any(r => r.HomeMenuId == id);
@@ -124,7 +119,7 @@ namespace MuslimFashion.Repository
                 }).ToList();
         }
 
-        public DbResponse AddProduct(HomeMenuAddProductModel model)
+        public DbResponse AddProduct(HomeMenuAddRemoveProductModel model)
         {
 
             var homeProducts = model.ProductIds.Select(p => new HomeProduct
@@ -143,12 +138,12 @@ namespace MuslimFashion.Repository
             return new DbResponse(true, $"Product Added Successfully");
         }
 
-        public DbResponse DeleteProduct(HomeMenuDeleteProductModel model)
+        public DbResponse DeleteProduct(HomeMenuAddRemoveProductModel model)
         {
-            var homeProduct = Db.HomeProduct.FirstOrDefault(r => r.HomeMenuId == model.HomeMenuId && r.HomeProductId == model.ProductId);
-            Db.HomeProduct.Remove(homeProduct);
+            var homeProducts = Db.HomeProduct.Where(r => r.HomeMenuId == model.HomeMenuId && model.ProductIds.Contains(r.ProductId)).ToList();
+            Db.HomeProduct.RemoveRange(homeProducts);
             Db.SaveChanges();
-            return new DbResponse(true, $"Product Deleted Successfully");
+            return new DbResponse(true, $"Products Deleted from Menu Successfully");
         }
 
         public List<ProductGridViewModel> Products(int homeMenuId, int getFrom, int quantity)

@@ -1,5 +1,4 @@
-﻿using System;
-using JqueryDataTables.LoopsIT;
+﻿using JqueryDataTables.LoopsIT;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -8,8 +7,6 @@ using MuslimFashion.BusinessLogic;
 using MuslimFashion.BusinessLogic.Menu;
 using MuslimFashion.ViewModel;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Hosting;
-using MuslimFashion.Data;
 
 namespace MuslimFashion.Web.Controllers
 {
@@ -102,14 +99,14 @@ namespace MuslimFashion.Web.Controllers
         //Update
         public async Task<IActionResult> UpdateHomeCategory(HomeMenuCrudModel model, IFormFile file)
         {
-            var response = await _homeMenu.EditAsync(model,file);
+            var response = await _homeMenu.EditAsync(model, file);
             return Json(response);
         }
 
         //Delete
         public IActionResult DeleteHomeCategory(int id)
         {
-            var response =  _homeMenu.Delete(id);
+            var response = _homeMenu.Delete(id);
             return Json(response);
         }
 
@@ -118,7 +115,7 @@ namespace MuslimFashion.Web.Controllers
         public IActionResult AssignProductInCategory(int? id)
         {
             if (!id.HasValue) return RedirectToAction("HomeCategory");
-            
+
             return View();
         }
 
@@ -130,7 +127,7 @@ namespace MuslimFashion.Web.Controllers
         }
 
         //post assign
-        public IActionResult PostAssignCategory(HomeMenuAddProductModel model)
+        public IActionResult PostAssignCategory(HomeMenuAddRemoveProductModel model)
         {
             var response = _homeMenu.AddProduct(model);
             return Json(response);
@@ -154,7 +151,7 @@ namespace MuslimFashion.Web.Controllers
         }
 
         //post un-assign
-        public IActionResult PostUnAssignCategory(HomeMenuDeleteProductModel model)
+        public IActionResult PostUnAssignCategory(HomeMenuAddRemoveProductModel model)
         {
             var response = _homeMenu.DeleteProduct(model);
             return Json(response);
@@ -170,7 +167,7 @@ namespace MuslimFashion.Web.Controllers
         public IActionResult Item(int? id)
         {
             if (!id.HasValue) return RedirectToAction("index", "home");
-           
+
             var model = _product.Get(id.GetValueOrDefault());
 
             //var selectedCategory = _homeMenu.Get();
@@ -202,7 +199,7 @@ namespace MuslimFashion.Web.Controllers
         [HttpPost]
         public IActionResult PostShippingAddress(CustomerAddressCrudModel model)
         {
-            var response = _customer.AddAddress(model,User.Identity.Name);
+            var response = _customer.AddAddress(model, User.Identity.Name);
             return Json(response);
         }
 
@@ -232,11 +229,11 @@ namespace MuslimFashion.Web.Controllers
         {
             if (!id.HasValue) return RedirectToAction("Index", "Home");
 
-            var model = _homeMenu.Products(id.GetValueOrDefault(),0,8);
-            
+            var model = _homeMenu.Products(id.GetValueOrDefault(), 0, 8);
+
             var selectedCategory = _homeMenu.Get(id.GetValueOrDefault());
             ViewBag.SelectedCategory = selectedCategory.Data;
-            
+
             return View(model);
         }
 

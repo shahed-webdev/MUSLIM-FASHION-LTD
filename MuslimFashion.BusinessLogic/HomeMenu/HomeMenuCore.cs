@@ -132,7 +132,7 @@ namespace MuslimFashion.BusinessLogic
             return _db.HomeMenu.ListDdl();
         }
 
-        public DbResponse AddProduct(HomeMenuAddProductModel model)
+        public DbResponse AddProduct(HomeMenuAddRemoveProductModel model)
         {
 
             try
@@ -153,14 +153,11 @@ namespace MuslimFashion.BusinessLogic
             }
         }
 
-        public DbResponse DeleteProduct(HomeMenuDeleteProductModel model)
+        public DbResponse DeleteProduct(HomeMenuAddRemoveProductModel model)
         {
 
             try
             {
-                if (!_db.HomeMenu.IsExistProduct(model))
-                    return new DbResponse(false, "No data Found");
-
                 return _db.HomeMenu.DeleteProduct(model);
 
             }

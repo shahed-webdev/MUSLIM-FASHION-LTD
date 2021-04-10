@@ -15,13 +15,12 @@ namespace MuslimFashion.Repository
         bool IsExistName(string name);
         bool IsExistName(string name, int updateId);
         bool IsNull(int id);
-        bool IsExistProduct(HomeMenuDeleteProductModel model);
         bool IsRelatedDataExist(int id);
         List<HomeMenuCrudModel> List();
         List<HomeMenuWithProductModel> ListWithProducts();
         List<DDL> ListDdl();
-        DbResponse AddProduct(HomeMenuAddProductModel model);
-        DbResponse DeleteProduct(HomeMenuDeleteProductModel model);
+        DbResponse AddProduct(HomeMenuAddRemoveProductModel model);
+        DbResponse DeleteProduct(HomeMenuAddRemoveProductModel model);
         List<ProductGridViewModel> Products(int homeMenuId, int getFrom, int quantity);
     }
 }

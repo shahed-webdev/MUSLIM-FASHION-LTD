@@ -15,8 +15,8 @@ namespace MuslimFashion.BusinessLogic
         List<HomeMenuCrudModel> List();
         List<HomeMenuWithProductModel> ListWithProducts();
         List<DDL> ListDdl();
-        DbResponse AddProduct(HomeMenuAddProductModel model);
-        DbResponse DeleteProduct(HomeMenuDeleteProductModel model);
+        DbResponse AddProduct(HomeMenuAddRemoveProductModel model);
+        DbResponse DeleteProduct(HomeMenuAddRemoveProductModel model);
         List<ProductGridViewModel> Products(int homeMenuId, int getFrom, int quantity);
     }
 }

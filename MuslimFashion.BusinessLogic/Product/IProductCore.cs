@@ -12,6 +12,7 @@ namespace MuslimFashion.BusinessLogic
         DbResponse<ProductDetailsModel> Get(int id);
         DataResult<ProductRecordView> ListByAdmin(DataRequest request);
         DataResult<ProductRecordView> ListOfUnassignedHomeMenu(DataRequest request, int homeMenuId);
+        DataResult<ProductRecordView> ListOfAssignedHomeMenu(DataRequest request, int homeMenuId);
 
         Task<List<ProductFindViewModel>> SearchAsync(string code);
     }

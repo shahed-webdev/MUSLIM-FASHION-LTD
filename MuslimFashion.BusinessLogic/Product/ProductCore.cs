@@ -69,6 +69,11 @@ namespace MuslimFashion.BusinessLogic
             return _db.product.ListOfUnassignedHomeMenu(request, homeMenuId);
         }
 
+        public DataResult<ProductRecordView> ListOfAssignedHomeMenu(DataRequest request, int homeMenuId)
+        {
+            return _db.product.ListOfAssignedHomeMenu(request, homeMenuId);
+        }
+
         public async Task<List<ProductFindViewModel>> SearchAsync(string code)
         {
             return await _db.product.SearchAsync(code);
