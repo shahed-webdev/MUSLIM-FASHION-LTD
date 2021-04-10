@@ -21,9 +21,9 @@ namespace MuslimFashion.Repository
             order.OrderNo = this.GetNewOrderNo();
             Db.Order.Add(order);
             Db.SaveChanges();
-            var orderId = order.OrderId;
+            //var orderId = order.OrderId;
 
-            return new DbResponse<int>(true, $"{order.OrderNo} Order Please Successfully", orderId);
+            return new DbResponse<int>(true, $"{order.OrderNo} Order Placed Successfully", order.OrderNo);
         }
 
         public int GetNewOrderNo()

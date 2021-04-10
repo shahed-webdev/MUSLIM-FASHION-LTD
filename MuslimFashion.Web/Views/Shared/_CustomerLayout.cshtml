@@ -14,8 +14,10 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet" />
     <!-- MDB -->
     <link href="~/mdb/css/mdb-admin.min.css" rel="stylesheet" />
+    <!-- data-tables -->
+    <link href="https://cdn.datatables.net/v/bs4/dt-1.10.18/datatables.min.css" rel="stylesheet" />
     <!-- custom style-->
-    <link href="~/css/admin-layout.css?v=1.0.0" rel="stylesheet" />
+    <link href="~/css/admin-layout.css?v=1.0.1" rel="stylesheet" />
     <!-- side navbar style-->
     <link href="~/css/side-navbar.css" rel="stylesheet" />
 
@@ -37,6 +39,26 @@
 
     <div id="sidedrawer" class="d-print-none z-depth-1">
         <Partial Name="_AdminLoginPartial" />
+        <ul id="menuItem">
+            <li>
+                <strong>
+                    <span class="fas fa-tachometer-alt"></span>
+                    <a class="links" href="/Customer/Dashboard">Dashboard</a>
+                </strong>
+            </li>
+            @*<li>
+                <strong>
+                    <span class="fas fa-cogs"></span>
+                    <i class="fas fa-caret-right"></i>Basic Settings
+                </strong>
+                <ul class="sub-menu">
+                    <li><a class="links" href="/BasicSettings/ImageSlider">Image Slider</a></li>
+                    <li><a class="links" href="/BasicSettings/Menu">Category</a></li>
+                    <li><a class="links" href="/BasicSettings/SubMenu">Sub-Category</a></li>
+                    <li><a class="links" href="/BasicSettings/Size">Add Sizes</a></li>
+                </ul>
+            </li>*@
+        </ul>
     </div>
 
     <main id="content-wrapper">
@@ -62,6 +84,8 @@
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery.nicescroll/3.7.6/jquery.nicescroll.min.js"></script>
     <!-- autocomplete -->
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-3-typeahead/4.0.2/bootstrap3-typeahead.min.js"></script>
+<!-- data-tables -->
+<script type="text/javascript" src="https://cdn.datatables.net/v/bs4/dt-1.10.18/datatables.min.js"></script>
 
     <!-- MDB core JavaScript -->
     <script src="~/mdb/js/mdb-admin.min.js"></script>
