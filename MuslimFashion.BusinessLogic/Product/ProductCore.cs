@@ -47,6 +47,28 @@ namespace MuslimFashion.BusinessLogic
             }
         }
 
+        public async Task<DbResponse> EditAsync(ProductEditModel model, IFormFile imageFile)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(model.ProductName))
+                    return new DbResponse(false, "Invalid Data");
+
+                if (_db.product.IsExistName(model.ProductName, model.ProductId))
+                    return new DbResponse(false, $" {model.ProductName} already Exist");
+
+                if (_db.product.IsExistCode(model.ProductCode, model.ProductId))
+                    return new DbResponse(false, $" {model.ProductCode} Code already Exist");
+
+                return await _db.product.EditAsync(model, imageFile);
+
+            }
+            catch (Exception e)
+            {
+                return new DbResponse(false, $"{e.Message}. {e.InnerException?.Message ?? ""}");
+            }
+        }
+
         public DbResponse<ProductDetailsModel> Get(int id)
         {
             try

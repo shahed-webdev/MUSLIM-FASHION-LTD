@@ -1,4 +1,5 @@
 ﻿using JqueryDataTables.LoopsIT;
+using Microsoft.AspNetCore.Http;
 using MuslimFashion.ViewModel;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -8,7 +9,7 @@ namespace MuslimFashion.Repository
     public interface IProductRepository
     {
         DbResponse<int> Add(ProductAddModel model);
-        // DbResponse Edit(ColorCrudModel model);
+        Task<DbResponse> EditAsync(ProductEditModel model, IFormFile imageFile);
         // DbResponse Delete(int id);
         DbResponse<ProductDetailsModel> Get(int id);
         bool IsExistName(string name);
