@@ -47,6 +47,15 @@ namespace MuslimFashion.Repository
                 .ToDataResult(request);
         }
 
+        public DataResult<OrderListViewModel> StatusWiseRecords(DataRequest request, OrderStatus status)
+        {
+            var order = Db.Order;
+            if (status != OrderStatus.All)
+                order.Where(o => o.OrderStatus == status);
+
+            return order.ProjectTo<OrderListViewModel>(_mapper.ConfigurationProvider).ToDataResult(request);
+        }
+
         public OrderReceiptViewModel OrderReceipt(int orderId)
         {
             return Db.Order
@@ -79,7 +88,7 @@ namespace MuslimFashion.Repository
         public DbResponse Delivered(int orderId)
         {
             var order = Db.Order.Find(orderId);
-            order.OrderStatus = OrderStatus.Delivered; 
+            order.OrderStatus = OrderStatus.Delivered;
             order.StatusChangeDate = DateTime.Now.BdTime().Date;
             Db.Order.Update(order);
             Db.SaveChanges();

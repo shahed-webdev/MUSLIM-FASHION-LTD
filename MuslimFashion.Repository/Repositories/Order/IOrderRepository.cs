@@ -1,4 +1,5 @@
 ﻿using JqueryDataTables.LoopsIT;
+using MuslimFashion.Data;
 using MuslimFashion.ViewModel;
 
 namespace MuslimFashion.Repository
@@ -9,6 +10,7 @@ namespace MuslimFashion.Repository
         int GetNewOrderNo();
         DataResult<OrderListViewModel> Records(DataRequest request);
         DataResult<OrderListViewModel> CustomerWiseRecords(DataRequest request, int customerId);
+        DataResult<OrderListViewModel> StatusWiseRecords(DataRequest request, OrderStatus status);
         OrderReceiptViewModel OrderReceipt(int orderId);
         DbResponse Delete(int orderId);
         DbResponse Confirmed(int orderId, decimal discount);

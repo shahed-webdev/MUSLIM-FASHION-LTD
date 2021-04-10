@@ -52,6 +52,11 @@ namespace MuslimFashion.BusinessLogic
             return _db.Order.CustomerWiseRecords(request, customerId);
         }
 
+        public DataResult<OrderListViewModel> StatusWiseRecords(DataRequest request, OrderStatus status)
+        {
+            return _db.Order.StatusWiseRecords(request, status);
+        }
+
         public DbResponse<OrderReceiptViewModel> OrderReceipt(int orderId)
         {
             try
