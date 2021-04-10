@@ -83,7 +83,7 @@ namespace MuslimFashion.Web.Controllers
         }
         #endregion
 
-        #region Home Page Category
+        #region Add Home Page Category
         //get home category
         public IActionResult HomeCategory()
         {
@@ -201,7 +201,7 @@ namespace MuslimFashion.Web.Controllers
         }
         #endregion
 
-        #region Show Category Wise Product
+        #region Show home Category Wise Product
         [AllowAnonymous]
         public IActionResult CategoryProducts(int? id)
         {
@@ -222,6 +222,17 @@ namespace MuslimFashion.Web.Controllers
         {
             var model = _homeMenu.Products(id, getFrom, quantity);
             return Json(model);
+        }
+        #endregion
+
+        #region Show home menu Product
+        [AllowAnonymous]
+        public IActionResult MenuProducts(int? id)
+        {
+            if (!id.HasValue) return RedirectToAction("Index", "Home");
+
+            var model = _subMenu.GetWithProducts(id.GetValueOrDefault());
+            return View(model.Data);
         }
         #endregion
     }

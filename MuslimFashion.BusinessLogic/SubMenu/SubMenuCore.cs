@@ -103,7 +103,7 @@ namespace MuslimFashion.BusinessLogic
         {
             try
             {
-                if (_db.SubMenu.IsNull(id))
+                if (!_db.SubMenu.IsNull(id))
                     return new DbResponse<SubMenuWithProductModel>(false, "No data Found");
 
                 return _db.SubMenu.GetWithProducts(id);
