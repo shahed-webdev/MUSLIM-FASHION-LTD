@@ -38,13 +38,6 @@ namespace MuslimFashion.Web.Controllers
             return View();
         }
 
-        //details
-        public IActionResult Details(int? id)
-        {
-            if (!id.HasValue) return RedirectToAction("AllProducts");
-            return View();
-        }
-
         //data table
         public IActionResult GetAllProductData(DataRequest request)
         {
@@ -78,6 +71,28 @@ namespace MuslimFashion.Web.Controllers
             var response = await _product.AddAsync(model, imageFile);
             return Json(response);
         }
+        #endregion
+
+        #region Update Product Info
+
+        public IActionResult UpdateProduct(int? id)
+        {
+            if (!id.HasValue) return RedirectToAction("AllProducts");
+            
+            ViewBag.Menus = new SelectList(_menu.ListDdl(), "value", "label");
+            ViewBag.Sizes = new SelectList(_size.ListDdl(), "value", "label");
+            
+            var model = _product.Get(id.GetValueOrDefault());
+            return View(model.Data);
+        }
+
+        //Post Update Product
+        public async Task<IActionResult> PostUpdateProduct(ProductAddModel model, IFormFile imageFile)
+        {
+            var response = await _product.AddAsync(model, imageFile);
+            return Json(response);
+        }
+
         #endregion
 
         #region Add Home Page Category
@@ -146,7 +161,7 @@ namespace MuslimFashion.Web.Controllers
         //data table
         public IActionResult GetAssignedData(DataRequest request, int id)
         {
-            var response = _product.ListOfUnassignedHomeMenu(request, id);
+            var response = _product.ListOfAssignedHomeMenu(request, id);
             return Json(response);
         }
 

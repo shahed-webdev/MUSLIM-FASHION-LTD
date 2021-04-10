@@ -20,6 +20,7 @@ namespace MuslimFashion.Repository
         {
             var order = _mapper.Map<Order>(model);
             order.OrderNo = this.GetNewOrderNo();
+            order.OrderStatus = OrderStatus.Pending;
             Db.Order.Add(order);
             Db.SaveChanges();
             //var orderId = order.OrderId;
@@ -49,9 +50,9 @@ namespace MuslimFashion.Repository
 
         public DataResult<OrderListViewModel> StatusWiseRecords(DataRequest request, OrderStatus status)
         {
-            var order = Db.Order;
+            var order = Db.Order.AsQueryable();
             if (status != OrderStatus.All)
-                order.Where(o => o.OrderStatus == status);
+                order = order.Where(o => o.OrderStatus == status);
 
             return order.ProjectTo<OrderListViewModel>(_mapper.ConfigurationProvider).ToDataResult(request);
         }

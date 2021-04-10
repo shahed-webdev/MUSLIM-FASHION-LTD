@@ -8,7 +8,7 @@ namespace MuslimFashion.Repository
     {
         public BasicSettingMappingProfile()
         {
-            CreateMap<DeliveryChargeModel, BasicSetting>();
+            CreateMap<BasicSetting,DeliveryChargeModel>();
         }
     }
 }
