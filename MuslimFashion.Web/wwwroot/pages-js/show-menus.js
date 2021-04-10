@@ -31,7 +31,7 @@ function createList(item) {
 function createSubList(submenu) {
     let  html = "";
     submenu.forEach(sub => {
-        html += `<a class="dropdown-item" href="#">${sub.SubMenuName}</a>`;
+        html += `<a href="/Product/MenuProducts/${sub.SubMenuId}" class="dropdown-item" href="#">${sub.SubMenuName}</a>`;
     });
     
     return html;
