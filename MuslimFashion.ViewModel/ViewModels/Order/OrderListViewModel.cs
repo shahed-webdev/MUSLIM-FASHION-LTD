@@ -1,5 +1,4 @@
-﻿using MuslimFashion.Data;
-using System;
+﻿using System;
 
 namespace MuslimFashion.ViewModel
 {
@@ -8,7 +7,7 @@ namespace MuslimFashion.ViewModel
         public int OrderId { get; set; }
         public int? CustomerId { get; set; }
         public int OrderNo { get; set; }
-        public OrderStatus OrderStatus { get; set; }
+        public string OrderStatus { get; set; }
         public decimal NetAmount { get; set; }
         public DateTime OrderDate { get; set; }
         public DateTime StatusChangeDate { get; set; }

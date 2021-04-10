@@ -22,11 +22,11 @@ namespace MuslimFashion.Repository
 
             CreateMap<Order, OrderReceiptViewModel>();
 
-            CreateMap<Order, OrderListViewModel>();
+            CreateMap<Order, OrderListViewModel>()
+                .ForMember(d => d.OrderStatus, opt => opt.MapFrom(c => c.OrderStatus.ToString()))
+                ;
             CreateMap<OrderListAddModel, OrderList>();
             CreateMap<OrderAddModel, Order>();
-            //  .ForMember(d => d.OrderLists, opt => opt.MapFrom(c => c.OrderLists));
-
         }
     }
 }
