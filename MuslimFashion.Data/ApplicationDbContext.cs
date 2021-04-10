@@ -23,6 +23,7 @@ namespace MuslimFashion.Data
         public virtual DbSet<Registration> Registration { get; set; }
         public virtual DbSet<Size> Size { get; set; }
         public virtual DbSet<SubMenu> SubMenu { get; set; }
+        public virtual DbSet<Slider> Slider { get; set; }
         protected override void OnModelCreating(ModelBuilder builder)
         {
             builder.ApplyConfiguration(new BasicSettingConfiguration());
@@ -38,6 +39,7 @@ namespace MuslimFashion.Data
             builder.ApplyConfiguration(new RegistrationConfiguration());
             builder.ApplyConfiguration(new SubMenuConfiguration());
             builder.ApplyConfiguration(new SizeConfiguration());
+            builder.ApplyConfiguration(new SliderConfiguration());
 
             base.OnModelCreating(builder);
             builder.SeedAdminData();

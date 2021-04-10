@@ -3,6 +3,7 @@ using AutoMapper.QueryableExtensions;
 using JqueryDataTables.LoopsIT;
 using MuslimFashion.Data;
 using MuslimFashion.ViewModel;
+using System;
 using System.Linq;
 using Order = MuslimFashion.Data.Order;
 
@@ -68,6 +69,7 @@ namespace MuslimFashion.Repository
             var order = Db.Order.Find(orderId);
             order.Discount = discount;
             order.OrderStatus = OrderStatus.Confirmed;
+            order.StatusChangeDate = DateTime.Now.BdTime().Date;
             Db.Order.Update(order);
             Db.SaveChanges();
 
@@ -77,7 +79,8 @@ namespace MuslimFashion.Repository
         public DbResponse Delivered(int orderId)
         {
             var order = Db.Order.Find(orderId);
-            order.OrderStatus = OrderStatus.Delivered;
+            order.OrderStatus = OrderStatus.Delivered; 
+            order.StatusChangeDate = DateTime.Now.BdTime().Date;
             Db.Order.Update(order);
             Db.SaveChanges();
 
