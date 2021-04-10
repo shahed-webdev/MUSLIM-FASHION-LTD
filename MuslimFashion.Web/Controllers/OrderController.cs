@@ -20,7 +20,7 @@ namespace MuslimFashion.Web.Controllers
         //all order data-table
         public IActionResult OrderData(DataRequest result, OrderStatus status)
         {
-            var response = _order.Records(result);
+            var response = _order.StatusWiseRecords(result,status);
             return Json(response);
         }
 
@@ -66,5 +66,31 @@ namespace MuslimFashion.Web.Controllers
 
         #endregion
 
+        #region Delivery Order
+        //order confirm
+        public IActionResult DeliveryOrder(int? id)
+        {
+            if (!id.HasValue) return RedirectToAction("ConfirmedList");
+
+            var model = _order.OrderReceipt(id.GetValueOrDefault());
+            return View(model.Data);
+        }
+
+        //confirm
+        [HttpPost]
+        public IActionResult PostDeliveryOrder(int orderId)
+        {
+            var response = _order.Delivered(orderId);
+            return Json(response);
+        }
+
+
+        //Delivery list
+        public IActionResult DeliveredList()
+        {
+            return View();
+        }
+
+        #endregion
     }
 }

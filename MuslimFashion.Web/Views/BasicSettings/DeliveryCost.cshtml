@@ -1,0 +1,31 @@
+﻿@model DeliveryChargeModel
+@{
+    ViewData["Title"] = "Delivery Cost";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+
+<div class="container">
+    <div class="row">
+        <div class="col-lg-8 mx-auto">
+            <h4 class="page-header mb-3">Delivery Cost</h4>
+
+            <div class="card card-body">
+                <form asp-action="DeliveryCost">
+                    <div class="form-group">
+                        <label>Inside Dhaka</label>
+                        <input type="number" asp-for="InSideDhaka" class="form-control" required step="0.01">
+                    </div>
+                    <div class="form-group">
+                        <label>Outside Dhaka</label>
+                        <input type="number" asp-for="OutSideDhaka" class="form-control" required step="0.01">
+                    </div>
+
+                    <input type="submit" class="btn btn-danger" value="Submit">
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+

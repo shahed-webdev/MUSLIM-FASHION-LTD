@@ -1,29 +1,27 @@
 ﻿@using DevMaker.FileStorage
 
 @{
-    ViewData["Title"] = "Add Product In Category";
+    ViewData["Title"] = "Remove Product From Category";
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
-   
     var baseUrl = FileBuilder.RootUrl;
     var id = ViewContext.RouteData.Values["id"];
 }
 
+
 @section Styles{
     <style>
-        #data-table tbody tr td img {
-            height: 60px;
-        }
+        #data-table tbody tr td img { height: 60px; }
     </style>
 }
 <div class="m-md-3">
-    <h4 class="page-header">Add Product In Category</h4>
+    <h4 class="page-header">Remove Product From Category</h4>
     <a href="/product/HomeCategory" class="mb-3 d-block"><i class="far fa-long-arrow-alt-left mr-1"></i>Back to Category</a>
 
     <div class="card card-body">
         <table id="data-table" class="table table-sm table-bordered">
             <thead>
                 <tr>
-                    <th>Add</th>
+                    <th>Remove</th>
                     <th>Image</th>
                     <th>Product Code</th>
                     <th>Product Name</th>
@@ -34,7 +32,7 @@
         </table>
     </div>
 
-    <button id="btnAssign" class="btn btn-success mt-3">Add Product To Home Page</button>
+    <button id="btnAssign" class="btn btn-danger mt-3">Remove Product From Home Page</button>
 </div>
 
 @section scripts{
@@ -51,7 +49,7 @@
                     processing: true,
                     serverSide: true,
                     ajax: {
-                        url: "/Product/GetUnassignedData",
+                        url: "/Product/GetAssignedData",
                         type: "POST",
                         data: { id: @id }
                     },
@@ -101,7 +99,7 @@
                     if (!ProductIds.length) return;
 
                     $.ajax({
-                        url: "/Product/PostAssignCategory",
+                        url: "/Product/PostUnAssignCategory",
                         type: "POST",
                         data: body,
                         success: response => {

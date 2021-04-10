@@ -10,14 +10,16 @@ namespace MuslimFashion.Web.Controllers
     [Authorize]
     public class BasicSettingsController : Controller
     {
+        private readonly IBasicSettingCore _basicSetting;
         private readonly IMenuCore _menu;
         private readonly ISubMenuCore _subMenu;
         private readonly ISizeCore _size;
-        public BasicSettingsController(IMenuCore menu, ISubMenuCore subMenu, ISizeCore size)
+        public BasicSettingsController(IMenuCore menu, ISubMenuCore subMenu, ISizeCore size, IBasicSettingCore basicSetting)
         {
             _menu = menu;
             _subMenu = subMenu;
             _size = size;
+            _basicSetting = basicSetting;
         }
 
         public IActionResult ImageSlider()
@@ -134,6 +136,25 @@ namespace MuslimFashion.Web.Controllers
             var response = _size.Delete(id);
             return Json(response);
         }
+        #endregion
+
+        #region Delivery Cost
+        public IActionResult DeliveryCost()
+        {
+            var model = _basicSetting.GetDeliveryCharge();
+            return View(model.Data);
+        }
+
+
+        //update
+        [HttpPost]
+        public IActionResult DeliveryCost(DeliveryChargeModel model)
+        {
+             _basicSetting.ChangeDeliveryCharge(model);
+            return View(model);
+        }
+
+
         #endregion
     }
 }

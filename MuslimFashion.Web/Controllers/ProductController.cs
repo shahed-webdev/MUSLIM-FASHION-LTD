@@ -113,8 +113,7 @@ namespace MuslimFashion.Web.Controllers
             return Json(response);
         }
 
-
-
+        #region Assign
         //assign product
         public IActionResult AssignProductInCategory(int? id)
         {
@@ -136,6 +135,32 @@ namespace MuslimFashion.Web.Controllers
             var response = _homeMenu.AddProduct(model);
             return Json(response);
         }
+        #endregion
+
+        #region Un-Assign
+        //assign product
+        public IActionResult UnAssignProductFromCategory(int? id)
+        {
+            if (!id.HasValue) return RedirectToAction("HomeCategory");
+
+            return View();
+        }
+
+        //data table
+        public IActionResult GetAssignedData(DataRequest request, int id)
+        {
+            var response = _product.ListOfUnassignedHomeMenu(request, id);
+            return Json(response);
+        }
+
+        //post un-assign
+        public IActionResult PostUnAssignCategory(HomeMenuDeleteProductModel model)
+        {
+            var response = _homeMenu.DeleteProduct(model);
+            return Json(response);
+        }
+        #endregion
+
         #endregion
 
         #region Add to cart and order

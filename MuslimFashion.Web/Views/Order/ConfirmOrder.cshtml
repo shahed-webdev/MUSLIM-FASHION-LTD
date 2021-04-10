@@ -64,8 +64,8 @@
         <form id="formSubmit">
             <div class="card-footer bg-white text-right">
                 <p class="mb-0">Product Total: @Model.TotalPrice</p>
-                <p class="mb-0">Discount: <input name="discount" class="input-discount" type="number" step="0.01" value="@Model.Discount"></p>
-                <p class="mb-0 border-bottom pb-2">Delivery Charge: @Model.DeliveryCost</p>
+                <p class="mb-0">Delivery Charge: @Model.DeliveryCost</p>
+                <p class="mb-0 border-bottom pb-2">Discount: <input name="discount" min="0" max="@Model.TotalPrice" class="input-discount" type="number" step="0.01" value="@Model.Discount"></p>
                 <p class="font-weight-bold">Net Amount: @Model.NetAmount</p>
 
                 <div class="d-flex justify-content-between align-items-center mb-3">
