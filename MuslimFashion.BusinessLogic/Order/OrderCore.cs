@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using JqueryDataTables.LoopsIT;
-using Microsoft.EntityFrameworkCore.Internal;
 using MuslimFashion.Repository;
 using MuslimFashion.ViewModel;
 using System;
@@ -41,7 +40,14 @@ namespace MuslimFashion.BusinessLogic
 
         public DataResult<OrderListViewModel> Records(DataRequest request)
         {
+
             return _db.Order.Records(request);
+        }
+
+        public DataResult<OrderListViewModel> CustomerWiseRecords(DataRequest request, string customerUserName)
+        {
+            var customerId = _db.Registration.CustomerIdByUserName(customerUserName);
+            return _db.Order.CustomerWiseRecords(request, customerId);
         }
 
         public DbResponse<OrderReceiptViewModel> OrderReceipt(int orderId)

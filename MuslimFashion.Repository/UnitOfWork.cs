@@ -13,6 +13,7 @@ namespace MuslimFashion.Repository
             _db = db;
             _mapper = mapper;
 
+            BasicSetting = new BasicSettingRepository(_db, _mapper);
             Customer = new CustomerRepository(_db, _mapper);
             HomeMenu = new HomeMenuRepository(_db, _mapper);
             product = new ProductRepository(_db, _mapper);
@@ -23,6 +24,7 @@ namespace MuslimFashion.Repository
             Size = new SizeRepository(_db, _mapper);
         }
 
+        public IBasicSettingRepository BasicSetting { get; }
         public ICustomerRepository Customer { get; }
         public IHomeMenuRepository HomeMenu { get; }
         public IMenuRepository Menu { get; }
