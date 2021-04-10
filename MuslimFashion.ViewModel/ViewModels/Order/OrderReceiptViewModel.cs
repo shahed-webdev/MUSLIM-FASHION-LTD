@@ -11,6 +11,9 @@ namespace MuslimFashion.ViewModel
         public int OrderNo { get; set; }
         public OrderStatus OrderStatus { get; set; }
         public decimal NetAmount { get; set; }
+        public decimal TotalPrice { get; set; }
+        public decimal Discount { get; set; }
+        public decimal DeliveryCost { get; set; }
         public DateTime OrderDate { get; set; }
         public DateTime StatusChangeDate { get; set; }
         public string DeliveryName { get; set; }
