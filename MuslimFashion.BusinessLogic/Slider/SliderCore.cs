@@ -24,7 +24,7 @@ namespace MuslimFashion
                 if (imageFile == null)
                     return new DbResponse<SliderCrudModel>(false, $"No Slider Image Added");
 
-                var fileName = await FileStorage.UploadFileAsync(imageFile, "Slider-image");
+                var fileName = await FileStorage.UploadFileAsync(imageFile, "slider-image");
                 model.ImageFileName = fileName;
 
                 if (string.IsNullOrEmpty(model.ImageFileName))

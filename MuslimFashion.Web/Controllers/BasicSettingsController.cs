@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using MuslimFashion.BusinessLogic;
@@ -10,22 +11,36 @@ namespace MuslimFashion.Web.Controllers
     [Authorize]
     public class BasicSettingsController : Controller
     {
+        private readonly ISliderCore _slider;
         private readonly IBasicSettingCore _basicSetting;
         private readonly IMenuCore _menu;
         private readonly ISubMenuCore _subMenu;
         private readonly ISizeCore _size;
-        public BasicSettingsController(IMenuCore menu, ISubMenuCore subMenu, ISizeCore size, IBasicSettingCore basicSetting)
+        public BasicSettingsController(IMenuCore menu, ISubMenuCore subMenu, ISizeCore size, IBasicSettingCore basicSetting, ISliderCore slider)
         {
             _menu = menu;
             _subMenu = subMenu;
             _size = size;
             _basicSetting = basicSetting;
+            _slider = slider;
         }
 
+        #region Image slider
         public IActionResult ImageSlider()
         {
-            return View();
+            var model = _slider.List();
+            return View(model);
         }
+
+        //post
+        public IActionResult PostImageSlider(SliderCrudModel model, IFormFile imageFile)
+        {
+            var response = _slider.AddAsync(model, imageFile);
+            return Json(response);
+        }
+
+        #endregion
+
 
         #region Menu
         public IActionResult Menu()

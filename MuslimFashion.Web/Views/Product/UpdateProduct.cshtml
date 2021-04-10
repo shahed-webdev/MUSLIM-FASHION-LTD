@@ -1,19 +1,22 @@
-﻿
+﻿@using DevMaker.FileStorage
+@model ProductDetailsModel
 @{
-    ViewData["Title"] = "Add Product";
+    ViewData["Title"] = "Update Product";
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    var baseUrl = FileBuilder.RootUrl;
 }
 
-
 <div class="m-md-3">
-    <h4 class="page-header mb-3">Add Product</h4>
+    <h4 class="page-header">Update Product</h4>
+    <p class="mb-3">@Model.ProductName</p>
+
     <form id="formAdd">
         <div class="card card-body">
             <div class="row">
                 <div class="col-lg-3">
                     <div class="form-group">
                         <label>Menu</label>
-                        <select id="selectMenu" class="form-control" asp-items="ViewBag.Menus" required>
+                        <select id="selectMenu" asp-for="MenuId" class="form-control" asp-items="ViewBag.Menus" required>
                             <option value="">[ SELECT ]</option>
                         </select>
                     </div>
@@ -29,13 +32,13 @@
                 <div class="col-lg-3">
                     <div class="form-group">
                         <label>Product Name</label>
-                        <input name="ProductName" type="text" class="form-control" required>
+                        <input name="ProductName" value="@Model.ProductName" type="text" class="form-control" required>
                     </div>
                 </div>
                 <div class="col-lg-3">
                     <div class="form-group">
                         <label>Product Code</label>
-                        <input name="ProductCode" type="text" class="form-control" required>
+                        <input name="ProductCode" value="@Model.ProductCode" type="text" class="form-control" required>
                     </div>
                 </div>
             </div>
@@ -44,36 +47,36 @@
                 <div class="col-lg-3">
                     <div class="form-group">
                         <label>Product Brand</label>
-                        <input name="Brand" type="text" class="form-control">
+                        <input name="Brand" value="@Model.Brand" type="text" class="form-control">
                     </div>
                 </div>
                 <div class="col-lg-3">
                     <div class="form-group">
                         <label>Fabric Type</label>
-                        <input name="FabricType" type="text" class="form-control">
+                        <input name="FabricType" value="@Model.FabricType" type="text" class="form-control">
                     </div>
                 </div>
                 <div class="col-lg-3">
                     <div class="form-group">
                         <label>Price</label>
-                        <input name="Price" type="number" class="form-control" required>
+                        <input name="Price" type="number" value="@Model.Price" class="form-control" required>
                     </div>
                 </div>
                 <div class="col-lg-3">
                     <div class="form-group">
                         <label>Old Price</label>
-                        <input name="OldPrice" type="number" class="form-control">
+                        <input name="OldPrice" type="number" value="@Model.OldPrice" class="form-control">
                     </div>
                 </div>
             </div>
 
             <div class="form-group">
                 <label>Description</label>
-                <textarea name="Description" rows="2" class="form-control"></textarea>
+                <textarea name="Description" rows="2" class="form-control">@Model.Description</textarea>
             </div>
         </div>
 
-        
+
         <h5 class="font-weight-bold mt-4 mb-2">Product Image And Sizes</h5>
         <div class="row">
             <div class="col-lg-6">
@@ -89,7 +92,7 @@
                             </div>
                         </div>
                     </div>
-                    <img id="previewImage" style="width: 100px">
+                    <img id="previewImage" src="@baseUrl/@Model.ImageFileName" style="width: 100px">
                 </div>
             </div>
             <div class="col-lg-6">
@@ -100,16 +103,24 @@
                             <option value="">[ SELECT ]</option>
                         </select>
                     </div>
-                    
-                    <ul id="list-size" class="list-group list-group-flush"></ul>
+
+                    <ul id="list-size" class="list-group list-group-flush">
+                        @foreach (var item in Model.ProductSizes)
+                         {
+                             <li class="list-group-item d-flex justify-content-between align-items-center">
+                                 <span>@item.SizeName</span>
+                                 <i id="@item.SizeId" class="delete fas fa-trash"></i>
+                             </li>
+                         }
+                    </ul>
                 </div>
             </div>
         </div>
-        
-        <input value="Add Product" name="btnSubmit" type="submit" class="btn btn-danger mt-4">
+
+        <input value="@Model.ProductId" name="ProductId" type="hidden">
+        <input value="Update Product" name="btnSubmit" type="submit" class="btn btn-danger mt-4">
     </form>
 </div>
-
 
 @section Scripts{
     <script>
@@ -148,58 +159,76 @@
         function readURL(input) {
             if (input.files && input.files[0]) {
                 const reader = new FileReader();
-    
+
                 reader.onload = function(e) {
                     $('#previewImage').attr('src', e.target.result);
                 }
-    
+
                 reader.readAsDataURL(input.files[0]); // convert to base64 string
             }
         }
 
 
         (function() {
-            //sub menu
+            //change menu
             const selectMenu = document.getElementById("selectMenu");
-            const selectSubMenu = document.getElementById("selectSubMenu");
-
             selectMenu.addEventListener("change",
                 function() {
                     if (!this.value) return;
-                    selectSubMenu.innerHTML = "";
-
-                    const opt1 = document.createElement('option');
-                    opt1.value = "";
-                    opt1.innerHTML = "[ SELECT ]";
-                    selectSubMenu.appendChild(opt1);
-
-                    $.ajax({
-                        url: "/Product/GetSubMenuByMenu",
-                        type: "POST",
-                        data: { id: this.value },
-                        success: response => {
-                            response.forEach(item => {
-                                const opt = document.createElement('option');
-                                opt.value = item.value;
-                                opt.innerHTML = item.label;
-                                selectSubMenu.appendChild(opt);
-                            });
-                        },
-                        error: error => {
-                            console.log(error);
-                        }
-                    });
+                    appendSubmenu(this.value);
                 });
 
+            //append sub-menu
+            const selectSubMenu = document.getElementById("selectSubMenu");
+            function appendSubmenu(id) {
+                selectSubMenu.innerHTML = "";
+
+                const opt1 = document.createElement('option');
+                opt1.value = "";
+                opt1.innerHTML = "[ SELECT ]";
+                selectSubMenu.appendChild(opt1);
+
+                $.ajax({
+                    url: "/Product/GetSubMenuByMenu",
+                    type: "POST",
+                    data: { id },
+                    success: response => {
+                        response.forEach(item => {
+                            const opt = document.createElement('option');
+                            opt.value = item.value;
+                            opt.innerHTML = item.label;
+                            if (id === @Model.SubMenuId) {
+                                opt.selected = true;
+                            }
+                            selectSubMenu.appendChild(opt);
+                        });
+                    },
+                    error: error => {
+                        console.log(error);
+                    }
+                });
+            }
+
+            //bind sub menu on page load
+            appendSubmenu(@Model.MenuId);
+
             //add size
+            const addedSize = @Html.Raw(Json.Serialize(Model.ProductSizes));
             const ProductSizes = [];
+
+            //add inserted size
+            addedSize.forEach(item => {
+                ProductSizes.push(item.SizeId);
+            });
+
             const selectSize = document.getElementById("selectSize");
             const listSize = document.getElementById("list-size");
 
             //on change
             selectSize.addEventListener("change",
                 function() {
-                    const id = this.value;
+                    const id = +this.value;
+                    console.log(ProductSizes)
                     if (!id) return;
 
                     if (ProductSizes.indexOf(id) === -1) {
@@ -250,10 +279,9 @@
                         fileData.append(`ProductSizes[${i}]`, item);
                     });
 
-                    this.btnSubmit.disabled = true;
-
+                    this.btnSubmit.disabled= true;
                     $.ajax({
-                        url: "/Product/PostAddProduct",
+                        url: "/Product/PostUpdateProduct",
                         type: "POST",
                         contentType: false,
                         processData: false,
@@ -264,7 +292,8 @@
                             if (response.IsSuccess) {
                                 location.href = "/Product/AllProducts";
                             }
-                            this.btnSubmit.disabled= false;
+
+                            this.btnSubmit.disabled = false;
                         },
                         error: error => {
                             console.log(error);

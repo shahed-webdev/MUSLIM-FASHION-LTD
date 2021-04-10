@@ -1,21 +1,23 @@
-﻿
+﻿@using DevMaker.FileStorage
+@model IEnumerable<SliderCrudModel>
 @{
     ViewData["Title"] = "Image Slider";
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    var baseUrl = FileBuilder.RootUrl;
 }
 
 <div class="container">
     <h4 class="page-header mb-3">Image Slider</h4>
 
     <div class="card card-body">
-        <form>
+        <form id="formAdd">
             <div class="row">
                 <div class="col-lg-10">
                     <div class="md-form">
                         <div class="file-field">
                             <div class="btn btn-outline-danger btn-rounded waves-effect btn-sm">
                                 <span>Choose file</span>
-                                <input type="file">
+                                <input name="imageFile" type="file" required>
                             </div>
                             <div class="file-path-wrapper">
                                 <input class="file-path validate" type="text" placeholder="Upload your file">
@@ -25,12 +27,20 @@
                 </div>
                 <div class="col">
                     <div class="md-form">
-                        <input type="submit" value="Add" class="btn btn-danger btn-md btn-rounded" />
+                        <input type="submit" name="btnSubmit" value="Add" class="btn btn-danger btn-md btn-rounded" />
                     </div>
                 </div>
             </div>
-
         </form>
+        
+        <div class="row">
+            @foreach (var item in Model)
+            {
+                <div class="col-lg-3">
+                    <img src="@baseUrl/@item.ImageFileName" alt="">
+                </div>
+            }
+        </div>
     </div>
 </div>
 
@@ -42,5 +52,36 @@
                 $('.file-path').val(e.target.files[0].name);
             }
         });
+
+        //post product
+        const formAdd = document.getElementById("formAdd");
+        formAdd.addEventListener("submit",
+            function(evt) {
+                evt.preventDefault();
+
+                const fileData = new FormData(this);
+
+                this.btnSubmit.disabled= true;
+                $.ajax({
+                    url: "/BasicSettings/PostImageSlider",
+                    type: "POST",
+                    contentType: false,
+                    processData: false,
+                    data: fileData,
+                    success: response => {
+                        $.notify(response.Message, response.IsSuccess ? "success" : "error");
+
+                        if (response.IsSuccess) {
+                            location.reload();
+                        }
+
+                        this.btnSubmit.disabled = false;
+                    },
+                    error: error => {
+                        console.log(error);
+                        this.btnSubmit.disabled = false;
+                    }
+                });
+            });
     </script>
 }

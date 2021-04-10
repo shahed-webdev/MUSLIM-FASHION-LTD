@@ -2,6 +2,7 @@
 using MuslimFashion.BusinessLogic.Menu;
 using MuslimFashion.BusinessLogic.Registration;
 using MuslimFashion.Repository;
+using MuslimFashion.ViewModel;
 
 namespace MuslimFashion.BusinessLogic
 {
@@ -19,6 +20,7 @@ namespace MuslimFashion.BusinessLogic
             services.AddTransient<IRegistrationCore, RegistrationCore>();
             services.AddTransient<ISizeCore, SizeCore>();
             services.AddTransient<IProductCore, ProductCore>();
+            services.AddTransient<ISliderCore, SliderCore>();
             return services;
         }
     }
