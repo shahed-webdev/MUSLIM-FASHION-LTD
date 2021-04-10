@@ -39,6 +39,19 @@ namespace MuslimFashion
             }
         }
 
+        public DbResponse Delete(int id)
+        {
+            try
+            {
+                if (_db.Slider.IsNull(id)) return new DbResponse(false, "No data Found");
+                return _db.Slider.Delete(id);
+            }
+            catch (Exception e)
+            {
+                return new DbResponse(false, $"{e.Message}. {e.InnerException?.Message ?? ""}");
+            }
+        }
+
         public List<SliderCrudModel> List()
         {
             return _db.Slider.List();

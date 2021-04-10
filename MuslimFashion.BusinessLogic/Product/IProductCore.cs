@@ -9,6 +9,7 @@ namespace MuslimFashion.BusinessLogic
     public interface IProductCore
     {
         Task<DbResponse<int>> AddAsync(ProductAddModel model, IFormFile imageFile);
+        Task<DbResponse> EditAsync(ProductEditModel model, IFormFile imageFile);
         DbResponse<ProductDetailsModel> Get(int id);
         DataResult<ProductRecordView> ListByAdmin(DataRequest request);
         DataResult<ProductRecordView> ListOfUnassignedHomeMenu(DataRequest request, int homeMenuId);

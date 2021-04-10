@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
 using AutoMapper.QueryableExtensions;
+using DevMaker.FileStorage;
 using JqueryDataTables.LoopsIT;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using MuslimFashion.Data;
 using MuslimFashion.ViewModel;
@@ -24,6 +26,38 @@ namespace MuslimFashion.Repository
             var productId = product.ProductId;
 
             return new DbResponse<int>(true, $"{model.ProductName} Added Successfully", productId);
+        }
+
+        public async Task<DbResponse> EditAsync(ProductEditModel model, IFormFile imageFile)
+        {
+            var product = Db.Product
+                .Include(p => p.ProductSizes)
+                .FirstOrDefault(p => p.ProductId == model.ProductId);
+
+            product.SubMenuId = model.SubMenuId;
+            product.ProductName = model.ProductName;
+            product.Price = model.Price;
+            product.OldPrice = model.OldPrice;
+            product.ProductCode = model.ProductCode;
+            product.Brand = model.Brand;
+            product.FabricType = model.FabricType;
+            product.Description = model.Description;
+            product.ProductSizes = model.ProductSizes.Select(s => new ProductSize
+            {
+                SizeId = s
+            }).ToList();
+
+            if (imageFile != null)
+            {
+                var fileName = await FileStorage.UploadFileAsync(imageFile, "product-image");
+                FileStorage.DeleteFile(product.ImageFileName);
+                product.ImageFileName = fileName;
+            }
+
+            Db.Product.Update(product);
+            await Db.SaveChangesAsync();
+
+            return new DbResponse(true, "Product Update successfully");
         }
 
         public DbResponse<ProductDetailsModel> Get(int id)

@@ -9,6 +9,9 @@ namespace MuslimFashion.Data
         {
             builder.Property(e => e.UnitPrice)
                 .HasColumnType("decimal(18, 2)");
+            builder.Property(e => e.ProductSize)
+                .IsRequired()
+                .HasMaxLength(50);
             builder.Property(e => e.LineTotal)
                 .HasComputedColumnSql("([UnitPrice] * [Quantity])");
             builder.HasOne(e => e.Product)
@@ -22,12 +25,6 @@ namespace MuslimFashion.Data
                 .HasForeignKey(e => e.OrderId)
                 .OnDelete(DeleteBehavior.Cascade)
                 .HasConstraintName("FK_OrderList_Order");
-
-            builder.HasOne(e => e.ProductSize)
-                .WithMany(o => o.OrderLists)
-                .HasForeignKey(e => e.ProductSizeId)
-                .OnDelete(DeleteBehavior.NoAction)
-                .HasConstraintName("FK_OrderList_ProductSize");
         }
     }
 }

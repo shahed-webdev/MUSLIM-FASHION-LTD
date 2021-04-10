@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using AutoMapper.QueryableExtensions;
+using DevMaker.FileStorage;
 using MuslimFashion.Data;
 using MuslimFashion.ViewModel;
 using System.Collections.Generic;
@@ -21,6 +22,25 @@ namespace MuslimFashion.Repository
             model.SliderId = slider.SliderId;
 
             return new DbResponse<SliderCrudModel>(true, $"Added Successfully", model);
+        }
+
+        public DbResponse Delete(int id)
+        {
+            var slider = Db.Slider.Find(id);
+
+            FileStorage.DeleteFile(slider.ImageFileName);
+
+            Db.Slider.Remove(slider);
+            Db.SaveChanges();
+
+            return new DbResponse(true, "Deleted Successfully");
+
+
+        }
+
+        public bool IsNull(int id)
+        {
+            return !Db.Slider.Any(s => s.SliderId == id);
         }
 
         public List<SliderCrudModel> List()

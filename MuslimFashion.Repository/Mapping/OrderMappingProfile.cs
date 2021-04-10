@@ -11,7 +11,6 @@ namespace MuslimFashion.Repository
 
 
             CreateMap<OrderList, OrderReceiptItemModel>()
-                .ForMember(d => d.SizeName, opt => opt.MapFrom(c => c.ProductSize.Size.SizeName))
                 .ForMember(d => d.ProductCode, opt => opt.MapFrom(c => c.Product.ProductCode))
                 .ForMember(d => d.ProductName, opt => opt.MapFrom(c => c.Product.ProductName))
                 .ForMember(d => d.ImageFileName, opt => opt.MapFrom(c => c.Product.ImageFileName))
