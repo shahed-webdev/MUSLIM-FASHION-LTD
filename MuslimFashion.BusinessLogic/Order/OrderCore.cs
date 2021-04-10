@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using JqueryDataTables.LoopsIT;
+using MuslimFashion.Data;
 using MuslimFashion.Repository;
 using MuslimFashion.ViewModel;
 using System;
@@ -16,6 +17,7 @@ namespace MuslimFashion.BusinessLogic
         {
             try
             {
+                model.OrderDate = DateTime.Now.BdTime().Date;
                 return model.OrderLists.Count < 1 ? new DbResponse<int>(false, "No item added") : _db.Order.PleaseOrder(model);
             }
             catch (Exception e)
