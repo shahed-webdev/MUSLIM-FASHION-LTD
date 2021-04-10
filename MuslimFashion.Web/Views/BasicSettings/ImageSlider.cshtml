@@ -12,7 +12,7 @@
     <div class="card card-body">
         <form id="formAdd">
             <div class="row">
-                <div class="col-lg-10">
+                <div class="col-lg-5">
                     <div class="md-form">
                         <div class="file-field">
                             <div class="btn btn-outline-danger btn-rounded waves-effect btn-sm">
@@ -20,24 +20,36 @@
                                 <input name="imageFile" type="file" required>
                             </div>
                             <div class="file-path-wrapper">
-                                <input class="file-path validate" type="text" placeholder="Upload your file">
+                                <input class="file-path validate" type="text" placeholder="Upload Slider Image">
                             </div>
                         </div>
                     </div>
                 </div>
+                <div class="col-lg-4">
+                    <div class="md-form">
+                        <label for="inputCaption">Caption</label>
+                        <input id="inputCaption" type="text" name="Caption" class="form-control validate" />
+                    </div>
+                </div>
                 <div class="col">
                     <div class="md-form">
-                        <input type="submit" name="btnSubmit" value="Add" class="btn btn-danger btn-md btn-rounded" />
+                        <input type="submit" name="btnSubmit" value="Add Slider" class="btn btn-danger btn-md" />
                     </div>
                 </div>
             </div>
         </form>
-        
-        <div class="row">
+
+        <div id="slider-container" class="row">
             @foreach (var item in Model)
             {
                 <div class="col-lg-3">
-                    <img src="@baseUrl/@item.ImageFileName" alt="">
+                    <div class="card">
+                        <img class="card-img-top" src="@baseUrl/@item.ImageFileName" alt="">
+                        <div class="card-body text-center">
+                            <p class="card-title"><a>@item.Caption</a></p>
+                            <a id="@item.SliderId" class="delete btn btn-danger">Delete</a>
+                        </div>
+                    </div>
                 </div>
             }
         </div>
@@ -47,7 +59,7 @@
 @section Scripts
 {
     <script>
-        $('input[type="file"]').change(function (e) {
+        $('input[type="file"]').change(function(e) {
             if (e.target.files.length) {
                 $('.file-path').val(e.target.files[0].name);
             }
@@ -61,7 +73,7 @@
 
                 const fileData = new FormData(this);
 
-                this.btnSubmit.disabled= true;
+                this.btnSubmit.disabled = true;
                 $.ajax({
                     url: "/BasicSettings/PostImageSlider",
                     type: "POST",
@@ -83,5 +95,30 @@
                     }
                 });
             });
+
+        //delete slider
+        const sliderContainer = document.getElementById("slider-container");
+        sliderContainer.addEventListener("click", function(evt) {
+            const element = evt.target;
+            const onDelete = element.classList.contains("delete");
+
+            if (!onDelete) return;
+
+            $.ajax({
+                url: "/BasicSettings/DeleteImageSlider",
+                type: "POST",
+                data: {id: element.id},
+                success: response => {
+                    $.notify(response.Message, response.IsSuccess ? "success" : "error");
+
+                    if (response.IsSuccess) {
+                        location.reload();
+                    }
+                },
+                error: error => {
+                    console.log(error);
+                }
+            });
+        });
     </script>
 }

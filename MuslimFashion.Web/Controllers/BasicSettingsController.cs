@@ -39,6 +39,13 @@ namespace MuslimFashion.Web.Controllers
             return Json(response);
         }
 
+        //delete
+        public IActionResult DeleteImageSlider(int id)
+        {
+            var response = _slider.Delete(id);
+            return Json(response);
+        }
+
         #endregion
 
 
