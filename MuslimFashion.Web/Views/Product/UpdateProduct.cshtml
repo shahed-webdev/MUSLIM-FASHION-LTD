@@ -85,7 +85,7 @@
                         <div class="file-field">
                             <div class="btn btn-outline-danger btn-rounded waves-effect btn-sm float-left">
                                 <span>Choose file<i class="fas fa-upload ml-3" aria-hidden="true"></i></span>
-                                <input name="imageFile" type="file" accept="image/*" required>
+                                <input name="imageFile" type="file" accept="image/*">
                             </div>
                             <div class="file-path-wrapper">
                                 <input class="file-path validate" type="text" placeholder="Upload image">
@@ -99,7 +99,7 @@
                 <div class="card card-body">
                     <div class="form-group">
                         <label>Sizes</label>
-                        <select id="selectSize" asp-items="ViewBag.Sizes" class="form-control" required>
+                        <select id="selectSize" asp-items="ViewBag.Sizes" class="form-control">
                             <option value="">[ SELECT ]</option>
                         </select>
                     </div>

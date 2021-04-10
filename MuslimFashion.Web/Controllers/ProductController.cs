@@ -87,9 +87,9 @@ namespace MuslimFashion.Web.Controllers
         }
 
         //Post Update Product
-        public async Task<IActionResult> PostUpdateProduct(ProductAddModel model, IFormFile imageFile)
+        public async Task<IActionResult> PostUpdateProduct(ProductEditModel model, IFormFile imageFile)
         {
-            var response = await _product.AddAsync(model, imageFile);
+            var response = await _product.EditAsync(model, imageFile);
             return Json(response);
         }
 
