@@ -98,5 +98,25 @@ namespace MuslimFashion.BusinessLogic
         {
             return _db.SubMenu.MenuWiseDdlList(menuId);
         }
+
+        public DbResponse<SubMenuWithProductModel> GetWithProducts(int id)
+        {
+            try
+            {
+                if (_db.SubMenu.IsNull(id))
+                    return new DbResponse<SubMenuWithProductModel>(false, "No data Found");
+
+                return _db.SubMenu.GetWithProducts(id);
+
+            }
+            catch (Exception e)
+            {
+                return new DbResponse<SubMenuWithProductModel>(false, $"{e.Message}. {e.InnerException?.Message ?? ""}");
+            }
+        }
+        public List<ProductGridViewModel> Products(int subMenuId, int getFrom, int quantity)
+        {
+            return _db.SubMenu.Products(subMenuId, getFrom, quantity);
+        }
     }
 }

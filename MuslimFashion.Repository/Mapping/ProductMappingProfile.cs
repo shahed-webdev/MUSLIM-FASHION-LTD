@@ -14,6 +14,8 @@ namespace MuslimFashion.Repository
                 ;
 
             CreateMap<Product, ProductDetailsModel>()
+                .ForMember(d => d.MenuId, opt => opt.MapFrom(c => c.SubMenu.MenuId))
+                .ForMember(d => d.MenuName, opt => opt.MapFrom(c => c.SubMenu.Menu.MenuName))
                 .ForMember(d => d.ProductSizes, opt => opt.MapFrom(c => c.ProductSizes.Select(p => new ProductSizeDetailsModel
                 {
                     SizeId = p.SizeId,

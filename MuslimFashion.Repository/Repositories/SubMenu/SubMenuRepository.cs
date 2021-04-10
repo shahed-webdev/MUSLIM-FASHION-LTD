@@ -90,5 +90,25 @@ namespace MuslimFashion.Repository
                     label = m.SubMenuName
                 }).ToList();
         }
+        public DbResponse<SubMenuWithProductModel> GetWithProducts(int id)
+        {
+            var menu = Db.SubMenu.Where(r => r.SubMenuId == id)
+                .ProjectTo<SubMenuWithProductModel>(_mapper.ConfigurationProvider)
+                .FirstOrDefault();
+            menu.Products = Products(menu.SubMenuId, 0, 10);
+            return new DbResponse<SubMenuWithProductModel>(true, $"{menu.SubMenuName} Get Successfully", menu);
+        }
+        public List<ProductGridViewModel> Products(int subMenuId, int getFrom, int quantity)
+        {
+            return Db.Product
+                .Where(p => p.SubMenuId == subMenuId)
+                .OrderBy(p => p.ProductCode)
+                .Skip(getFrom)
+                .Take(quantity)
+                .ProjectTo<ProductGridViewModel>(_mapper.ConfigurationProvider)
+                .ToList();
+        }
     }
+
+
 }
