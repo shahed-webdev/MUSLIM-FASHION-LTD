@@ -12,6 +12,10 @@ namespace MuslimFashion.Repository
             CreateMap<SubMenu, SubMenuViewModel>();
             CreateMap<SubMenu, SubMenuWithMenuModel>()
                 .ForMember(d => d.MenuName, opt => opt.MapFrom(c => c.Menu.MenuName));
+
+            CreateMap<SubMenu, SubMenuWithProductModel>()
+                .ForMember(d => d.MenuName, opt => opt.MapFrom(c => c.Menu.MenuName))
+                ;
         }
     }
 }
