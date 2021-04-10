@@ -28,8 +28,8 @@ namespace MuslimFashion.Web.Controllers
         #region Image slider
         public IActionResult ImageSlider()
         {
-            var model = _slider.List();
-            return View(model);
+           // var model = _slider.List();
+            return View();
         }
 
         //post
@@ -38,6 +38,13 @@ namespace MuslimFashion.Web.Controllers
             var response = _slider.AddAsync(model, imageFile);
             return Json(response);
         }
+ 
+        //delete
+        //public IActionResult DeleteImageSlider(int id)
+        //{
+        //    var response = _slider.AddAsync(model, imageFile);
+        //    return Json(response);
+        //}
 
         #endregion
 
