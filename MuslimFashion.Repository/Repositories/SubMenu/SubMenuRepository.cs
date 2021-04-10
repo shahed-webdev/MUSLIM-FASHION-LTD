@@ -62,7 +62,7 @@ namespace MuslimFashion.Repository
 
         public bool IsNull(int id)
         {
-            return Db.SubMenu.Any(r => r.SubMenuId == id);
+            return !Db.SubMenu.Any(r => r.SubMenuId == id);
         }
 
         public bool IsRelatedDataExist(int id)

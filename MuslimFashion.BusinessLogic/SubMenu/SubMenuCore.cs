@@ -38,7 +38,7 @@ namespace MuslimFashion.BusinessLogic
                 if (string.IsNullOrEmpty(model.SubMenuName))
                     return new DbResponse(false, "Invalid Data");
 
-                if (!_db.SubMenu.IsNull(model.SubMenuId))
+                if (_db.SubMenu.IsNull(model.SubMenuId))
                     return new DbResponse(false, "No Data Found");
 
                 if (_db.SubMenu.IsExistName(model.SubMenuName, model.MenuId, model.SubMenuId))
@@ -58,7 +58,7 @@ namespace MuslimFashion.BusinessLogic
         {
             try
             {
-                if (!_db.SubMenu.IsNull(id))
+                if (_db.SubMenu.IsNull(id))
                     return new DbResponse(false, "No data Found");
 
                 if (_db.SubMenu.IsRelatedDataExist(id))
@@ -103,7 +103,7 @@ namespace MuslimFashion.BusinessLogic
         {
             try
             {
-                if (!_db.SubMenu.IsNull(id))
+                if (_db.SubMenu.IsNull(id))
                     return new DbResponse<SubMenuWithProductModel>(false, "No data Found");
 
                 return _db.SubMenu.GetWithProducts(id);

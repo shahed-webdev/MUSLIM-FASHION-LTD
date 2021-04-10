@@ -13,6 +13,7 @@ namespace MuslimFashion.Repository
         IRegistrationRepository Registration { get; }
         ISubMenuRepository SubMenu { get; }
         ISizeRepository Size { get; }
+        ISliderRepository Slider { get; }
         int SaveChanges();
     }
 }

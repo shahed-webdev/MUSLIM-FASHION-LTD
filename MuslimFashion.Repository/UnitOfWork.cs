@@ -22,6 +22,7 @@ namespace MuslimFashion.Repository
             Registration = new RegistrationRepository(_db, _mapper);
             SubMenu = new SubMenuRepository(_db, _mapper);
             Size = new SizeRepository(_db, _mapper);
+            Slider = new SliderRepository(_db, _mapper);
         }
 
         public IBasicSettingRepository BasicSetting { get; }
@@ -33,6 +34,7 @@ namespace MuslimFashion.Repository
         public IRegistrationRepository Registration { get; }
         public ISubMenuRepository SubMenu { get; }
         public ISizeRepository Size { get; }
+        public ISliderRepository Slider { get; }
 
         public int SaveChanges()
         {

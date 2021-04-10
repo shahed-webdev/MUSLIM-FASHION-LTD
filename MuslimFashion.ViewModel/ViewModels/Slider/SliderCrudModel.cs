@@ -1,6 +1,6 @@
-﻿namespace MuslimFashion.Data
+﻿namespace MuslimFashion.ViewModel
 {
-    public class Slider
+    public class SliderCrudModel
     {
         public int SliderId { get; set; }
         public string ImageFileName { get; set; }
