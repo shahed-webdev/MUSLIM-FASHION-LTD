@@ -45,7 +45,7 @@ namespace MuslimFashion.Repository
 
         public List<SliderCrudModel> List()
         {
-            return Db.HomeMenu
+            return Db.Slider
                 .ProjectTo<SliderCrudModel>(_mapper.ConfigurationProvider)
                 .OrderBy(a => a.Sn)
                 .ToList();
