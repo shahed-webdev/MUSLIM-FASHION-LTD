@@ -16,16 +16,16 @@ namespace MuslimFashion.Repository
 
         }
 
-        public DbResponse<int> PleaseOrder(OrderAddModel model)
+        public DbResponse<int> PleaseOrder(OrderAddModel model, bool isOrderByAdmin)
         {
             var order = _mapper.Map<Order>(model);
             order.OrderNo = this.GetNewOrderNo();
-            order.OrderStatus = OrderStatus.Pending;
+            order.OrderStatus = isOrderByAdmin ? OrderStatus.Confirmed: OrderStatus.Pending;
             Db.Order.Add(order);
             Db.SaveChanges();
-            //var orderId = order.OrderId;
+            var orderId = order.OrderId;
 
-            return new DbResponse<int>(true, $"{order.OrderNo} Order Placed Successfully", order.OrderNo);
+            return new DbResponse<int>(true, $"{order.OrderNo} Order Placed Successfully", isOrderByAdmin ? orderId: order.OrderNo);
         }
 
         public int GetNewOrderNo()

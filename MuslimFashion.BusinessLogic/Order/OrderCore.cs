@@ -13,12 +13,12 @@ namespace MuslimFashion.BusinessLogic
         {
         }
 
-        public DbResponse<int> PleaseOrder(OrderAddModel model)
+        public DbResponse<int> PleaseOrder(OrderAddModel model, bool isOrderByAdmin)
         {
             try
             {
                 model.OrderDate = DateTime.Now.BdTime().Date;
-                return model.OrderLists.Count < 1 ? new DbResponse<int>(false, "No item added") : _db.Order.PleaseOrder(model);
+                return model.OrderLists.Count < 1 ? new DbResponse<int>(false, "No item added") : _db.Order.PleaseOrder(model, isOrderByAdmin);
             }
             catch (Exception e)
             {
@@ -26,13 +26,13 @@ namespace MuslimFashion.BusinessLogic
             }
         }
 
-        public DbResponse<int> PleaseOrder(OrderAddModel model, string customerUserName)
+        public DbResponse<int> PleaseOrder(OrderAddModel model, string customerUserName, bool isOrderByAdmin)
         {
             try
             {
                 model.CustomerId = _db.Registration.CustomerIdByUserName(customerUserName);
 
-                return model.CustomerId == 0 ? new DbResponse<int>(false, "Invalid User") : this.PleaseOrder(model);
+                return model.CustomerId == 0 ? new DbResponse<int>(false, "Invalid User") : this.PleaseOrder(model, isOrderByAdmin);
             }
             catch (Exception e)
             {

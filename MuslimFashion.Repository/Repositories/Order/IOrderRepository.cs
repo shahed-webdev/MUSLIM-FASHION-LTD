@@ -6,7 +6,7 @@ namespace MuslimFashion.Repository
 {
     public interface IOrderRepository
     {
-        DbResponse<int> PleaseOrder(OrderAddModel model);
+        DbResponse<int> PleaseOrder(OrderAddModel model, bool isOrderByAdmin);
         int GetNewOrderNo();
         DataResult<OrderListViewModel> Records(DataRequest request);
         DataResult<OrderListViewModel> CustomerWiseRecords(DataRequest request, int customerId);

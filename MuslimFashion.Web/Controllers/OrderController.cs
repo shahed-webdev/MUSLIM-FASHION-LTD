@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using JqueryDataTables.LoopsIT;
 using MuslimFashion.BusinessLogic;
 using MuslimFashion.Data;
+using MuslimFashion.ViewModel;
+using Order = JqueryDataTables.LoopsIT.Order;
 
 namespace MuslimFashion.Web.Controllers
 {
@@ -39,6 +41,14 @@ namespace MuslimFashion.Web.Controllers
         public async Task<IActionResult> FindProduct(string code)
         {
             var response = await _product.SearchAsync(code);
+            return Json(response);
+        }
+
+        //post order
+        [HttpPost]
+        public IActionResult PostCreateOrder(OrderAddModel model)
+        {
+            var response = _order.PleaseOrder(model, true);
             return Json(response);
         }
         #endregion

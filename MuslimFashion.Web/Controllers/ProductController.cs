@@ -225,7 +225,7 @@ namespace MuslimFashion.Web.Controllers
         [HttpPost]
         public IActionResult PlaceOrder(OrderAddModel model)
         {
-            var response = _order.PleaseOrder(model, User.Identity.Name);
+            var response = _order.PleaseOrder(model, User.Identity.Name, false);
             return Json(response);
         }
 

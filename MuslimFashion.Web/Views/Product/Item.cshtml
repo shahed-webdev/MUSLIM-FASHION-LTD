@@ -44,7 +44,7 @@
                         @foreach (var size in Model.ProductSizes)
                         {
                             <div class="size-radio">
-                                <input class="inputSize" id="size-@size.SizeId" type="radio" data-name="@size.SizeName" data-details="@size.Description" name="ProductSizeId" value="@size.SizeId" required>
+                                <input class="inputSize" id="size-@size.SizeId" type="radio" data-details="@size.Description" name="ProductSize" value="@size.SizeName" required>
                                 <label for="size-@size.SizeId">@size.SizeName</label>
                             </div>
                         }
@@ -112,10 +112,7 @@
             function(evt) {
                 evt.preventDefault();
 
-                const sizeName = document.querySelector("input[name=ProductSizeId]:checked").getAttribute("data-name");
                 const obj = methods.getForm(this);
-                obj.ProductSize = sizeName;
-
                 const added = shoppingCart.addItemToCart(obj);
 
                 $.notify(added ? "Already in cart" : "Product added to Shopping Cart", added ?"error":"success");

@@ -30,4 +30,18 @@
     <Folder Include="wwwroot\product\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Include="Views\Product\AddProduct.cshtml" />
+    <None Include="Views\Product\AllProducts.cshtml" />
+    <None Include="Views\Product\AssignProductInCategory.cshtml" />
+    <None Include="Views\Product\CategoryProducts.cshtml" />
+    <None Include="Views\Product\Checkout.cshtml" />
+    <None Include="Views\Product\HomeCategory.cshtml" />
+    <None Include="Views\Product\Item.cshtml" />
+    <None Include="Views\Product\MenuProducts.cshtml" />
+    <None Include="Views\Product\OrderSuccess.cshtml" />
+    <None Include="Views\Product\UnAssignProductFromCategory.cshtml" />
+    <None Include="Views\Product\UpdateProduct.cshtml" />
+  </ItemGroup>
+
 </Project>
