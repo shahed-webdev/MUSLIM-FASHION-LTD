@@ -1,9 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using MuslimFashion.BusinessLogic;
+using MuslimFashion.ViewModel;
 
 namespace MuslimFashion.Web.Controllers
 {
@@ -19,7 +16,12 @@ namespace MuslimFashion.Web.Controllers
 
         public IActionResult Index()
         {
-            var model = _homeMenu.ListWithProducts();
+            var model = new HomeViewModel
+            {
+                MenuWithProducts = _homeMenu.ListWithProducts(),
+                Slider = _slider.Slide()
+            };
+
             return View(model);
         }
 

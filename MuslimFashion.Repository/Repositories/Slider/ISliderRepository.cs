@@ -10,6 +10,6 @@ namespace MuslimFashion.Repository
 
         bool IsNull(int id);
         List<SliderCrudModel> List();
-        string[] Slide();
+        List<SliderSlideModel> Slide();
     }
 }

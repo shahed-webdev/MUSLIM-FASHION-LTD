@@ -57,7 +57,7 @@ namespace MuslimFashion
             return _db.Slider.List();
         }
 
-        public string[] Slide()
+        public List<SliderSlideModel> Slide()
         {
             return _db.Slider.Slide();
         }

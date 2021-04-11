@@ -51,9 +51,12 @@ namespace MuslimFashion.Repository
                 .ToList();
         }
 
-        public string[] Slide()
+        public List<SliderSlideModel> Slide()
         {
-            return Db.Slider.OrderBy(a => a.Sn).Select(s => s.ImageFileName).ToArray();
+            return Db.Slider
+                .OrderBy(a => a.Sn)
+                .ProjectTo<SliderSlideModel>(_mapper.ConfigurationProvider)
+                .ToList();
         }
     }
 }

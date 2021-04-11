@@ -12,8 +12,4 @@
     <ProjectReference Include="..\MuslimFashion.Data\MuslimFashion.Data.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="ViewModels\Slider\" />
-  </ItemGroup>
-
 </Project>

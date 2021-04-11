@@ -10,6 +10,6 @@ namespace MuslimFashion
         Task<DbResponse<SliderCrudModel>> AddAsync(SliderCrudModel model, IFormFile imageFile);
         DbResponse Delete(int id);
         List<SliderCrudModel> List();
-        string[] Slide();
+        List<SliderSlideModel> Slide();
     }
 }

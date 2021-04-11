@@ -9,6 +9,7 @@ namespace MuslimFashion.Repository
         public SliderMappingProfile()
         {
             CreateMap<Slider, SliderCrudModel>().ReverseMap();
+            CreateMap<Slider, SliderSlideModel>();
         }
     }
 }
