@@ -10,9 +10,11 @@ namespace MuslimFashion.Web.Controllers
     public class HomeController : Controller
     {
         private readonly IHomeMenuCore _homeMenu;
-        public HomeController(IHomeMenuCore homeMenu)
+        private readonly ISliderCore _slider;
+        public HomeController(IHomeMenuCore homeMenu, ISliderCore slider)
         {
             _homeMenu = homeMenu;
+            _slider = slider;
         }
 
         public IActionResult Index()

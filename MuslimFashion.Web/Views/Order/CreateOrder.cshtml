@@ -141,32 +141,29 @@
             const products = [];
 
             //autocomplete
-            //$(inputReferenceId).typeahead({
-            //    minLength: 2,
-            //    displayText: function (item) {
-            //        return item.UserName;
-            //    },
-            //    afterSelect: function (item) {
-            //        this.$element[0].value = item.UserName;
-            //    },
-            //    source: function (request, result) {
-            //        $.ajax({
-            //            type: "POST",
-            //            url: "Add_Member.aspx/GetUsers",
-            //            data: JSON.stringify({ 'prefix': request }),
-            //            contentType: "application/json; charset=utf-8",
-            //            dataType: "json",
-            //            success: function (response) {
-            //                result(JSON.parse(response.d));
-            //            },
-            //            error: function (err) { console.log(err) }
-            //        });
-            //    },
-            //    updater: function (item) {
-            //        appendReferenceInfo(item);
-            //        return item;
-            //    }
-            //})
+            const inputProductCode = document.getElementById("inputProductCode");
+            $(inputProductCode).typeahead({
+                minLength: 1,
+                displayText: function(item) {
+                    return `${item.ProductCode} ${item.ProductName}`;
+                },
+                afterSelect: function(item) {
+                    this.$element[0].value = item.ProductCode;
+                },
+                source: function(request, result) {
+                    $.ajax({
+                        url: "/Order/FindProduct",
+                        data: { 'code': request },
+                        success: function(response) {
+                            result(response);
+                        },
+                        error: function(err) { console.log(err) }
+                    });
+                },
+                updater: function(item) {
+                    return item;
+                }
+            })
         })();
     </script>
 }

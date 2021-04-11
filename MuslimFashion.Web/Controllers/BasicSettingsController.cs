@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -33,9 +34,9 @@ namespace MuslimFashion.Web.Controllers
         }
 
         //post
-        public IActionResult PostImageSlider(SliderCrudModel model, IFormFile imageFile)
+        public async Task<IActionResult> PostImageSlider(SliderCrudModel model, IFormFile imageFile)
         {
-            var response = _slider.AddAsync(model, imageFile);
+            var response = await _slider.AddAsync(model, imageFile);
             return Json(response);
         }
 

@@ -12,9 +12,11 @@ namespace MuslimFashion.Web.Controllers
     public class OrderController : Controller
     {
         private readonly IOrderCore _order;
-        public OrderController(IOrderCore order)
+        private readonly IProductCore _product;
+        public OrderController(IOrderCore order, IProductCore product)
         {
             _order = order;
+            _product = product;
         }
        
         //all order data-table
@@ -29,6 +31,13 @@ namespace MuslimFashion.Web.Controllers
         public IActionResult CreateOrder()
         {
             return View();
+        }
+
+        //find product
+        public async Task<IActionResult> FindProduct(string code)
+        {
+            var response = await _product.SearchAsync(code);
+            return Json(response);
         }
         #endregion
 
