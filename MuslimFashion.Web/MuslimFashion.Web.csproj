@@ -26,4 +26,8 @@
     <ProjectReference Include="..\MuslimFashion.BusinessLogic\MuslimFashion.BusinessLogic.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\product\" />
+  </ItemGroup>
+
 </Project>
