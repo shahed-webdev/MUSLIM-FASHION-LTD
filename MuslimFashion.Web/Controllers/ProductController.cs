@@ -20,8 +20,9 @@ namespace MuslimFashion.Web.Controllers
         private readonly IHomeMenuCore _homeMenu;
         private readonly ICustomerCore _customer;
         private readonly IOrderCore _order;
+        private readonly IBasicSettingCore _basicSetting;
 
-        public ProductController(IMenuCore menu, ISubMenuCore subMenu, ISizeCore size, IProductCore product, IHomeMenuCore homeMenu, ICustomerCore customer, IOrderCore order)
+        public ProductController(IMenuCore menu, ISubMenuCore subMenu, ISizeCore size, IProductCore product, IHomeMenuCore homeMenu, ICustomerCore customer, IOrderCore order, IBasicSettingCore basicSetting)
         {
             _menu = menu;
             _subMenu = subMenu;
@@ -30,6 +31,7 @@ namespace MuslimFashion.Web.Controllers
             _homeMenu = homeMenu;
             _customer = customer;
             _order = order;
+            _basicSetting = basicSetting;
         }
 
         #region Product List
@@ -175,7 +177,7 @@ namespace MuslimFashion.Web.Controllers
 
         #endregion
 
-        #region Add to cart and order
+        #region Add to cart and checkout
 
         //add to cart
         [AllowAnonymous]
@@ -202,7 +204,7 @@ namespace MuslimFashion.Web.Controllers
                 return Redirect("/Home/Index");
 
 
-            //ViewBag.DeliveryCost = new SelectList(_region.ListDdl(), "value", "label");
+            ViewBag.DeliveryCost = _basicSetting.GetDeliveryCharge().Data;
             var response = _customer.AddressList(User.Identity.Name);
 
             return View(response);

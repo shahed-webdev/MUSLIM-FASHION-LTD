@@ -77,12 +77,12 @@
                             <div class="font-weight-bold mb-2">Delivery Charge</div>
 
                             <div class="form-check pl-0">
-                                <input type="radio" class="form-check-input" id="inside" value="60" name="deliveryCharge" required>
-                                <label class="form-check-label" for="inside">Inside Dhaka (৳60)</label>
+                                <input type="radio" class="form-check-input" id="inside" data-inside="true" value="@ViewBag.DeliveryCost.InSideDhaka" name="deliveryCharge" required>
+                                <label class="form-check-label" for="inside">Inside Dhaka (৳@ViewBag.DeliveryCost.InSideDhaka)</label>
                             </div>
                             <div class="form-check pl-0">
-                                <input type="radio" class="form-check-input" id="outside" value="100" name="deliveryCharge" required>
-                                <label class="form-check-label" for="outside">Outside Dhaka (৳100)</label>
+                                <input type="radio" class="form-check-input" data-inside="false" id="outside" value="@ViewBag.DeliveryCost.OutSideDhaka" name="deliveryCharge" required>
+                                <label class="form-check-label" for="outside">Outside Dhaka (৳@ViewBag.DeliveryCost.OutSideDhaka)</label>
                             </div>
                         </div>
                         <div class="d-flex justify-content-between align-items-center">
@@ -210,9 +210,13 @@
                     return;
                 }
 
+                const deliveryCharge = document.querySelector("input[name=deliveryCharge]:checked");
+                const isInDhaka = deliveryCharge.getAttribute("data-inside");
+
                 const model = {
                     TotalPrice: cartTotal,
-                    DeliveryCost: document.querySelector("input[name=deliveryCharge]:checked").value,
+                    DeliveryCost: deliveryCharge.value,
+                    IsInDhaka: isInDhaka,
                     OrderLists: shoppingList,
                     DeliveryName: address.DeliveryName,
                     DeliveryAddress: address.DeliveryAddress,

@@ -1,0 +1,26 @@
+﻿
+/*Printing*/
+@page { size: auto !important; margin: 10px; }
+@media print {
+    body { min-width: 0 !important; background-color: #fff; padding: 0 !important }
+    .btn-floating,.btn, footer { display: none !important }
+
+    header { margin-left: 0; margin-bottom: 15px }
+    .navbar { display: block }
+    a.navbar-brand { text-decoration: none; font-size: 1.5rem; font-weight: bold; }
+    
+    #sidedrawer { position: static; width: 0; left: 0; }
+
+    .container-fluid, .container { min-width: 0 !important; max-width: 100%; margin: 0; padding: 0; overflow: hidden !important }
+    .card-body { padding: 0 !important; }
+
+    #content-wrapper { min-height: 0; padding: 0; margin-left: 0; overflow-x: auto !important }
+    #content-wrapper h3 { font-size: 1.2rem; }
+
+
+    .data-table th { color: #333; font-weight: bold }
+    .data-table a { color: #333 !important; text-decoration: none }
+
+    #data-table th { color: #333; font-weight: bold }
+    #data-table a { color: #333 !important; text-decoration: none }
+}

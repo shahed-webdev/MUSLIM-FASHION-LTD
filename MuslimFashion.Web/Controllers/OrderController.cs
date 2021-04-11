@@ -13,10 +13,12 @@ namespace MuslimFashion.Web.Controllers
     {
         private readonly IOrderCore _order;
         private readonly IProductCore _product;
-        public OrderController(IOrderCore order, IProductCore product)
+        private readonly IBasicSettingCore _basicSetting;
+        public OrderController(IOrderCore order, IProductCore product, IBasicSettingCore basicSetting)
         {
             _order = order;
             _product = product;
+            _basicSetting = basicSetting;
         }
        
         //all order data-table
@@ -26,10 +28,10 @@ namespace MuslimFashion.Web.Controllers
             return Json(response);
         }
 
-
         #region Create Order
         public IActionResult CreateOrder()
         {
+            ViewBag.DeliveryCost = _basicSetting.GetDeliveryCharge().Data;
             return View();
         }
 
@@ -39,6 +41,15 @@ namespace MuslimFashion.Web.Controllers
             var response = await _product.SearchAsync(code);
             return Json(response);
         }
+        #endregion
+
+        #region Pending Order
+        //confirmed list
+        public IActionResult PendingList()
+        {
+            return View();
+        }
+
         #endregion
 
         #region Confirm Order
@@ -101,5 +112,15 @@ namespace MuslimFashion.Web.Controllers
         }
 
         #endregion
+
+        //order receipt
+        public IActionResult Receipt(int? id)
+        {
+            if (!id.HasValue) return RedirectToAction("PendingList");
+
+            var response = _order.OrderReceipt(id.GetValueOrDefault());
+            return View(response.Data);
+        }
+
     }
 }
