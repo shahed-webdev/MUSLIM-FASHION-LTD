@@ -1,5 +1,6 @@
 ﻿using MuslimFashion.ViewModel;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace MuslimFashion.Repository
 {
@@ -17,5 +18,7 @@ namespace MuslimFashion.Repository
         List<CustomerAddressCrudModel> AddressList(int customerId);
 
         bool IsAddressNull(int customerAddressId);
+
+        Task<List<CustomerCrudModel>> SearchAsync(string key);
     }
 }

@@ -1,9 +1,11 @@
 ﻿using AutoMapper;
 using AutoMapper.QueryableExtensions;
+using Microsoft.EntityFrameworkCore;
 using MuslimFashion.Data;
 using MuslimFashion.ViewModel;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace MuslimFashion.Repository
 {
@@ -78,6 +80,16 @@ namespace MuslimFashion.Repository
         public bool IsAddressNull(int customerAddressId)
         {
             return !Db.CustomerAddresses.Any(c => c.CustomerAddressId == customerAddressId);
+        }
+
+        public async Task<List<CustomerCrudModel>> SearchAsync(string key)
+        {
+            return await Db.Customer
+                .Where(c => c.Phone.Contains(key) || c.Name.Contains(key))
+                .ProjectTo<CustomerCrudModel>(_mapper.ConfigurationProvider)
+                .Take(4)
+                .ToListAsync()
+                .ConfigureAwait(false);
         }
     }
 }

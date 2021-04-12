@@ -54,7 +54,7 @@ namespace MuslimFashion.BusinessLogic
             try
             {
                 model.CustomerId = _db.Registration.CustomerIdByUserName(userName);
-                
+
                 if (model.CustomerId == 0)
                     return new DbResponse<CustomerAddressCrudModel>(false, "Invalid User");
 
@@ -100,6 +100,11 @@ namespace MuslimFashion.BusinessLogic
         {
             var customerId = _db.Registration.CustomerIdByUserName(userName);
             return _db.Customer.AddressList(customerId);
+        }
+
+        public Task<List<CustomerCrudModel>> SearchAsync(string key)
+        {
+            return _db.Customer.SearchAsync(key);
         }
     }
 }
