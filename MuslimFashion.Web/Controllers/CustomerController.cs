@@ -12,7 +12,7 @@ namespace MuslimFashion.Web.Controllers
     [Authorize(Roles = "Customer")]
     public class CustomerController : Controller
     {
-        private ICustomerCore _customer;
+        private readonly ICustomerCore _customer;
         private readonly IOrderCore _order;
         public CustomerController(ICustomerCore customer, IOrderCore order)
         {
@@ -23,6 +23,14 @@ namespace MuslimFashion.Web.Controllers
         {
             return View();
         }
+
+        //address book
+        public IActionResult AddressBook()
+        {
+            var response = _customer.AddressList(User.Identity.Name);
+            return View(response);
+        }
+
 
         #region Order
         //all order

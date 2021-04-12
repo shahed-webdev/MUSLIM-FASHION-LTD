@@ -75,11 +75,12 @@
                 </div>
 
                 <div class="card card-body">
-                    <h5 class="font-weight-bold border-bottom pb-2 mb-3">Delivery Information</h5>
+                    <h5 class="font-weight-bold border-bottom pb-2">Delivery Information</h5>
+                    <div id="customerInfoContainer" class="mb-3 d-flex justify-content-between"></div>
 
                     <div class="form-group">
                         <label>Mobile Number</label>
-                        <input name="DeliveryPhone" type="text" class="form-control" required>
+                        <input id="inputMobileNumber" autocomplete="off" name="DeliveryPhone" type="text" class="form-control" required>
                     </div>
 
                     <div class="form-group">
@@ -91,15 +92,32 @@
                         <label>Delivery Address</label>
                         <textarea name="DeliveryAddress" class="form-control" required></textarea>
                     </div>
-                    
 
                     <input id="hiddenCustomerId" type="hidden" name="CustomerId">
-                    <input id="btnSubmit" type="submit" class="btn btn-danger" value="Create Order">
+                    <button id="btnSubmit" type="submit" class="btn btn-danger">Create Order</button>
                 </div>
             </div>
         </div>  
     </form>
 </div>
+
+<!---select address-->
+<div class="modal fade" id="addressModal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header bg-danger py-1 text-center align-items-center">
+                <h5 class="modal-title white-text w-100 font-weight-bold py-2">Select Delivery Address</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true" class="white-text">&times;</span>
+                </button>
+            </div>
+
+            <div id="addressContainer" class="modal-body"></div>
+        </div>
+    </div>
+</div>
+
+
 
 @section Scripts{
     <script>
@@ -127,8 +145,7 @@
                     });
                 },
                 updater: function(item) {
-                    appendTable(item)
-                    console.log(item)
+                    appendTable(item);
                     return item;
                 }
             })
@@ -237,11 +254,104 @@
                 calculateTotal();
             });
 
+            /****DELIVERY ADDRESS****/
+            //customer autocomplete
+            const inputMobileNumber = document.getElementById("inputMobileNumber");
+            $(inputMobileNumber).typeahead({
+                minLength: 1,
+                displayText: function(item) {
+                    return `${item.Phone}, ${item.Name}`;
+                },
+                afterSelect: function(item) {
+                    this.$element[0].value = "";
+                },
+                source: function(request, result) {
+                    $.ajax({
+                        url: "/Order/FindCustomer",
+                        data: { 'prefix': request },
+                        success: function(response) {
+                            result(response);
+                        },
+                        error: function(err) { console.log(err) }
+                    });
+                },
+                updater: function(item) {
+                    getCustomerDeliveryAddress(item.CustomerId);
+                    setCustomerInfo(item);
+                    return item;
+                }
+            });
+
+            //set customer info
+            function setCustomerInfo(item) {
+                const customerInfoContainer = document.getElementById("customerInfoContainer");
+                customerInfoContainer.innerHTML = ` <strong class="text-success">${item.Name}</strong><a data-toggle="modal" data-target="#addressModal" class="blue-text small">Change Address</a>`;
+            }
+
+            //get customer address
+            const hiddenCustomerId = document.getElementById("hiddenCustomerId");
+            hiddenCustomerId.value = "";
+
+            function getCustomerDeliveryAddress(customerId) {
+                hiddenCustomerId.value = "";
+
+                $.ajax({
+                    url: "/Order/GetCustomerAddress",
+                    data: { customerId },
+                    success: function(response) {
+                        if (!response.length) {
+                            $.notify("Address not found", "error");
+                            return;
+                        }
+
+                        hiddenCustomerId.value = customerId;
+
+                        if (response.length > 1)
+                            createAddress(response);
+                        else
+                            setAddressInput(response[0]);
+                    },
+                    error: function(err) {
+                        console.log(err)
+                    }
+                });
+            }
+
+            //create address as checkbox
+            const addressModal = document.getElementById("addressModal");
+
+            function createAddress(addresses) {
+                const addressContainer = document.getElementById("addressContainer");
+                let html = "";
+
+                addresses.forEach(item => {
+                    html += `<fieldset class="border rounded px-3 mb-3">
+                            <legend class="w-auto mb-0">
+                                <input type="checkbox" id="address-${item.CustomerAddressId}" data-name="${item.Name}" data-phone="${item.Phone}" data-address="${item.Address}" class="form-check-input selectAddress">
+                                <label class="form-check-label pl-3" for="address-${item.CustomerAddressId}"></label>
+                            </legend>
+
+                            <h6 class="font-weight-bold mb-1"><i class="fas fa-user"></i> ${item.Name}</h6>
+                            <p class="mb-2"><i class="fas fa-phone"></i> ${item.Phone}</p>
+                            <p><i class="fas fa-map-marker-alt"></i> ${item.Address}</p>
+                        </fieldset>`
+                });
+                addressContainer.innerHTML = html;
+
+                $(addressModal).modal("show");
+            }
+
+
             //place order
             const formAdd = document.getElementById("formAdd");
             formAdd.addEventListener("submit",
                 function(evt) {
                     evt.preventDefault();
+
+                    if (!products.length) {
+                        $.notify("Add product to create order", "error");
+                        return;
+                    }
 
                     this.btnSubmit.disabled = true;
 
@@ -261,7 +371,7 @@
                                 return;
                             }
 
-                            $.notify(response.Message, "error", { position: "right" });
+                            $.notify(response.Message, "error");
                         },
                         error: err => {
                             console.log(err);
@@ -269,6 +379,37 @@
                         }
                     });
                 })
+
+            //address checkbox checked
+            $("#addressContainer").on("change",
+                ".selectAddress",
+                function() {
+                    $(".selectAddress").not(this).prop('checked', false);
+
+                    $(".selectAddress").each(function() {
+                        if ($(this).prop('checked') === true)
+                            $(this).parent().parent().addClass('border-primary');
+                        else
+                            $(this).parent().parent().removeClass('border-primary');
+                    });
+
+                    //set address input
+                    const address = {
+                        Name: this.getAttribute("data-name"),
+                        Phone: this.getAttribute("data-phone"),
+                        Address: this.getAttribute("data-address")
+                    }
+
+                    setAddressInput(address);
+                    $(addressModal).modal("hide");
+                });
+
+            //set address in input
+            function setAddressInput(address) {
+                formAdd.DeliveryPhone.value = address.Phone;
+                formAdd.DeliveryName.value = address.Name;
+                formAdd.DeliveryAddress.value = address.Address;
+            }
         })();
     </script>
 }

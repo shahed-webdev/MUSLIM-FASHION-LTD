@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using JqueryDataTables.LoopsIT;
+using Microsoft.AspNetCore.Authorization;
 using MuslimFashion.BusinessLogic;
 using MuslimFashion.Data;
 using MuslimFashion.ViewModel;
@@ -11,16 +12,19 @@ using Order = JqueryDataTables.LoopsIT.Order;
 
 namespace MuslimFashion.Web.Controllers
 {
+    [Authorize (Roles = "Admin, Sub-Admin")]
     public class OrderController : Controller
     {
         private readonly IOrderCore _order;
         private readonly IProductCore _product;
         private readonly IBasicSettingCore _basicSetting;
-        public OrderController(IOrderCore order, IProductCore product, IBasicSettingCore basicSetting)
+        private readonly ICustomerCore _customer;
+        public OrderController(IOrderCore order, IProductCore product, IBasicSettingCore basicSetting, ICustomerCore customer)
         {
             _order = order;
             _product = product;
             _basicSetting = basicSetting;
+            _customer = customer;
         }
        
         //all order data-table
@@ -36,6 +40,14 @@ namespace MuslimFashion.Web.Controllers
             ViewBag.DeliveryCost = _basicSetting.GetDeliveryCharge().Data;
             return View();
         }
+        
+        //post order
+        [HttpPost]
+        public IActionResult PostCreateOrder(OrderAddModel model)
+        {
+            var response = _order.PleaseOrder(model, true);
+            return Json(response);
+        }
 
         //find product
         public async Task<IActionResult> FindProduct(string code)
@@ -44,11 +56,17 @@ namespace MuslimFashion.Web.Controllers
             return Json(response);
         }
 
-        //post order
-        [HttpPost]
-        public IActionResult PostCreateOrder(OrderAddModel model)
+        //Find Customer
+        public async Task<IActionResult> FindCustomer(string prefix)
         {
-            var response = _order.PleaseOrder(model, true);
+            var response = await _customer.SearchAsync(prefix);
+            return Json(response);
+        }
+
+        //get Customer Address
+        public IActionResult GetCustomerAddress(int customerId)
+        {
+            var response =  _customer.AddressList(customerId);
             return Json(response);
         }
         #endregion
@@ -131,6 +149,5 @@ namespace MuslimFashion.Web.Controllers
             var response = _order.OrderReceipt(id.GetValueOrDefault());
             return View(response.Data);
         }
-
     }
 }

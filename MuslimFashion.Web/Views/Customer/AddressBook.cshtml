@@ -1,0 +1,89 @@
+﻿@model IEnumerable<CustomerAddressCrudModel>
+@{
+    ViewData["Title"] = "Address Book";
+    Layout = "~/Views/Shared/_CustomerLayout.cshtml";
+}
+
+
+<div class="container">
+    <h4 class="font-weight-bold mb-3">Address Book</h4>
+
+    <div class="card card-body mb-4">
+        <div class="pb-2 mb-3">
+            @if (Model.Count() < 3)
+            {
+                <form id="formAdd">
+                    <div class="row">
+                        <div class="col-lg-3">
+                            <div class="form-group">
+                                <label for="inputName">Your name</label>
+                                <input type="text" id="inputName" name="Name" class="form-control validate" required>
+                            </div>
+                        </div>
+                        <div class="col-lg-3">
+                            <div class="form-group">
+                                <label for="inputPhone">Phone</label>
+                                <input type="text" id="inputPhone" name="Phone" class="form-control validate" required>
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="form-group">
+                                <label for="inputAddress">Address</label>
+                                <input type="text" id="inputAddress" name="Address" class="form-control validate" required>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-group pt-4">
+                                <button id="btnAddress" type="submit" class="btn btn-danger btn-md">Add Address <i class="fas fa-paper-plane-o ml-1"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            }
+        </div>
+
+        @foreach (var item in Model)
+        {
+            <fieldset class="border rounded p-3 mb-3 @(item.IsDefault ? "border-primary" : "")">
+                <h6 class="font-weight-bold mb-1"><i class="fas fa-user"></i> @item.Name</h6>
+                <p class="mb-2"><i class="fas fa-phone"></i> @item.Phone</p>
+                <p class="mb-0"><i class="fas fa-map-marker-alt"></i> @item.Address</p>
+            </fieldset>
+        }
+    </div>
+</div>
+
+
+@section Scripts{
+    <script>
+        (function () {
+            //add address
+            const formAdd = document.getElementById("formAdd");
+            if (!formAdd) return;
+
+            formAdd.addEventListener("submit", function (evt) {
+                evt.preventDefault();
+                this.btnAddress.disabled = true;
+
+                $.ajax({
+                    url: "/Product/PostShippingAddress",
+                    type: "POST",
+                    data: methods.getForm(this),
+                    success: response => {
+                        if (response.IsSuccess) {
+                            location.reload();
+                            return;
+                        }
+
+                        this.btnAddress.disabled = false;
+                        $.notify(response.Message, "error");
+                    },
+                    error: err => {
+                        this.btnAddress.disabled = false;
+                        console.log(err);
+                    }
+                });
+            });
+        })();
+    </script>
+}
