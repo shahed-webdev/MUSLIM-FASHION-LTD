@@ -102,6 +102,11 @@ namespace MuslimFashion.BusinessLogic
             return _db.Customer.AddressList(customerId);
         }
 
+        public List<CustomerAddressCrudModel> AddressList(int customerId)
+        {
+            return _db.Customer.AddressList(customerId);
+        }
+
         public Task<List<CustomerCrudModel>> SearchAsync(string key)
         {
             return _db.Customer.SearchAsync(key);

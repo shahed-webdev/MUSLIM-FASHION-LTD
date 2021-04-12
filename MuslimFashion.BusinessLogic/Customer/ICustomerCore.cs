@@ -13,6 +13,7 @@ namespace MuslimFashion.BusinessLogic
         DbResponse DeleteAddress(int customerAddressId);
         DbResponse EditAddress(CustomerAddressCrudModel model);
         List<CustomerAddressCrudModel> AddressList(string userName);
+        List<CustomerAddressCrudModel> AddressList(int customerId);
         Task<List<CustomerCrudModel>> SearchAsync(string key);
     }
 }
