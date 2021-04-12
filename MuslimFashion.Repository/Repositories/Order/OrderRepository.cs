@@ -21,6 +21,7 @@ namespace MuslimFashion.Repository
             var order = _mapper.Map<Order>(model);
             order.OrderNo = this.GetNewOrderNo();
             order.OrderStatus = isOrderByAdmin ? OrderStatus.Confirmed: OrderStatus.Pending;
+            order.StatusChangeDate = isOrderByAdmin ? model.OrderDate : null;
             Db.Order.Add(order);
             Db.SaveChanges();
             var orderId = order.OrderId;
