@@ -72,7 +72,7 @@ namespace MuslimFashion.Repository
             Db.Order.Remove(order);
             Db.SaveChanges();
 
-            return new DbResponse(true, "Order Rejected Successfully");
+            return new DbResponse(true, "Order Deleted Successfully");
         }
 
         public DbResponse Confirmed(int orderId, decimal discount)

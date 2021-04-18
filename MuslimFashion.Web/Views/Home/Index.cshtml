@@ -38,13 +38,8 @@
     </div>
 
     <section>
-        @foreach (var category in Model.MenuWithProducts)
+        @foreach (var category in Model.MenuWithProducts.Where(category => category.Products.Any()))
         {
-            if (!category.Products.Any())
-            {
-                continue;
-            }
-
             <h4 class="category-title mb-5">@category.HomeMenuName</h4>
             <div class="row mb-5">
                 @foreach (var product in category.Products)
@@ -61,10 +56,10 @@
                             <div class="card-body text-center">
                                 <h4 class="product-name">@product.ProductName</h4>
                                 <p class="product-price">
-                                    ৳@product.Price
+                                    ৳@(product.Price)
                                     @if (product.OldPrice > 0)
                                     {
-                                        <small class="old-price-label">৳@product.OldPrice</small>
+                                        <small class="old-price-label">৳@(product.OldPrice)</small>
                                     }
                                 </p>
                             </div>

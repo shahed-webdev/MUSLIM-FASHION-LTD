@@ -12,7 +12,7 @@
             <div class="row">
                 <div class="col-lg-3">
                     <div class="form-group">
-                        <label>Menu</label>
+                        <label>Category</label>
                         <select id="selectMenu" class="form-control" asp-items="ViewBag.Menus" required>
                             <option value="">[ SELECT ]</option>
                         </select>
@@ -20,19 +20,19 @@
                 </div>
                 <div class="col-lg-3">
                     <div class="form-group">
-                        <label>Sub-Menu</label>
+                        <label>Sub-Category</label>
                         <select id="selectSubMenu" name="SubMenuId" class="form-control" required>
                             <option value="">[ SELECT ]</option>
                         </select>
                     </div>
                 </div>
-                <div class="col-lg-3">
+                <div class="col-lg-4">
                     <div class="form-group">
                         <label>Product Name</label>
                         <input name="ProductName" type="text" class="form-control" required>
                     </div>
                 </div>
-                <div class="col-lg-3">
+                <div class="col-lg-2">
                     <div class="form-group">
                         <label>Product Code</label>
                         <input name="ProductCode" type="text" class="form-control" required>
@@ -73,7 +73,6 @@
             </div>
         </div>
 
-        
         <h5 class="font-weight-bold mt-4 mb-2">Product Image And Sizes</h5>
         <div class="row">
             <div class="col-lg-6">

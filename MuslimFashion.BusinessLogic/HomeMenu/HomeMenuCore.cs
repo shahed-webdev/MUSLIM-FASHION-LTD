@@ -122,7 +122,7 @@ namespace MuslimFashion.BusinessLogic
             var homeMenus = _db.HomeMenu.ListWithProducts();
             foreach (var menu in homeMenus)
             {
-                menu.Products = _db.HomeMenu.Products(menu.HomeMenuId, 0, 4);
+                menu.Products = _db.HomeMenu.Products(menu.HomeMenuId, 0, 8);
             }
             return homeMenus;
         }
