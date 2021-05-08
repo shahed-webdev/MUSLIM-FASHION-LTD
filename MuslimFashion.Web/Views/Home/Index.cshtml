@@ -6,7 +6,7 @@
 }
 
 @section Styles{
-    <link href="~/pages-css/home.css?v=1.0.1" rel="stylesheet" />
+    <link href="~/pages-css/home.css?v=1.0.2" rel="stylesheet" />
 }
 
 <div class="container">
@@ -44,17 +44,17 @@
             <div class="row mb-5">
                 @foreach (var product in category.Products)
                 {
-                    <div class="col-lg-3 col-sm-6 col-6">
+                    <div class="col-lg-3 col-sm-6 col-6 mb-4">
                         <div class="card h-100">
                             <div class="view overlay h-100">
-                                <img class="card-img-top" src="@baseUrl/@product.ImageFileName" alt="@product.ProductName">
+                                <img title="@product.ProductName" class="card-img-top" src="@baseUrl/@product.ImageFileName" alt="@product.ProductName">
                                 <a href="/product/item/@product.ProductId">
                                     <div class="mask rgba-white-slight"></div>
                                 </a>
                             </div>
 
                             <div class="card-body text-center">
-                                <h4 class="product-name">@product.ProductName</h4>
+                                <h4 title="@product.ProductName" class="product-name">@product.ProductName</h4>
                                 <p class="product-price">
                                     ৳@(product.Price)
                                     @if (product.OldPrice > 0)

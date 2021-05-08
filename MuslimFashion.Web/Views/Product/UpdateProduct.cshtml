@@ -196,8 +196,9 @@
                         response.forEach(item => {
                             const opt = document.createElement('option');
                             opt.value = item.value;
+                           
                             opt.innerHTML = item.label;
-                            if (id === @Model.SubMenuId) {
+                            if (+item.value === @Model.SubMenuId) {
                                 opt.selected = true;
                             }
                             selectSubMenu.appendChild(opt);

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using JqueryDataTables.LoopsIT;
 using Microsoft.AspNetCore.Authorization;
 using MuslimFashion.BusinessLogic;
+using MuslimFashion.ViewModel;
 
 namespace MuslimFashion.Web.Controllers
 {
@@ -29,6 +30,20 @@ namespace MuslimFashion.Web.Controllers
         {
             var response = _customer.AddressList(User.Identity.Name);
             return View(response);
+        }
+
+        //Update Shipping address
+        [HttpPost]
+        public IActionResult UpdateShippingAddress(CustomerAddressCrudModel model)
+        {
+            var response = _customer.EditAddress(model);
+            return Json(response);
+        }
+
+        //Payment Method
+        public IActionResult PaymentMethod()
+        {
+            return View();
         }
 
 

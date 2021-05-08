@@ -6,7 +6,7 @@
 }
 
 @section Styles{
-    <link href="~/pages-css/home.css?v=1.0.1" rel="stylesheet" />
+    <link href="~/pages-css/home.css?v=1.0.2" rel="stylesheet" />
 }
 <div class="container mb-5">
     <ol class="breadcrumb mb-0 px-0 bg-white">
@@ -31,7 +31,7 @@
                     </div>
 
                     <div class="card-body text-center">
-                        <h4 class="product-name">@product.ProductName</h4>
+                        <h4 title="@product.ProductName" class="product-name">@product.ProductName</h4>
                         <p class="product-price">
                             ৳@product.Price
                             @if (product.OldPrice > 0)

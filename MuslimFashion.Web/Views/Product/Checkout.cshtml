@@ -6,7 +6,9 @@
 @section Styles{
     <style>
         .default-address { border: 1px solid #00ff00 }
-        #cartCount{pointer-events: none}
+        #cartCount { pointer-events: none }
+
+        #courier-info { display: none }
     </style>
 }
 
@@ -24,31 +26,34 @@
                             </a>
                         }
                     </div>
+                    <div id="address-list">
+                        @foreach (var item in Model)
+                        {
+                            <fieldset class="border rounded px-3 mb-3 @(item.IsDefault ? "border-primary" : "")">
+                                <legend class="w-auto mb-0">
+                                    <input type="checkbox" id="address-@item.CustomerAddressId" data-name="@item.Name" data-phone="@item.Phone" data-address="@item.Address" class="form-check-input address-check">
+                                    <label class="form-check-label pl-3" for="address-@item.CustomerAddressId"></label>
+                                </legend>
 
-                    @foreach (var item in Model)
-                    {
-                        <fieldset class="border rounded px-3 mb-3 @(item.IsDefault ? "border-primary" : "")">
-                            <legend class="w-auto mb-0">
-                                <input type="checkbox" id="address-@item.CustomerAddressId" data-name="@item.Name" data-phone="@item.Phone" data-address="@item.Address" class="form-check-input address-check">
-                                <label class="form-check-label pl-3" for="address-@item.CustomerAddressId"></label>
-                            </legend>
+                                <h6 class="font-weight-bold mb-1"><i class="fas fa-user"></i> @item.Name</h6>
+                                <p class="mb-2"><i class="fas fa-phone"></i> @item.Phone</p>
+                                <p><i class="fas fa-map-marker-alt"></i> @item.Address</p>
 
-                            <h6 class="font-weight-bold mb-1"><i class="fas fa-user"></i> @item.Name</h6>
-                            <p class="mb-2"><i class="fas fa-phone"></i> @item.Phone</p>
-                            <p><i class="fas fa-map-marker-alt"></i> @item.Address</p>
-                        </fieldset>
-                    }
+                                <button type="button" id="@item.CustomerAddressId" data-name="@item.Name" data-phone="@item.Phone" data-address="@item.Address" class="btnEdit btn-sm btn btn-outline-danger">Edit</button>
+                            </fieldset>
+                        }
+                    </div>
                 </div>
 
                 <div class="card card-body">
                     <table class="show-cart table product-table">
                         <thead>
-                        <tr>
-                            <th class="text-left"><strong>Product</strong></th>
-                            <th><strong>Price</strong></th>
-                            <th class="text-left"><strong>Quantity</strong></th>
-                            <th class="text-right"><strong>Remove</strong></th>
-                        </tr>
+                            <tr>
+                                <th class="text-left"><strong>Product</strong></th>
+                                <th><strong>Price</strong></th>
+                                <th class="text-left"><strong>Quantity</strong></th>
+                                <th class="text-right"><strong>Remove</strong></th>
+                            </tr>
                         </thead>
                         <tbody></tbody>
                     </table>
@@ -57,17 +62,18 @@
 
             <div class="col-xl-4 col-lg-4 mt-4">
                 <div class="card card-body mb-4">
-                    <h4 class="font-weight-bold border-bottom pb-3 mb-3">Payment Method</h4>
-                    <div>
+                    <h4 class="font-weight-bold border-bottom pb-3 mb-3 text-center">Payment Method</h4>
+                    <div class="text-center">
                         <div class="form-check">
                             <input type="radio" class="form-check-input" id="1" value="Cash On Delivery" name="paymentMethod" checked>
                             <label class="form-check-label" for="1">Cash On Delivery</label>
                         </div>
+                        <partial name="PaymentMethods" />
                     </div>
                 </div>
 
                 <div class="card card-body">
-                    <h4 class="font-weight-bold border-bottom pb-3 mb-3">Order Summary</h4>
+                    <h4 class="font-weight-bold border-bottom pb-3 mb-3 text-center">Order Summary</h4>
                     <div class="mb-3">
                         <div class="d-flex justify-content-between align-items-center">
                             <div>Cart Subtotal</div>
@@ -84,6 +90,10 @@
                                 <input type="radio" class="form-check-input" data-inside="false" id="outside" value="@ViewBag.DeliveryCost.OutSideDhaka" name="deliveryCharge" required>
                                 <label class="form-check-label" for="outside">Outside Dhaka (৳@ViewBag.DeliveryCost.OutSideDhaka)</label>
                             </div>
+
+                            <div id="courier-info" class="alert alert-danger mt-2 mb-0" role="alert">
+                                ঢাকার বাইরে অর্ডার কনফার্ম করতে অবশ্যই কুরিয়ার খরচ অগ্রিম পে করতে হবে
+                            </div>
                         </div>
                         <div class="d-flex justify-content-between align-items-center">
                             <h5 class="font-weight-bold">Order Total</h5>
@@ -99,7 +109,7 @@
     </form>
 </div>
 
-<!--shipping address-->
+<!--add shipping address-->
 <div class="modal fade" id="modalShippingForm" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -128,11 +138,45 @@
                         <button id="btnAddress" type="submit" class="btn btn-danger">Add Address <i class="fas fa-paper-plane-o ml-1"></i></button>
                     </div>
                 </form>
-            </div>  
+            </div>
         </div>
     </div>
 </div>
 
+<!--update shipping address-->
+<div class="modal fade" id="modalUpdateShippingForm" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header text-center red lighten-1 text-white">
+                <h4 class="modal-title w-100 font-weight-bold">Update Delivery Address</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body mx-3">
+                <form id="formUpdate">
+                    <input type="hidden" name="CustomerAddressId" />
+                    <div class="form-group">
+                        <label for="inputName2">Your name</label>
+                        <input type="text" id="inputName2" name="Name" class="form-control validate" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputPhone2">Phone</label>
+                        <input type="text" id="inputPhone2" name="Phone" class="form-control validate" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputAddress2">Address</label>
+                        <textarea type="text" id="inputAddress2" name="Address" class="md-textarea form-control" rows="1" required></textarea>
+                    </div>
+
+                    <div class="d-flex justify-content-center">
+                        <button name="btnAddress" type="submit" class="btn btn-danger">Update Address <i class="fas fa-paper-plane-o ml-1"></i></button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 
 
 @section Scripts{
@@ -150,7 +194,7 @@
             });
         });
 
-       
+
         (function () {
             //add address
             const formAdd = document.getElementById("formAdd");
@@ -160,6 +204,50 @@
 
                 $.ajax({
                     url: "/Product/PostShippingAddress",
+                    type: "POST",
+                    data: methods.getForm(this),
+                    success: response => {
+                        if (response.IsSuccess) {
+                            location.reload();
+                            return;
+                        }
+
+                        this.btnAddress.disabled = false;
+                        $.notify(response.Message, "error");
+                    },
+                    error: err => {
+                        this.btnAddress.disabled = false;
+                        console.log(err);
+                    }
+                });
+            });
+
+
+            //edit
+            const addressList = document.getElementById("address-list");
+            const formUpdate = document.getElementById("formUpdate");
+
+            addressList.addEventListener("click", function(evt) {
+                const element = evt.target;
+
+                const onEdit = element.classList.contains("btnEdit");
+                if (!onEdit) return;
+
+                formUpdate.CustomerAddressId.value = element.id;
+                formUpdate.Name.value = element.getAttribute("data-name");
+                formUpdate.Phone.value = element.getAttribute("data-phone");
+                formUpdate.Address.value = element.getAttribute("data-address");
+
+                $("#modalUpdateShippingForm").modal("show");
+            });
+
+            //post update
+            formUpdate.addEventListener("submit", function (evt) {
+                evt.preventDefault();
+                this.btnAddress.disabled = true;
+
+                $.ajax({
+                    url: "/Customer/UpdateShippingAddress",
                     type: "POST",
                     data: methods.getForm(this),
                     success: response => {
@@ -190,14 +278,14 @@
                     if ($(this).prop('checked') === true) {
                         address = {
                             DeliveryName: $(this).data("name"),
-                            DeliveryPhone : $(this).data("phone"),
+                            DeliveryPhone: $(this).data("phone"),
                             DeliveryAddress: $(this).data("address")
                         }
                     }
                 });
 
                 const { shoppingList, cartTotal } = shoppingCart.getCart();
-             
+
                 if (!shoppingList.length) {
                     $.notify("Add product to purchase", "error");
                     purchaseError.textContent = "Add product to purchase";
@@ -247,11 +335,15 @@
             })
 
             //delivery charge radio change
-            $('input[type=radio][name="deliveryCharge"]').change(function() {
+            const courierInfo = document.getElementById("courier-info");
+            $('input[type=radio][name="deliveryCharge"]').change(function () {
                 const cost = Number($(this).val());
                 const orderTotal = document.getElementById("orderTotal");
 
                 orderTotal.textContent = shoppingCart.totalAmountCart() + cost;
+
+                const isInside = this.getAttribute("data-inside");
+                courierInfo.style.display = isInside === "true" ? "none" : "block";
             });
 
 

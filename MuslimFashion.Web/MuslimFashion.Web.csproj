@@ -27,10 +27,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="wwwroot\product\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <None Include="Views\Product\AddProduct.cshtml" />
     <None Include="Views\Product\AllProducts.cshtml" />
     <None Include="Views\Product\AssignProductInCategory.cshtml" />

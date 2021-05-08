@@ -1,5 +1,6 @@
 ﻿#item-details img{width: 100%}
 .old-price-label { color: #999; text-decoration: line-through; }
+#size-description { color: #ff5f5f; }
 
 .size-radio { margin-right: 10px; }
 .size-radio [type=radio] + label { cursor: pointer; padding: 2px 20px; border: 1px solid #ddd; border-radius: 5px; text-align: center; font-size: .95rem; white-space: nowrap; }

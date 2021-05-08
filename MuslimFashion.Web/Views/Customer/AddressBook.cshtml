@@ -42,16 +42,56 @@
             }
         </div>
 
-        @foreach (var item in Model)
-        {
-            <fieldset class="border rounded p-3 mb-3 @(item.IsDefault ? "border-primary" : "")">
-                <h6 class="font-weight-bold mb-1"><i class="fas fa-user"></i> @item.Name</h6>
-                <p class="mb-2"><i class="fas fa-phone"></i> @item.Phone</p>
-                <p class="mb-0"><i class="fas fa-map-marker-alt"></i> @item.Address</p>
-            </fieldset>
-        }
+        <div id="address-list">
+            @foreach (var item in Model)
+            {
+                <fieldset class="border rounded p-3 mb-3 @(item.IsDefault ? "border-primary" : "")">
+                    <h6 class="font-weight-bold mb-1"><i class="fas fa-user"></i> @item.Name</h6>
+                    <p class="mb-2"><i class="fas fa-phone"></i> @item.Phone</p>
+                    <p class="mb-0"><i class="fas fa-map-marker-alt"></i> @item.Address</p>
+
+                    <button id="@item.CustomerAddressId" data-name="@item.Name" data-phone="@item.Phone" data-address="@item.Address" class="btnEdit btn-sm mt-3 btn btn-outline-danger">Edit</button>
+                </fieldset>
+            }
+        </div>
     </div>
 </div>
+
+<!--shipping address-->
+<div class="modal fade" id="modalShippingForm" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header text-center red lighten-1 text-white">
+                <h4 class="modal-title w-100 font-weight-bold">Update Delivery Address</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body mx-3">
+                <form id="formUpdate">
+                    <input type="hidden" name="CustomerAddressId"/>
+                    <div class="form-group">
+                        <label for="inputName2">Your name</label>
+                        <input type="text" id="inputName2" name="Name" class="form-control validate" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputPhone2">Phone</label>
+                        <input type="text" id="inputPhone2" name="Phone" class="form-control validate" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputAddress2">Address</label>
+                        <textarea type="text" id="inputAddress2" name="Address" class="md-textarea form-control" rows="1" required></textarea>
+                    </div>
+
+                    <div class="d-flex justify-content-center">
+                        <button name="btnAddress" type="submit" class="btn btn-danger">Update Address <i class="fas fa-paper-plane-o ml-1"></i></button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
 
 
 @section Scripts{
@@ -67,6 +107,49 @@
 
                 $.ajax({
                     url: "/Product/PostShippingAddress",
+                    type: "POST",
+                    data: methods.getForm(this),
+                    success: response => {
+                        if (response.IsSuccess) {
+                            location.reload();
+                            return;
+                        }
+
+                        this.btnAddress.disabled = false;
+                        $.notify(response.Message, "error");
+                    },
+                    error: err => {
+                        this.btnAddress.disabled = false;
+                        console.log(err);
+                    }
+                });
+            });
+
+            //edit
+            const addressList = document.getElementById("address-list");
+            const formUpdate = document.getElementById("formUpdate");
+
+            addressList.addEventListener("click", function(evt) {
+                const element = evt.target;
+
+                const onEdit = element.classList.contains("btnEdit");
+                if (!onEdit) return;
+
+                formUpdate.CustomerAddressId.value = element.id;
+                formUpdate.Name.value = element.getAttribute("data-name");
+                formUpdate.Phone.value = element.getAttribute("data-phone");
+                formUpdate.Address.value = element.getAttribute("data-address");
+
+                $("#modalShippingForm").modal("show");
+            });
+
+            //post update
+            formUpdate.addEventListener("submit", function (evt) {
+                evt.preventDefault();
+                this.btnAddress.disabled = true;
+
+                $.ajax({
+                    url: "/Customer/UpdateShippingAddress",
                     type: "POST",
                     data: methods.getForm(this),
                     success: response => {

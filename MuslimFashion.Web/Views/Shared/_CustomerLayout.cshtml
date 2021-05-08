@@ -23,6 +23,8 @@
     <link href="~/css/admin-layout.css?v=1.1.2" rel="stylesheet" />
     <!-- printing -->
     <link href="~/css/print-page.css" rel="stylesheet" />
+    <!-- Custom style -->
+    <link href="~/css/custom-layout.css?v=1.1.2" rel="stylesheet" />
     <!-- others style-->
     @await RenderSectionAsync("Styles", false)
 </head>
@@ -35,6 +37,17 @@
                     <a class="sidedrawer-toggle d-none d-md-inline-block js-hide-sidedrawer d-print-none"><i class="fas fa-bars"></i></a>
                     <a href="/Home/Index" class="navbar-brand ml-1">Muslim Fashion Ltd.</a>
                 </div>
+
+                <ul class="navbar-nav ml-sm-auto flex-row">
+                    <li class="nav-item mr-3">
+                        <div id="cartCount" class="cart-area">
+                            <span class="nav-link"><i class="fal fa-shopping-cart"></i></span>
+                            <span class="cart-product-count">
+                                <span class="total-cart-count">0</span>
+                            </span>
+                        </div>
+                    </li>
+                </ul>
             </div>
         </nav>
     </header>
@@ -54,6 +67,12 @@
                     <a class="links" href="/Customer/AddressBook">Address Book</a>
                 </strong>
             </li>
+            <li>
+                <strong>
+                    <span class="far fa-credit-card"></span>
+                    <a class="links" href="/Customer/PaymentMethod">Payment Method</a>
+                </strong>
+            </li>
         </ul>
     </div>
 
@@ -69,8 +88,44 @@
             <a href="#">Muslim Fashion Ltd.</a>
         </div>
     </footer>
+    
+<!-- cart Modal -->
+<div class="modal fade" id="cartModal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-notify modal-danger modal-lg" role="document">
+        <div class="modal-content text-center">
+            <div class="modal-header">
+                <p class="heading mb-0"><strong>Shopping Cart</strong></p>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true" class="white-text">&times;</span>
+                </button>
+            </div>
+            <form asp-action="Checkout" asp-controller="Product">
+                <div class="modal-body">
+                    <div class="table-responsive">
+                        <table class="show-cart table product-table">
+                            <thead>
+                            <tr>
+                                <th class="text-left"><strong>Product</strong></th>
+                                <th><strong>Price</strong></th>
+                                <th class="text-left"><strong>Quantity</strong></th>
+                                <th class="text-right"><strong>Remove</strong></th>
+                            </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="modal-footer flex-end">
+                    <h5 class="mb-0 font-weight-bold">Total: ৳<strong class="grand-total-amount">0</strong></h5>
+                    <button type="submit" class="btn btn-danger btn-rounded">Checkout <i class="fas fa-angle-right right"></i></button>
+                </div>
+            </form> 
+        </div>
+    </div>
+</div>
 
-    <!-- jQuery -->
+
+<!-- jQuery -->
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <!-- bootstrap tooltips -->
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.4/umd/popper.min.js"></script>
@@ -92,7 +147,10 @@
     <!--sidebar-->
     <script src="https://cdn.muicss.com/mui-latest/js/mui.min.js"></script>
     <script src="~/js/sidedrawer-links.js"></script>
-<script src="~/js/sidedrawer-show-hide.js"></script>
+    <script src="~/js/sidedrawer-show-hide.js"></script>
+
+    <!--shopping-cart-->
+    <script src="~/pages-js/shopping-cart.js?v=1.0.1"></script>
 
     <script src="~/pages-js/global-methods.js"></script>
     <!-- others js -->

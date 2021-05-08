@@ -6,7 +6,7 @@
 }
 
 @section Styles{
-    <link href="~/pages-css/product-details.css" rel="stylesheet" />
+    <link href="~/pages-css/product-details.css?v=1.0.0" rel="stylesheet" />
 }
 
 <div id="item-details" class="container">
@@ -104,7 +104,9 @@
                 if (!onChange) return;
 
                 const sizeDetails = document.getElementById("size-description");
-                sizeDetails.textContent = element.getAttribute("data-details");
+                const details = element.getAttribute("data-details");
+
+                sizeDetails.textContent = `"${element.value}" Size Details: ${details}`;
             });
 
         //add to cart
@@ -115,8 +117,6 @@
                 const obj = methods.getForm(this);
                 const added = shoppingCart.addItemToCart(obj);
 
-                $.notify(added ? "Already in cart" : "Product added to Shopping Cart", added ?"error":"success");
-
                 if (!added) {
                     //update cart quantity
                     updateCartQuantity();
@@ -126,6 +126,8 @@
                     location.href = "/Product/Checkout";
                     return;
                 }
+
+                $.notify(added ? "Already in cart" : "Product added to Shopping Cart", added ? "error" : "success");
             });
     </script>
 }
