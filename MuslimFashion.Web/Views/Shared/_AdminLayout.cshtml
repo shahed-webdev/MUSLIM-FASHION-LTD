@@ -18,11 +18,11 @@
     <!-- data-tables -->
     <link href="https://cdn.datatables.net/v/bs4/dt-1.10.18/datatables.min.css" rel="stylesheet" />
     <!-- side navbar style-->
-    <link href="~/css/side-navbar.css" rel="stylesheet" />
+    <link href="~/css/side-navbar.css?v=1.0.0" rel="stylesheet" />
     <!-- custom style-->
     <link href="~/css/admin-layout.css?v=1.1.1" rel="stylesheet" />
     <!-- printing -->
-    <link href="~/css/print-page.css" rel="stylesheet" />
+    <link href="~/css/print-page.css?v=1.0.0" rel="stylesheet" />
     <!-- others style-->
     @await RenderSectionAsync("Styles", false)
 </head>
@@ -30,10 +30,24 @@
     <header>
         <nav class="m-0 navbar navbar-expand-lg navbar-dark">
             <div class="container-fluid">
-                <div>
+                <div class="print-header">
                     <a class="sidedrawer-toggle d-md-none js-show-sidedrawer d-print-none"><i class="fas fa-bars"></i></a>
                     <a class="sidedrawer-toggle d-none d-md-inline-block js-hide-sidedrawer d-print-none"><i class="fas fa-bars"></i></a>
-                    <a href="/Home/Index" class="navbar-brand ml-1">Muslim Fashion Ltd.</a>
+                    <a href="/Home/Index" class="navbar-brand ml-1 pb-0">Muslim Fashion Ltd.</a>
+                    <div class="text-white pb-1">
+                        <span>
+                            <i class="fas fa-map-marker-alt"></i>
+                            Rahman Chamber, Motijheel C/A 12-13 Motijheel Rd, Dhaka 1000.
+                        </span>
+                        <span class="mx-2">
+                            <i class="fas fa-phone"></i>
+                            029515187, 01875698308, 01819099940
+                        </span>
+                        <span>
+                            <i class="fas fa-globe"></i>
+                            www.muslimfashionltd.com
+                        </span>
+                    </div>
                 </div>
             </div>
         </nav>
