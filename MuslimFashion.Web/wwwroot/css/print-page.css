@@ -1,11 +1,13 @@
 ﻿
 /*Printing*/
-@page { size: auto !important; margin: 0 0.63in; }
+@page { size: auto !important; margin: 0 .8in; }
 @media print {
-    body { min-width: 0 !important; background-color: #fff; padding: 0 !important }
+    body {color: #000; min-width: 0 !important; background-color: #fff; padding: 0 !important }
     .btn-floating,.btn, footer { display: none !important }
 
     .print-header{text-align: center}
+    .print-header span{ font-weight: 500;color: #000}
+
     header { margin-left: 0; margin-bottom: 15px }
     .navbar { display: block }
     a.navbar-brand { text-decoration: none; font-size: 1.5rem; font-weight: bold; }
