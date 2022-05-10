@@ -6,7 +6,7 @@
 }
 
 @section Styles{
-    <link href="~/pages-css/home.css?v=1.0.2" rel="stylesheet" />
+<link href="~/pages-css/home.css?v=1.0.2" rel="stylesheet" />
 }
 <div class="container mb-5">
     <ol class="breadcrumb mb-0 px-0 bg-white">
@@ -44,8 +44,8 @@
             </div>
         }
     </div>
-    
-    <div id="load-more-container" class="text-center my-5" style="display: @(Model.Any()?"":"none")">
+
+    <div id="load-more-container" class="text-center my-5" style="display: @(Model.Any()? "" : "none")">
         <button id="btnLoadMore" type="button" class="btn btn-danger btn-rounded">
             <i style="display: none" class="fas fa-circle-notch fa-spin mr-1"></i>Load More
         </button>
@@ -53,66 +53,65 @@
 </div>
 
 @section Scripts{
-    <script>
-        (function() {
-            const btnLoadMore = document.getElementById("btnLoadMore");
-            const productContainer = document.getElementById("product-container");
+<script>
+    (function() {
+        const btnLoadMore = document.getElementById("btnLoadMore");
+        const productContainer = document.getElementById("product-container");
 
-            let getFrom = 8;
-            const quantity = 4;
-            btnLoadMore.addEventListener("click",
-                function() {
-                    loading(this, true);
+        let getFrom = 8;
+        const quantity = 4;
+        btnLoadMore.addEventListener("click",function() {
+                loading(this, true);
 
-                    const body = { id: @ViewBag.SelectedCategory.HomeMenuId, getFrom, quantity }
-                    $.ajax({
-                        url: "/Product/GetCategoryProducts",
-                        type: "POST",
-                        data: body,
-                        success: response => {
-                            getFrom += quantity;
+                const body = { id: @ViewBag.SelectedCategory.HomeMenuId, getFrom, quantity }
+                $.ajax({
+                    url: "/Product/GetCategoryProducts",
+                    type: "POST",
+                    data: body,
+                    success: response => {
+                        getFrom += quantity;
 
-                            response.forEach(item => {
-                                productContainer.appendChild(createProduct(item));
-                            });
+                        response.forEach(item => {
+                            productContainer.appendChild(createProduct(item));
+                        });
 
-                            this.style.display = response.length ? "" : "none";
-                            loading(this, false);
-                        },
-                        error: error => {
-                            console.log(error);
-                            loading(this, false);
-                        }
-                    });
+                        this.style.display = response.length ? "" : "none";
+                        loading(this, false);
+                    },
+                    error: error => {
+                        console.log(error);
+                        loading(this, false);
+                    }
                 });
+            });
 
-            //create product
-            function createProduct(item) {
-                const div = document.createElement("div");
-                div.className = "col-lg-3 col-sm-6 col-6 mb-4";
-                div.innerHTML = `<div class="card h-100">
-                                       <div class="view overlay h-100">
-                                           <img class="card-img-top" src="@baseUrl/${item.ImageFileName}" alt="${item.ProductName}">
-                                           <a href="/product/item/${item.ProductId}">
-                                               <div class="mask rgba-white-slight waves-effect waves-light"></div>
-                                           </a>
-                                       </div>
+        //create product
+        function createProduct(item) {
+            const div = document.createElement("div");
+            div.className = "col-lg-3 col-sm-6 col-6 mb-4";
+            div.innerHTML = `<div class="card h-100">
+                                   <div class="view overlay h-100">
+                                       <img class="card-img-top" src="@baseUrl/${item.ImageFileName}" alt="${item.ProductName}">
+                                       <a href="/product/item/${item.ProductId}">
+                                           <div class="mask rgba-white-slight waves-effect waves-light"></div>
+                                       </a>
+                                   </div>
 
-                                       <div class="card-body text-center">
-                                           <h4 class="product-name">${item.ProductName}</h4>
-                                           <p class="product-price">
-                                               ৳${item.Price}
-                                           </p>
-                                       </div>
-                                   </div>`;
-                return div;
-            }
+                                   <div class="card-body text-center">
+                                       <h4 class="product-name">${item.ProductName}</h4>
+                                       <p class="product-price">
+                                           ৳${item.Price}
+                                       </p>
+                                   </div>
+                               </div>`;
+            return div;
+        }
 
-            //loading btn
-            function loading(btn, isLoading) {
-                btn.disabled = isLoading;
-                btn.children[0].style.display = isLoading ? "inline-block" : "none";
-            }
-        })();
-    </script>
+        //loading btn
+        function loading(btn, isLoading) {
+            btn.disabled = isLoading;
+            btn.children[0].style.display = isLoading ? "inline-block" : "none";
+        }
+    })();
+</script>
 }

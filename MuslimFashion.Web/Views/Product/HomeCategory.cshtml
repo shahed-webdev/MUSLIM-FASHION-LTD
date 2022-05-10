@@ -53,7 +53,7 @@
 </div>
 
 
-<!-- Modal -->
+<!--Update Modal -->
 <div class="modal fade" id="updateModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
      aria-hidden="true">
     <div class="modal-dialog modal-notify modal-danger" role="document">
@@ -87,99 +87,98 @@
 
 
 @section Scripts{
-    <script>
-        (function() {
-            //add
-            const formAdd = document.getElementById("formAdd");
-            const formUpdate = document.getElementById("formUpdate");
-            formAdd.addEventListener("submit",
-                function(evt) {
-                    evt.preventDefault();
-                    this.btnSubmit.disabled = true;
+<script>
+    (function() {
+        //add
+        const formAdd = document.getElementById("formAdd");
+        const formUpdate = document.getElementById("formUpdate");
+        formAdd.addEventListener("submit",function(evt) {
+                evt.preventDefault();
+                this.btnSubmit.disabled = true;
 
-                    $.ajax({
-                        url: "/Product/PostHomeCategory",
-                        type: "POST",
-                        data: methods.getForm(this),
-                        success: response => {
-                            $.notify(response.Message, response.IsSuccess ? "success" : "error");
+                $.ajax({
+                    url: "/Product/PostHomeCategory",
+                    type: "POST",
+                    data: methods.getForm(this),
+                    success: response => {
+                        $.notify(response.Message, response.IsSuccess ? "success" : "error");
 
-                            if (response.IsSuccess) {
-                                location.reload();
-                                return;
-                            }
-
-                            this.btnSubmit.disabled = false;
-                        },
-                        error: error => {
-                            this.btnSubmit.disabled = false;
-                            console.log(error);
+                        if (response.IsSuccess) {
+                            location.reload();
+                            return;
                         }
-                    });
-                });
 
-            //edit/delete
-            const menuList = document.getElementById("menu-list");
-            menuList.addEventListener("click",
-                function(evt) {
-                    const element = evt.target;
-                    const onUpdate = element.classList.contains("update");
-                    const onDelete = element.classList.contains("delete");
-
-                    //update
-                    if (onUpdate) {
-                        formUpdate.HomeMenuId.value = element.id;
-                        formUpdate.HomeMenuName.value = element.getAttribute("data-value");
-                        formUpdate.Sn.value = element.getAttribute("data-sn");
-
-                        $("#updateModal").modal("show");
-                    }
-
-                    //delete
-                    if (onDelete) {
-                        $.ajax({
-                            url: "/Product/DeleteHomeCategory",
-                            type: "POST",
-                            data: { id: element.id },
-                            success: response => {
-                                $.notify(response.Message, response.IsSuccess ? "success" : "error");
-
-                                if (response.IsSuccess) {
-                                    location.reload();
-                                }
-                            },
-                            error: error => {
-                                console.log(error);
-                            }
-                        });
+                        this.btnSubmit.disabled = false;
+                    },
+                    error: error => {
+                        this.btnSubmit.disabled = false;
+                        console.log(error);
                     }
                 });
+            });
 
-            //post update
-            formUpdate.addEventListener("submit",
-                function(evt) {
-                    evt.preventDefault();
-                    this.btnSubmit.disabled = true;
+        //edit/delete
+        const menuList = document.getElementById("menu-list");
+        menuList.addEventListener("click",
+            function(evt) {
+                const element = evt.target;
+                const onUpdate = element.classList.contains("update");
+                const onDelete = element.classList.contains("delete");
 
+                //update
+                if (onUpdate) {
+                    formUpdate.HomeMenuId.value = element.id;
+                    formUpdate.HomeMenuName.value = element.getAttribute("data-value");
+                    formUpdate.Sn.value = element.getAttribute("data-sn");
+
+                    $("#updateModal").modal("show");
+                }
+
+                //delete
+                if (onDelete) {
                     $.ajax({
-                        url: "/Product/UpdateHomeCategory",
+                        url: "/Product/DeleteHomeCategory",
                         type: "POST",
-                        data: methods.getForm(this),
+                        data: { id: element.id },
                         success: response => {
                             $.notify(response.Message, response.IsSuccess ? "success" : "error");
 
                             if (response.IsSuccess) {
                                 location.reload();
                             }
-
-                            this.btnSubmit.disabled = false;
                         },
                         error: error => {
-                            this.btnSubmit.disabled = false;
                             console.log(error);
                         }
                     });
+                }
+            });
+
+        //post update
+        formUpdate.addEventListener("submit",
+            function(evt) {
+                evt.preventDefault();
+                this.btnSubmit.disabled = true;
+
+                $.ajax({
+                    url: "/Product/UpdateHomeCategory",
+                    type: "POST",
+                    data: methods.getForm(this),
+                    success: response => {
+                        $.notify(response.Message, response.IsSuccess ? "success" : "error");
+
+                        if (response.IsSuccess) {
+                            location.reload();
+                        }
+
+                        this.btnSubmit.disabled = false;
+                    },
+                    error: error => {
+                        this.btnSubmit.disabled = false;
+                        console.log(error);
+                    }
                 });
-        })();
-    </script>
+            });
+    })();
+</script>
 }

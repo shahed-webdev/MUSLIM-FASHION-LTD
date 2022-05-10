@@ -211,7 +211,7 @@ namespace MuslimFashion.Web.Controllers
         }
 
 
-        //Post Shipping Address (Authorize(Roles = "Customer")
+        //Post Shipping Address 
         [Authorize(Roles = "Customer")]
         [HttpPost]
         public IActionResult PostShippingAddress(CustomerAddressCrudModel model)

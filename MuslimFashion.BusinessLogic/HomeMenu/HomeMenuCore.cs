@@ -22,7 +22,7 @@ namespace MuslimFashion.BusinessLogic
                 if (string.IsNullOrEmpty(model.HomeMenuName))
                     return new DbResponse<HomeMenuCrudModel>(false, "Invalid Data");
 
-                if (_db.Menu.IsExistName(model.HomeMenuName))
+                if (_db.HomeMenu.IsExistName(model.HomeMenuName))
                     return new DbResponse<HomeMenuCrudModel>(false, $" {model.HomeMenuName} already Exist");
 
                 if (imageFile != null)
@@ -47,10 +47,10 @@ namespace MuslimFashion.BusinessLogic
                 if (string.IsNullOrEmpty(model.HomeMenuName))
                     return new DbResponse(false, "Invalid Data");
 
-                if (!_db.Menu.IsNull(model.HomeMenuId))
+                if (_db.HomeMenu.IsNull(model.HomeMenuId))
                     return new DbResponse(false, "No Data Found");
 
-                if (_db.Menu.IsExistName(model.HomeMenuName, model.HomeMenuId))
+                if (_db.HomeMenu.IsExistName(model.HomeMenuName, model.HomeMenuId))
                     return new DbResponse(false, $" {model.HomeMenuName} already Exist");
 
                 return await _db.HomeMenu.EditAsync(model, imageFile);
@@ -134,7 +134,6 @@ namespace MuslimFashion.BusinessLogic
 
         public DbResponse AddProduct(HomeMenuAddRemoveProductModel model)
         {
-
             try
             {
                 if (model.ProductIds.Length <= 0)
@@ -155,7 +154,6 @@ namespace MuslimFashion.BusinessLogic
 
         public DbResponse DeleteProduct(HomeMenuAddRemoveProductModel model)
         {
-
             try
             {
                 return _db.HomeMenu.DeleteProduct(model);
