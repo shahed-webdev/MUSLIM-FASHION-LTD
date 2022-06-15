@@ -78,7 +78,7 @@ namespace MuslimFashion.BusinessLogic
             try
             {
                 if (_db.Order.IsNull(orderId))
-                    return new DbResponse(false, "No Data Found");
+                    return new DbResponse(false, "Order Not Found");
 
 
                 return _db.Order.Delete(orderId);
